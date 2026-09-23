@@ -1,0 +1,74 @@
+# ---------------------------------------------------------------------------
+# Unity — regenerated caches and local state
+# ---------------------------------------------------------------------------
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Builds (the Windows deliverable is produced into Build/)
+/[Bb]uild/
+/[Bb]uilds/
+
+# Unity-generated IDE project files — rebuilt from the assembly layout on every compile.
+# The *.DotSettings files beside them are NOT ignored: FlowIoC writes the code style and
+# per-assembly namespace rules into them, and they are part of the project.
+*.csproj
+*.sln
+*.slnx
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pdb.meta
+*.mdb.meta
+
+# Unity crash / profiler / temp artefacts
+sysinfo.txt
+crashlytics-build.properties
+*.apk
+*.aab
+*.unitypackage
+*.app
+/[Aa]ssets/[Aa]ssetStoreTools*
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Addressables build output and caches
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/StreamingAssets/aa.meta
+/[Aa]ssets/StreamingAssets/aa/*
+/ServerData/
+
+# ---------------------------------------------------------------------------
+# IDEs
+# ---------------------------------------------------------------------------
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+*.swp
+*.tmp
+
+# ---------------------------------------------------------------------------
+# OS
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Thumbs.db.meta
+Desktop.ini
+
+# ---------------------------------------------------------------------------
+# AI assistant files — kept local, not part of the submission
+# ---------------------------------------------------------------------------
+/.claude/
+/CLAUDE.md
+/AGENTS.md
