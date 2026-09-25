@@ -4,13 +4,13 @@
     "references": [
         "FlowIoC",
         "Modules.Main.Signals",
-        "Modules.Main.Screen.Signals",
-        "Modules.Gameplay.Shared",
         "Modules.Gameplay.Screen.Signals",
         "Modules.Loading.Signals",
         "Modules.Loading.Shared",
         "Modules.Loading.Screen.Signals",
-        "Modules.LoadingOverlay.Screen.Signals"
+        "Modules.LoadingOverlay.Screen.Signals",
+        "Modules.Camera.Signals",
+        "Modules.GameBoard.Signals"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

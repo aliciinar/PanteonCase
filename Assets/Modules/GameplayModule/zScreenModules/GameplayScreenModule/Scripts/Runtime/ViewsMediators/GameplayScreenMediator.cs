@@ -1,16 +1,16 @@
-using Modules.GameplayModule.GameplayScreenModule.Signals;
-using Modules.GameplayModule.GameplayScreenModule.ViewsMediators;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.BaseModule.ViewsMediators.Mediator;
 using FlowIoC.ScreenModule.ViewsMediators.Screen;
+using Modules.GameplayModule.GameplayScreenModule.Signals;
+using UnityEngine;
 
 namespace Modules.GameplayModule.GameplayScreenModule.ViewsMediators
 {
     public class GameplayScreenMediator : IMediator
     {
-		[Inject] private GameplayScreenView _view { get; set; }
-		[InjectSignal] private GameplayScreenSignals _signals { get; set; }
-        
+        [Inject]       private GameplayScreenView    _view    { get; set; }
+        [InjectSignal] private GameplayScreenSignals _signals { get; set; }
+
         public virtual void OnRegister()
         {
             _view.ShowCompleted += OnScreenShown;
@@ -21,25 +21,21 @@ namespace Modules.GameplayModule.GameplayScreenModule.ViewsMediators
         {
             _view.ShowCompleted -= OnScreenShown;
             _view.HideCompleted -= OnScreenHidden;
+            _view.PlayAreaChanged -= OnPlayAreaChanged;
         }
 
         private void OnScreenShown(IScreenBody screen)
         {
-            //here you can use 'AddListeners'
-            //_sampleSignals.Incoming.sampleSignal.AddListener(_view.SampleTest);
-            
+            _view.PlayAreaChanged += OnPlayAreaChanged;
+            _view.ReportPlayArea();
         }
 
         private void OnScreenHidden(IScreenBody screen)
         {
-            //here you can use 'RemoveListeners'
-            //_sampleSignals.Incoming.sampleSignal.RemoveListener(_view.SampleTest);
-            
+            _view.PlayAreaChanged -= OnPlayAreaChanged;
         }
 
-        // if you want to use a signal dispatch for a button click
-        // you have to check if screen is available. Example:
-        //
-        // if (_view.Data.State == ScreenState.AvailableToSendSignal)
+        // A layout measurement rather than a tap, so it is not held back while the screen animates.
+        private void OnPlayAreaChanged(Rect playArea) => _signals.Outgoing.PlayAreaChanged.Dispatch(playArea);
     }
 }

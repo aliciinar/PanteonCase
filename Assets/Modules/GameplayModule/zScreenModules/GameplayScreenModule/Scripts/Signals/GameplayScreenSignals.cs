@@ -1,5 +1,5 @@
 using FlowIoC.BaseModule.Signals;
-using Modules.GameplayModule.Shared.Enums;
+using UnityEngine;
 
 namespace Modules.GameplayModule.GameplayScreenModule.Signals
 {
@@ -11,10 +11,15 @@ namespace Modules.GameplayModule.GameplayScreenModule.Signals
 
     public class GameplayScreenSignalsIncoming
     {
-        public Signal<DifficultyType> OpenGameplayScreen = new();
+        public Signal OpenGameplayScreen = new();
     }
 
     public class GameplayScreenSignalsOutgoing
     {
+        /// <summary>
+        /// The free area between the screen's side panels, normalised to the screen (0-1, origin
+        /// bottom-left). Sent when the screen shows and again whenever the window is resized.
+        /// </summary>
+        public Signal<Rect> PlayAreaChanged = new();
     }
 }

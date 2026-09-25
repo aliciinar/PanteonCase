@@ -1,0 +1,16 @@
+{
+  "name": "Modules.GameBoard.Signals",
+  "references": [
+    "FlowIoC",
+    "Modules.GameBoard.Shared"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
