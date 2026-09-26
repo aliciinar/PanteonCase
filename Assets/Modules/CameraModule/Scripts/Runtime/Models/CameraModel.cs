@@ -4,22 +4,28 @@ namespace Modules.CameraModule.Models
 {
     public class CameraModel : ICameraModel
     {
-        private static readonly Rect FullScreen = new(0f, 0f, 1f, 1f);
+        private float _left;
+        private float _right = 1f;
 
-        public Rect Viewport { get; private set; } = FullScreen;
+        public Rect Viewport => new(_left, 0f, _right - _left, 1f);
         public bool HasFocus { get; private set; }
         public Rect Focus { get; private set; }
 
-        public bool SetViewport(Rect normalizedViewport)
+        public bool SetLeftInset(float normalizedX)
         {
-            float xMin = Mathf.Clamp01(normalizedViewport.xMin);
-            float yMin = Mathf.Clamp01(normalizedViewport.yMin);
-            float xMax = Mathf.Clamp01(normalizedViewport.xMax);
-            float yMax = Mathf.Clamp01(normalizedViewport.yMax);
+            float left = Mathf.Clamp01(normalizedX);
+            if (left >= _right) return false;
 
-            if (xMax - xMin <= 0f || yMax - yMin <= 0f) return false;
+            _left = left;
+            return true;
+        }
 
-            Viewport = Rect.MinMaxRect(xMin, yMin, xMax, yMax);
+        public bool SetRightInset(float normalizedX)
+        {
+            float right = Mathf.Clamp01(normalizedX);
+            if (right <= _left) return false;
+
+            _right = right;
             return true;
         }
 

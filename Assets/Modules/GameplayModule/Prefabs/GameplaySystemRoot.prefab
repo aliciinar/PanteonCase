@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Modules.Gameplay::Modules.GameplayModule.RootsContexts.GameplaySystemRoot
   SubContextTypes:
-  - ContextScript: {fileID: 11500000, guid: 7e664dc3781d6de41a564dd240d87da4, type: 3}
-    ContextFullName: Modules.GameplayModule.GameplayScreenModule.RootsContexts.GameplayScreenContext
-    ContextName: GameplayScreenContext
+  - ContextScript: {fileID: 11500000, guid: 25e5a1f011990d945bd85dbaca913dd7, type: 3}
+    ContextFullName: Modules.GameplayModule.InformationScreenModule.RootsContexts.InformationScreenContext
+    ContextName: InformationScreenContext
     AutoSetup: 1
     IsTest: 0
     OverrideScreen: 0

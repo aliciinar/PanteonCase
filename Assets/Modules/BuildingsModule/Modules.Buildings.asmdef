@@ -1,0 +1,17 @@
+{
+  "name": "Modules.Buildings",
+  "references": [
+    "FlowIoC",
+    "Modules.Buildings.Shared",
+    "Modules.Buildings.Signals"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

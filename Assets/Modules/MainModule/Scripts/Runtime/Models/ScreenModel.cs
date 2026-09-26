@@ -38,7 +38,8 @@ namespace Modules.MainModule.Models
 
         private void OnResized(Vector2Int screenSize)
         {
-            if (screenSize == ScreenSize) return;
+            // A minimised window reports a zero-sized screen; there is nothing to lay out against.
+            if (screenSize == ScreenSize || screenSize.x <= 0 || screenSize.y <= 0) return;
 
             ScreenSize = screenSize;
             _mainSignals.Outgoing.ScreenResized.Dispatch(ScreenSize);

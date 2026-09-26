@@ -12,10 +12,16 @@ namespace Modules.CameraModule.Signals
     public class CameraSignalsIncoming
     {
         /// <summary>
-        /// The part of the screen the camera may draw into, normalised (0-1, origin bottom-left) - the
-        /// free area between whatever UI surrounds the game. Until it arrives the camera uses the whole screen.
+        /// Where on screen the free area starts from the left, normalised (0-1): the right edge of
+        /// whatever UI covers the left of the screen. 0 until told otherwise.
         /// </summary>
-        public Signal<Rect> SetViewport = new();
+        public Signal<float> SetLeftInset = new();
+
+        /// <summary>
+        /// Where on screen the free area ends on the right, normalised (0-1): the left edge of
+        /// whatever UI covers the right of the screen. 1 until told otherwise.
+        /// </summary>
+        public Signal<float> SetRightInset = new();
 
         /// <summary>A world rect the camera has to keep entirely in view, centred.</summary>
         public Signal<Rect> FitToBounds = new();

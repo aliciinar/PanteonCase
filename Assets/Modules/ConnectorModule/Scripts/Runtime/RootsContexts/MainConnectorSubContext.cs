@@ -1,7 +1,8 @@
 using FlowIoC.BaseModule.Connectors;
 using FlowIoC.BaseModule.Contexts;
+using Modules.BuildingsModule.ProductionMenuScreenModule.Signals;
 using Modules.GameBoardModule.Signals;
-using Modules.GameplayModule.GameplayScreenModule.Signals;
+using Modules.GameplayModule.InformationScreenModule.Signals;
 using Modules.LoadingModule.LoadingScreenModule.Signals;
 using Modules.MainModule.Signals;
 
@@ -10,7 +11,8 @@ namespace Modules.ConnectorModule.RootsContexts
     public class MainConnectorSubContext : Context
     {
         private MainSignals _mainSignals;
-        private GameplayScreenSignals _gameplayScreenSignals;
+        private ProductionMenuScreenSignals _productionMenuScreenSignals;
+        private InformationScreenSignals _informationScreenSignals;
         private GameBoardSignals _gameBoardSignals;
         private LoadingScreenSignals _loadingScreenSignals;
 
@@ -19,7 +21,8 @@ namespace Modules.ConnectorModule.RootsContexts
             base.Setup();
 
             _mainSignals = InjectionBinderCrossContext.GetInstance<MainSignals>();
-            _gameplayScreenSignals = InjectionBinderCrossContext.GetInstance<GameplayScreenSignals>();
+            _productionMenuScreenSignals = InjectionBinderCrossContext.GetInstance<ProductionMenuScreenSignals>();
+            _informationScreenSignals = InjectionBinderCrossContext.GetInstance<InformationScreenSignals>();
             _gameBoardSignals = InjectionBinderCrossContext.GetInstance<GameBoardSignals>();
             _loadingScreenSignals = InjectionBinderCrossContext.GetInstance<LoadingScreenSignals>();
 
@@ -35,9 +38,15 @@ namespace Modules.ConnectorModule.RootsContexts
 
         private void OutgoingSignals()
         {
-            // Once the boot is done the player goes straight into the game: the HUD opens and the board is built.
-            _mainSignals.Outgoing.Started.Connect(_gameplayScreenSignals.Incoming.OpenGameplayScreen);
+            // Once the boot is done the player goes straight into the game: the two HUD panels open
+            // and the board is built.
+            _mainSignals.Outgoing.Started.Connect(_productionMenuScreenSignals.Incoming.OpenProductionMenuScreen);
+            _mainSignals.Outgoing.Started.Connect(_informationScreenSignals.Incoming.OpenInformationScreen);
             _mainSignals.Outgoing.Started.Connect(_gameBoardSignals.Incoming.BuildBoard);
+
+            // The HUD panels are laid out against the screen, so a new window size reaches both.
+            _mainSignals.Outgoing.ScreenResized.Connect(_productionMenuScreenSignals.Incoming.ScreenResized);
+            _mainSignals.Outgoing.ScreenResized.Connect(_informationScreenSignals.Incoming.ScreenResized);
         }
 
         public override void DestroyContext()
@@ -51,7 +60,10 @@ namespace Modules.ConnectorModule.RootsContexts
         private void UnbindIncomingSignals() =>
             _loadingScreenSignals.Outgoing.RetryClicked.Disconnect();
 
-        private void UnbindOutgoingSignals() =>
+        private void UnbindOutgoingSignals()
+        {
             _mainSignals.Outgoing.Started.Disconnect();
+            _mainSignals.Outgoing.ScreenResized.Disconnect();
+        }
     }
 }

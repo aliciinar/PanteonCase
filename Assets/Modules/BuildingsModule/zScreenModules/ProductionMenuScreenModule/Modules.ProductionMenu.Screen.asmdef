@@ -1,0 +1,19 @@
+{
+  "name": "Modules.ProductionMenu.Screen",
+  "references": [
+    "FlowIoC",
+    "Modules.ProductionMenu.Screen.Signals",
+    "Modules.Buildings.Shared",
+    "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Core.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

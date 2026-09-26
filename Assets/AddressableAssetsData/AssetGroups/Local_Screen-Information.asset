@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Local_Screen-Information
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Local_Screen-Information
+  m_GUID: 6b6601d12c19c3547b3090c22d058ccf
+  m_SerializeEntries:
+  - m_GUID: 3cbe77c9e1377ed48925baa18a9d07d5
+    m_Address: InformationScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ScreenPrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 15a253bf9d306004daff813ad97e4890, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7a0c7239394639a4796327d9e9e1d1bc, type: 2}
+    - {fileID: 11400000, guid: 169fb30f834c2bc45825f1a154a76c3b, type: 2}

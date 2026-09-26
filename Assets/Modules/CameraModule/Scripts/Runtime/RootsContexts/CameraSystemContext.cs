@@ -36,8 +36,12 @@ namespace Modules.CameraModule.RootsContexts
         {
             base.CommandBindings();
 
-            CommandBinder.Bind(_signals.Incoming.SetViewport)
-                .ToSequence<SetCameraViewportCommand>()
+            CommandBinder.Bind(_signals.Incoming.SetLeftInset)
+                .ToSequence<SetCameraLeftInsetCommand>()
+                .ToSequence<FitCameraCommand>();
+
+            CommandBinder.Bind(_signals.Incoming.SetRightInset)
+                .ToSequence<SetCameraRightInsetCommand>()
                 .ToSequence<FitCameraCommand>();
 
             CommandBinder.Bind(_signals.Incoming.FitToBounds)

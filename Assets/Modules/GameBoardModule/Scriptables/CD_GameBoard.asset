@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CD_GameBoard
   m_EditorClassIdentifier: Modules.GameBoard::Modules.GameBoardModule.Data.UnityObjects.CD_GameBoard
   Board:
-    GridSize: {x: 2, y: 2}
+    GridSize: {x: 10, y: 10}
     CellPixelSize: 32
     PixelsPerUnit: 32
     FramePaddingInCells: 1
