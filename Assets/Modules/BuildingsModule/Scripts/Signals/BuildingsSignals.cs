@@ -1,5 +1,6 @@
 using FlowIoC.BaseModule.Signals;
 using Modules.BuildingsModule.Shared.Enums;
+using Modules.UnitsModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.BuildingsModule.Signals
@@ -34,5 +35,8 @@ namespace Modules.BuildingsModule.Signals
     {
         /// <summary>A picked building's footprint (this size, in cells) fits nowhere on the board; it starts at the centre, red.</summary>
         public Signal<Vector2Int> NoFreeArea = new();
+
+        /// <summary>A placed building asks for a unit: which one, the door it comes out of and where it walks to.</summary>
+        public Signal<UnitSpawnRequestVO> UnitRequested = new();
     }
 }

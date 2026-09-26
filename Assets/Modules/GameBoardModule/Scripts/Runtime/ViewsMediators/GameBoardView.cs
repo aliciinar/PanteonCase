@@ -1,14 +1,15 @@
 using FlowIoC.BaseModule.Injectable.Components;
 using FlowIoC.BaseModule.ViewsMediators.View;
+using Modules.GameBoardModule.Entities;
 using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GameBoardModule.ViewsMediators
 {
     /// <summary>
-    /// The board in the scene: a 9-sliced frame and a tiled grid, two sprite renderers in total so
-    /// the whole board costs next to nothing in draw calls. Sizes and positions come from the layout
-    /// BuildGameBoardCommand computes.
+    /// The board in the scene: a 9-sliced frame and a grey sprite per cell, parented under Cells, whose
+    /// darker edges draw the grid. The cell sprites are pooled and share one sprite and one material, so
+    /// the grid batches together. Sizes and positions come from the layout BuildGameBoardCommand computes.
     /// </summary>
     [RequireComponent(typeof(ViewInjector))]
     public class GameBoardView : MonoBehaviour, IView
@@ -16,7 +17,9 @@ namespace Modules.GameBoardModule.ViewsMediators
         public bool IsRegistered { get; set; }
 
         [SerializeField] private SpriteRenderer _frame;
-        [SerializeField] private SpriteRenderer _grid;
+
+        [Tooltip("Parent of the cell sprites.")]
+        [SerializeField] private Transform _cells;
 
         /// <summary>The cells last drawn, indexed [column, row]. Empty until the board is built. Read by the editor gizmos.</summary>
         internal CellVO[,] Cells { get; private set; } = new CellVO[0, 0];
@@ -24,11 +27,11 @@ namespace Modules.GameBoardModule.ViewsMediators
         /// <summary>Edge of one cell in world units.</summary>
         internal float CellSize { get; private set; }
 
-        /// <param name="gridBounds">World rect the cells cover.</param>
         /// <param name="frameBounds">World rect the frame fills.</param>
-        /// <param name="cellSize">Edge of one cell in world units; the grid sprite tiles once per cell.</param>
+        /// <param name="cellSize">Edge of one cell in world units.</param>
         /// <param name="cells">Every cell, indexed [column, row].</param>
-        public void Draw(Rect gridBounds, Rect frameBounds, float cellSize, CellVO[,] cells)
+        /// <param name="tiles">A pooled cell sprite for every cell, indexed like cells.</param>
+        public void Draw(Rect frameBounds, float cellSize, CellVO[,] cells, BoardCell[,] tiles)
         {
             Cells = cells;
             CellSize = cellSize;
@@ -37,12 +40,16 @@ namespace Modules.GameBoardModule.ViewsMediators
             _frame.transform.position = frameBounds.center;
             _frame.size = frameBounds.size;
 
-            // The grid sprite is one cell at scale 1, so the renderer is scaled to the cell size and
-            // sized in cells - which keeps one tile per cell whatever CellPixelSize says.
-            _grid.drawMode = SpriteDrawMode.Tiled;
-            _grid.transform.position = gridBounds.center;
-            _grid.transform.localScale = Vector3.one * cellSize;
-            _grid.size = gridBounds.size / cellSize;
+            for (int column = 0; column < cells.GetLength(0); column++)
+            {
+                for (int row = 0; row < cells.GetLength(1); row++)
+                {
+                    BoardCell tile = tiles[column, row];
+                    tile.name = $"Cell {column},{row}";
+                    tile.transform.SetParent(_cells, false);
+                    tile.Show(cells[column, row].Position, cellSize);
+                }
+            }
         }
     }
 }

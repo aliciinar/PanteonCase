@@ -2,7 +2,8 @@
   "name": "Modules.Buildings.Signals",
   "references": [
     "FlowIoC",
-    "Modules.Buildings.Shared"
+    "Modules.Buildings.Shared",
+    "Modules.Units.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

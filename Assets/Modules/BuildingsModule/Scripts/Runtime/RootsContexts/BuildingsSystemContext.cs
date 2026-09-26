@@ -58,12 +58,14 @@ namespace Modules.BuildingsModule.RootsContexts
 
             CommandBinder.Bind(_signals.Incoming.PointerReleased).ToSequence<ReleasePlacementCommand>();
 
-            // Green tick: the building takes its cells and is built there. The placement travels from
-            // step to step, so the preview is hidden last - SignalDispatchCommand releases no data.
+            // Green tick: the building takes its cells and is built there, and a building that produces
+            // units asks for its first one. The placement travels from step to step, so the preview is
+            // hidden last - SignalDispatchCommand releases no data.
             CommandBinder.Bind(_internalSignals.PlacementConfirmed)
                 .ToSequence<TakePendingPlacementCommand>()
                 .ToSequence<OccupyBuildingAreaCommand>()
                 .ToSequence<ShowBuildingCommand>()
+                .ToSequence<RequestFirstUnitCommand>()
                 .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview);
 
             // Red cross: nothing is placed and the preview goes away.

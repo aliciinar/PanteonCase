@@ -18,6 +18,14 @@ MonoBehaviour:
     - Icon: {fileID: 21300000, guid: 4190b39e0eda70c488a95a73a9b51e2b, type: 3}
       BoardSprite: {fileID: 21300000, guid: d906fb878fc683847acf35f325b08319, type: 3}
       Size: {x: 4, y: 4}
+      Hp: 100
+      ProducibleUnits: 000000000100000002000000
+      SpawnPoint: {x: 2, y: -1}
+      ExitPoint: {x: 2, y: 0}
     - Icon: {fileID: 21300000, guid: 841a3c112b498eb4c829f4d7aac2a249, type: 3}
       BoardSprite: {fileID: 21300000, guid: 257577d18bfc78648b30fe5c59523fe5, type: 3}
       Size: {x: 2, y: 3}
+      Hp: 50
+      ProducibleUnits: 
+      SpawnPoint: {x: 0, y: 0}
+      ExitPoint: {x: 0, y: 0}

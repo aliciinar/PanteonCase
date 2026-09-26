@@ -89,6 +89,17 @@ MonoBehaviour:
     ScreenTag: 0
     ScreenHasShowAnimation: 0
     ScreenHasHideAnimation: 0
+  - ContextScript: {fileID: 11500000, guid: beef2d90baa93c347a37d90fea73dc8f, type: 3}
+    ContextFullName: Modules.ConnectorModule.RootsContexts.UnitsConnectorSubContext
+    ContextName: UnitsConnectorSubContext
+    AutoSetup: 1
+    IsTest: 0
+    OverrideScreen: 0
+    ScreenManagerId: 0
+    ScreenLayer: 0
+    ScreenTag: 0
+    ScreenHasShowAnimation: 0
+    ScreenHasHideAnimation: 0
   initializeOrder: 98
   AutoBindInjections: 1
   AutoBindMediations: 1

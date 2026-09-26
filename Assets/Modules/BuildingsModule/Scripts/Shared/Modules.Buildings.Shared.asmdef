@@ -2,7 +2,8 @@
   "name": "Modules.Buildings.Shared",
   "references": [
     "FlowIoC",
-    "Unity.RenderPipelines.Core.Runtime"
+    "Unity.RenderPipelines.Core.Runtime",
+    "Modules.Units.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

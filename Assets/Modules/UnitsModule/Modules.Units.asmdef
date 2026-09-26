@@ -1,0 +1,20 @@
+{
+  "name": "Modules.Units",
+  "references": [
+    "FlowIoC",
+    "Modules.Units.Shared",
+    "Modules.Units.Signals",
+    "Modules.Grid",
+    "Modules.Grid.Shared",
+    "Unity.RenderPipelines.Core.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

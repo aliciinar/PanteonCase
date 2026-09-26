@@ -14,7 +14,9 @@
     "Modules.ProductionMenu.Screen.Signals",
     "Modules.Information.Screen.Signals",
     "Modules.Input.Signals",
-    "Modules.Buildings.Signals"
+    "Modules.Buildings.Signals",
+    "Modules.Units.Signals",
+    "Modules.Units.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

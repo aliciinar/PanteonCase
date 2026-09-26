@@ -1,9 +1,10 @@
+using Modules.GameBoardModule.Entities;
 using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GameBoardModule.Data.ValueObjects
 {
-    /// <summary>What the board view needs to draw the board, in world units. Computed by the model.</summary>
+    /// <summary>What the board view needs to draw the board, in world units. Computed by BuildGameBoardCommand.</summary>
     internal readonly struct GameBoardLayoutVO
     {
         /// <summary>The area the cells cover.</summary>
@@ -18,12 +19,16 @@ namespace Modules.GameBoardModule.Data.ValueObjects
         /// <summary>Every cell, indexed [column, row].</summary>
         public readonly CellVO[,] Cells;
 
-        public GameBoardLayoutVO(Rect gridBounds, Rect frameBounds, float cellSize, CellVO[,] cells)
+        /// <summary>A pooled cell sprite for every cell, indexed like Cells.</summary>
+        public readonly BoardCell[,] Tiles;
+
+        public GameBoardLayoutVO(Rect gridBounds, Rect frameBounds, float cellSize, CellVO[,] cells, BoardCell[,] tiles)
         {
             GridBounds = gridBounds;
             FrameBounds = frameBounds;
             CellSize = cellSize;
             Cells = cells;
+            Tiles = tiles;
         }
     }
 }
