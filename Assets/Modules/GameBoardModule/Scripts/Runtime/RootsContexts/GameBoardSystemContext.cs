@@ -40,10 +40,23 @@ namespace Modules.GameBoardModule.RootsContexts
             CommandBinder.Bind(_signals.Incoming.FindFreeArea).ToSequence<FindFreeAreaCommand>();
 
             // A building picked in the production menu is previewed on the free area nearest the board's
-            // centre and waits for the player's answer; a new pick while one is waiting just moves the preview.
+            // centre - or at the centre, red, when none is left - and waits for the player's answer; a new
+            // pick while one is waiting just moves the preview.
             CommandBinder.Bind(_signals.Incoming.PlaceBuilding)
                 .ToSequence<FindBuildingAreaCommand>()
                 .ToSequence<PreviewPlacementCommand>();
+
+            // Pressing the board moves the waiting building to the pressed cell, or grabs it where it was
+            // pressed; while the press lasts it follows the pointer. Green where it fits, red where not.
+            CommandBinder.Bind(_signals.Incoming.PointerPressed)
+                .ToSequence<GrabPlacementCommand>()
+                .ToSequence<PreviewPlacementCommand>();
+
+            CommandBinder.Bind(_signals.Incoming.PointerDragged)
+                .ToSequence<DragPlacementCommand>()
+                .ToSequence<PreviewPlacementCommand>();
+
+            CommandBinder.Bind(_signals.Incoming.PointerReleased).ToSequence<ReleasePlacementCommand>();
 
             // Green tick: the building takes its cells and is built there. The placement travels from
             // step to step, so the preview is hidden last - SignalDispatchCommand releases no data.

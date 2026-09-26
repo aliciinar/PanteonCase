@@ -39,6 +39,12 @@ namespace Modules.GameBoardModule.Models
         /// <summary>The placement shown as a preview and waiting for the player to confirm or cancel it; null when none is.</summary>
         BuildingPlacementVO PendingPlacement { get; set; }
 
+        /// <summary>Whether the pending placement is held by a press and follows the pointer.</summary>
+        bool IsDraggingPlacement { get; set; }
+
+        /// <summary>From the cell the pending placement was grabbed at to its bottom-left cell, kept while it is dragged.</summary>
+        Vector2Int PlacementGrabOffset { get; set; }
+
         /// <summary>The cell a world position falls in. May lie outside the grid - check with IsInside.</summary>
         Vector2Int WorldToCell(Vector3 worldPosition);
 

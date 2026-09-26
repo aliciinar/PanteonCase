@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using FlowIoC.BaseModule.Function.Provider;
 using FlowIoC.BaseModule.Function.ReturnableFunctions;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.GameBoardModule.Models;
@@ -26,8 +25,7 @@ namespace Modules.GameBoardModule.Controllers
             Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left
         };
 
-        [Inject] private IGameBoardModel   _gameBoardModel   { get; set; }
-        [Inject] private IFunctionProvider _functionProvider { get; set; }
+        [Inject] private IGameBoardModel _gameBoardModel { get; set; }
 
         public override Vector2Int? Execute(Vector2Int size)
         {

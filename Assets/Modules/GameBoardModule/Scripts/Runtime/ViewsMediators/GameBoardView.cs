@@ -33,6 +33,12 @@ namespace Modules.GameBoardModule.ViewsMediators
 
         [SerializeField] private BoardBuilding _ghost;
 
+        [Tooltip("The ghost's colour where the building fits.")]
+        [SerializeField] private Color _fitsTint = new(0.55f, 1f, 0.55f, 0.7f);
+
+        [Tooltip("The ghost's colour where the building does not fit.")]
+        [SerializeField] private Color _blockedTint = new(1f, 0.4f, 0.4f, 0.7f);
+
         [Tooltip("World-space canvas holding the two buttons, authored in cells (one canvas unit = one cell).")]
         [SerializeField] private RectTransform _prompt;
 
@@ -89,9 +95,12 @@ namespace Modules.GameBoardModule.ViewsMediators
         /// <param name="sprite">The building the ghost shows.</param>
         /// <param name="area">World rect the building would cover.</param>
         /// <param name="promptCentre">World point the confirm / cancel prompt is centred on.</param>
-        public void ShowPlacementPreview(Sprite sprite, Rect area, Vector2 promptCentre)
+        /// <param name="fits">Whether the building fits there: the ghost is tinted green or red, and only a fitting one can be confirmed.</param>
+        public void ShowPlacementPreview(Sprite sprite, Rect area, Vector2 promptCentre, bool fits)
         {
             _ghost.Show(sprite, area);
+            _ghost.Tint(fits ? _fitsTint : _blockedTint);
+            _confirmButton.interactable = fits;
 
             _prompt.position = promptCentre;
             _prompt.localScale = Vector3.one * CellSize;

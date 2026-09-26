@@ -9,6 +9,10 @@ namespace Modules.GameBoardModule.Controllers
     {
         [Inject] private IGameBoardModel _gameBoardModel { get; set; }
 
-        public override void Execute() => _gameBoardModel.PendingPlacement = null;
+        public override void Execute()
+        {
+            _gameBoardModel.PendingPlacement = null;
+            _gameBoardModel.IsDraggingPlacement = false;
+        }
     }
 }

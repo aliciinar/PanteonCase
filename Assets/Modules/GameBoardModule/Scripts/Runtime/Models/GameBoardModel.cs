@@ -34,6 +34,8 @@ namespace Modules.GameBoardModule.Models
         public IReadOnlyDictionary<BuildType, BoardBuildingCVO> Buildings { get; private set; }
         public int LastEntityId { get; set; }
         public BuildingPlacementVO PendingPlacement { get; set; }
+        public bool IsDraggingPlacement { get; set; }
+        public Vector2Int PlacementGrabOffset { get; set; }
 
         private RD_GameBoard _runtimeData;
 

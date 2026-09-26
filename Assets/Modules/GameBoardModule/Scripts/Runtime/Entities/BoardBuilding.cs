@@ -24,6 +24,9 @@ namespace Modules.GameBoardModule.Entities
             transform.localScale = new Vector3(area.width / spriteSize.x, area.height / spriteSize.y, 1f);
         }
 
+        /// <summary>Colours the sprite - how the placement ghost shows whether it fits.</summary>
+        public void Tint(Color color) => _renderer.color = color;
+
         public override void OnReturnToPool() => _renderer.sprite = null;
     }
 }

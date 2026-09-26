@@ -11,9 +11,10 @@ using UnityEngine;
 namespace Modules.GameBoardModule.Controllers
 {
     /// <summary>
-    /// Finds the free area nearest the board's centre that a building's footprint fits in, and hands the
-    /// building and that area to the next step as a BuildingPlacementVO. If the footprint fits nowhere,
-    /// announces NoFreeArea and stops the flow.
+    /// Finds where a picked building starts: the free area nearest the board's centre that its
+    /// footprint fits in. When it fits nowhere, it starts centred on the board anyway - shown red, for
+    /// the player to move - and NoFreeArea is announced. The building and its area go to the next step
+    /// as a BuildingPlacementVO.
     /// </summary>
     internal class FindBuildingAreaCommand : Command
     {
@@ -32,10 +33,11 @@ namespace Modules.GameBoardModule.Controllers
 
             if (origin == null)
             {
-                FlowLogger.Log($"FindBuildingAreaCommand - no free {size.x}x{size.y} area left for {_buildType}.");
+                FlowLogger.Log($"FindBuildingAreaCommand - no free {size.x}x{size.y} area left for {_buildType}; it starts at the centre.");
                 _signals.Outgoing.NoFreeArea.Dispatch(size);
-                Stop();
-                return;
+
+                Vector2Int gridSize = _gameBoardModel.GridSize;
+                origin = new Vector2Int(Mathf.Max(0, (gridSize.x - size.x) / 2), Mathf.Max(0, (gridSize.y - size.y) / 2));
             }
 
             Release(new BuildingPlacementVO(_buildType, new RectInt(origin.Value, size)));

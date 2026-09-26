@@ -39,7 +39,7 @@ namespace Modules.GameBoardModule.ViewsMediators
             _view.PlaceBuilding(building.Building, building.Type, building.Sprite, building.Area);
 
         private void OnShowPlacementPreview(PlacementPreviewVO preview) =>
-            _view.ShowPlacementPreview(preview.Sprite, preview.Area, preview.PromptCentre);
+            _view.ShowPlacementPreview(preview.Sprite, preview.Area, preview.PromptCentre, preview.Fits);
 
         private void OnPlacementConfirmClicked() => _internalSignals.PlacementConfirmed.Dispatch();
 

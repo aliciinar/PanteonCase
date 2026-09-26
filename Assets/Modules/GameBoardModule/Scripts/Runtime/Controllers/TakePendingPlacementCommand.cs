@@ -19,6 +19,7 @@ namespace Modules.GameBoardModule.Controllers
 
             BuildingPlacementVO placement = _gameBoardModel.PendingPlacement;
             _gameBoardModel.PendingPlacement = null;
+            _gameBoardModel.IsDraggingPlacement = false;
 
             Release(placement);
         }

@@ -1,0 +1,45 @@
+using FlowIoC.BaseModule.Injectable.Attributes;
+using FlowIoC.BaseModule.ViewsMediators.Mediator;
+using Modules.InputModule.Signals;
+using UnityEngine;
+
+namespace Modules.InputModule.ViewsMediators
+{
+    /// <summary>
+    /// Hands what the pointer does to the module's commands, which decide whether it is announced, and
+    /// has the view read the pointer whenever the commands' polling asks for it (PollPointer).
+    /// </summary>
+    public class InputMediator : IMediator
+    {
+        [Inject]       private InputView            _view            { get; set; }
+        [InjectSignal] private InputInternalSignals _internalSignals { get; set; }
+
+        public void OnRegister()
+        {
+            _internalSignals.PollPointer.AddListener(_view.Poll);
+
+            _view.PressStarted += OnPressStarted;
+            _view.PointerPressed += OnPointerPressed;
+            _view.PointerDragged += OnPointerDragged;
+            _view.PointerReleased += OnPointerReleased;
+        }
+
+        public void OnRemove()
+        {
+            _internalSignals.PollPointer.RemoveListener(_view.Poll);
+
+            _view.PressStarted -= OnPressStarted;
+            _view.PointerPressed -= OnPointerPressed;
+            _view.PointerDragged -= OnPointerDragged;
+            _view.PointerReleased -= OnPointerReleased;
+        }
+
+        private void OnPressStarted() => _internalSignals.PressStarted.Dispatch();
+
+        private void OnPointerPressed(Vector2 screenPosition) => _internalSignals.PointerPressed.Dispatch(screenPosition);
+
+        private void OnPointerDragged(Vector2 screenPosition) => _internalSignals.PointerDragged.Dispatch(screenPosition);
+
+        private void OnPointerReleased(Vector2 screenPosition) => _internalSignals.PointerReleased.Dispatch(screenPosition);
+    }
+}
