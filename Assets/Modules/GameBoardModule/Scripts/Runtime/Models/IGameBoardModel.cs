@@ -33,6 +33,9 @@ namespace Modules.GameBoardModule.Models
         /// <summary>Every building's footprint in cells and its sprite, as CD_BoardBuildings authors them.</summary>
         IReadOnlyDictionary<BuildType, BoardBuildingCVO> Buildings { get; }
 
+        /// <summary>The entity id last given to something put on the board. Ids count up from 1 and are never reused.</summary>
+        int LastEntityId { get; set; }
+
         /// <summary>The cell a world position falls in. May lie outside the grid - check with IsInside.</summary>
         Vector2Int WorldToCell(Vector3 worldPosition);
 

@@ -32,6 +32,7 @@ namespace Modules.GameBoardModule.Models
         public Rect FrameBounds { get; private set; }
         public CellVO[,] Cells => _runtimeData.Cells;
         public IReadOnlyDictionary<BuildType, BoardBuildingCVO> Buildings { get; private set; }
+        public int LastEntityId { get; set; }
 
         private RD_GameBoard _runtimeData;
 
