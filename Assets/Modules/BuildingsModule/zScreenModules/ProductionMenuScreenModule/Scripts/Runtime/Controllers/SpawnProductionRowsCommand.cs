@@ -26,6 +26,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 
         public override void Execute()
         {
+            Retain();
+
             if (!_screenService.TryGet.Screen(out ProductionMenuScreenView screen))
             {
                 Stop();
@@ -50,6 +52,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
             }
 
             screen.PlaceRows(spawned);
+
+            Release();
         }
     }
 }

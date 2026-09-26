@@ -14,5 +14,8 @@ namespace Modules.GameBoardModule.Signals
     {
         /// <summary>The layout the board view draws.</summary>
         public Signal<GameBoardLayoutVO> Draw = new();
+
+        /// <summary>A building the board view puts on the board.</summary>
+        public Signal<BoardBuildingVO> ShowBuilding = new();
     }
 }

@@ -12,7 +12,13 @@ namespace Modules.CameraModule.Controllers
 
         public override void Execute()
         {
-            if (_cameraModel.SetRightInset(_right)) return;
+            Retain();
+
+            if (_cameraModel.SetRightInset(_right))
+            {
+                Release();
+                return;
+            }
 
             FlowLogger.LogError($"SetCameraRightInsetCommand - a right inset of {_right} leaves no area on screen; the camera keeps its viewport.");
             Stop();

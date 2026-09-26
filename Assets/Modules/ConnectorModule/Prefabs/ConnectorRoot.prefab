@@ -78,6 +78,17 @@ MonoBehaviour:
     ScreenTag: 0
     ScreenHasShowAnimation: 0
     ScreenHasHideAnimation: 0
+  - ContextScript: {fileID: 11500000, guid: 8cc363d019c2f2c4d93826944f342283, type: 3}
+    ContextFullName: Modules.ConnectorModule.RootsContexts.GameBoardConnectorSubContext
+    ContextName: GameBoardConnectorSubContext
+    AutoSetup: 1
+    IsTest: 0
+    OverrideScreen: 0
+    ScreenManagerId: 0
+    ScreenLayer: 0
+    ScreenTag: 0
+    ScreenHasShowAnimation: 0
+    ScreenHasHideAnimation: 0
   initializeOrder: 98
   AutoBindInjections: 1
   AutoBindMediations: 1

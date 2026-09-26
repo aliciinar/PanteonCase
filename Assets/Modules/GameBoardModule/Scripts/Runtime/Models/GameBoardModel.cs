@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using FlowIoC.BaseModule.Adapters;
 using FlowIoC.BaseModule.Constructables;
 using FlowIoC.BaseModule.Injectable.Attributes;
+using Modules.BuildingsModule.Shared.Enums;
 using Modules.GameBoardModule.Data.UnityObjects;
 using Modules.GameBoardModule.Data.ValueObjects;
 using Modules.GameBoardModule.RootsContexts;
@@ -11,7 +13,10 @@ namespace Modules.GameBoardModule.Models
 {
     /// <summary>
     /// Reads CD_GameBoard off the Root's adapter in PostConstruct and lays the grid out from it:
-    /// the grid is centred on the world origin and every cell's centre is computed once, here.
+    /// the grid is centred on the world origin and every cell's centre is computed once, here. The
+    /// cells live in RD_GameBoard, the runtime asset filed beside the config; the model keeps that
+    /// asset rather than a copy of its cells, so the two can never drift apart. The buildings'
+    /// footprints and sprites are handed out as CD_BoardBuildings authors them.
     /// </summary>
     public class GameBoardModel : IGameBoardModel, IConstructable
     {
@@ -25,12 +30,18 @@ namespace Modules.GameBoardModule.Models
         public float CellSize { get; private set; }
         public Rect GridBounds { get; private set; }
         public Rect FrameBounds { get; private set; }
-        public CellVO[,] Cells { get; private set; }
+        public CellVO[,] Cells => _runtimeData.Cells;
+        public IReadOnlyDictionary<BuildType, BoardBuildingCVO> Buildings { get; private set; }
+
+        private RD_GameBoard _runtimeData;
 
         // detayına bakılacak.
         public void PostConstruct()
         {
-            GameBoardCVO board = _root.GetComponent<RootAdapter>().GetScriptable<CD_GameBoard>().Board;
+            var adapter = _root.GetComponent<RootAdapter>();
+            GameBoardCVO board = adapter.GetScriptable<CD_GameBoard>().Board;
+            _runtimeData = adapter.GetScriptable<RD_GameBoard>();
+            Buildings = adapter.GetScriptable<CD_BoardBuildings>().Buildings;
 
             GridSize = board.GridSize;
             CellSize = board.CellPixelSize / board.PixelsPerUnit;
@@ -42,10 +53,14 @@ namespace Modules.GameBoardModule.Models
             FrameBounds = new Rect(GridBounds.xMin - padding, GridBounds.yMin - padding,
                 GridBounds.width + padding * 2f, GridBounds.height + padding * 2f);
 
-            Cells = CreateCells();
+            // Every cell starts free. The asset outlives the play session, so this replaces whatever
+            // the last session left in it.
+            _runtimeData.Cells = CreateCells();
         }
 
-        public void Deconstruct() => Cells = null;
+        // The asset keeps its fields between play sessions in the Editor, so the cells are cleared here
+        // rather than left behind for the next session to find.
+        public void Deconstruct() => _runtimeData.Cells = null;
 
         public Vector2Int WorldToCell(Vector3 worldPosition) =>
             new(Mathf.FloorToInt((worldPosition.x - GridBounds.xMin) / CellSize),

@@ -3,7 +3,9 @@
   "references": [
     "FlowIoC",
     "Modules.GameBoard.Signals",
-    "Modules.GameBoard.Shared"
+    "Modules.GameBoard.Shared",
+    "Modules.Buildings.Shared",
+    "Unity.RenderPipelines.Core.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

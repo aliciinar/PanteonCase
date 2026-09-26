@@ -8,12 +8,13 @@ namespace Modules.GameBoardModule.Editor
 {
     /// <summary>
     /// Draws a one-cell square (CellPixelSize px) around every cell of the board, so the cell
-    /// positions the model computed can be checked in the Scene view. Cells exist once the board
-    /// has been built, i.e. in Play mode.
+    /// positions the model computed can be checked in the Scene view, and fills the occupied ones.
+    /// Cells exist once the board has been built, i.e. in Play mode.
     /// </summary>
     internal static class GameBoardCellGizmos
     {
         private static readonly Color CellColor = new(0.3f, 0.85f, 1f, 0.8f);
+        private static readonly Color OccupiedColor = new(1f, 0.3f, 0.3f, 0.45f);
 
         [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
         private static void DrawCells(GameBoardView view, GizmoType gizmoType)
@@ -23,6 +24,12 @@ namespace Modules.GameBoardModule.Editor
 
             foreach (CellVO cell in view.Cells)
                 Gizmos.DrawWireCube(cell.Position, cellSize);
+
+            Gizmos.color = OccupiedColor;
+            foreach (CellVO cell in view.Cells)
+            {
+                if (!cell.IsFree) Gizmos.DrawCube(cell.Position, cellSize);
+            }
         }
     }
 }

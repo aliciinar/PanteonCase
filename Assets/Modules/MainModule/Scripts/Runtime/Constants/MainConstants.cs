@@ -10,6 +10,6 @@ namespace Modules.MainModule.Constants
         /// The pool groups the boot fills before the main screen opens. Empty in the shipped set, so
         /// the Pools step skips; a game lists its group keys here.
         /// </summary>
-        public static readonly string[] BootPoolGroups = { "buildings" };
+        public static readonly string[] BootPoolGroups = { "buildings", "gameboard" };
     }
 }

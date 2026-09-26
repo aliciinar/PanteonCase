@@ -664,20 +664,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: _poolConfigs.m_Keys.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: _poolConfigs.m_Values.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: '_poolConfigs.m_Keys.Array.data[0]'
       value: buildings
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
+      propertyPath: '_poolConfigs.m_Keys.Array.data[1]'
+      value: gameboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: _poolConfigs.m_Values.Array.data[0].Group
       value: 
       objectReference: {fileID: 11400000, guid: ae4dbe4b8a329c84e9517ed27801d980, type: 2}
+    - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
+      propertyPath: _poolConfigs.m_Values.Array.data[1].Group
+      value: 
+      objectReference: {fileID: 11400000, guid: fe26b4c34fd057d47971a5d67d76eff7, type: 2}
     - target: {fileID: 7494088446681459491, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

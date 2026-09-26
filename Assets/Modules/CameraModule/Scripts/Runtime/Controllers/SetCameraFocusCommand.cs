@@ -13,7 +13,13 @@ namespace Modules.CameraModule.Controllers
 
         public override void Execute()
         {
-            if (_cameraModel.SetFocus(_bounds)) return;
+            Retain();
+
+            if (_cameraModel.SetFocus(_bounds))
+            {
+                Release();
+                return;
+            }
 
             FlowLogger.LogError($"SetCameraFocusCommand - {_bounds} has no area; the camera keeps its focus.");
             Stop();

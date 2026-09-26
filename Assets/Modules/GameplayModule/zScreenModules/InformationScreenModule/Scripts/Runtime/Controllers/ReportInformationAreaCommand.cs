@@ -17,6 +17,8 @@ namespace Modules.GameplayModule.InformationScreenModule.Controllers
 
         public override void Execute()
         {
+            Retain();
+
             // Not open (a resize while the game is still loading): there is nothing to measure.
             if (!_screenService.TryGet.Screen(out InformationScreenView screen))
             {
@@ -25,6 +27,8 @@ namespace Modules.GameplayModule.InformationScreenModule.Controllers
             }
 
             _signals.Outgoing.AreaChanged.Dispatch(screen.MeasureArea());
+
+            Release();
         }
     }
 }

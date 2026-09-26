@@ -19,6 +19,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 
         public override void Execute()
         {
+            Retain();
+
             // Not open (a resize while the game is still loading): there is nothing to lay out.
             if (!_screenService.TryGet.Screen(out ProductionMenuScreenView screen))
             {
@@ -29,6 +31,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
             screen.RepositionRows();
             _signals.Outgoing.AreaChanged.Dispatch(screen.MeasureArea());
             _internalSignals.Scrolled.Dispatch();
+
+            Release();
         }
     }
 }

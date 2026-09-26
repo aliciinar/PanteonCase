@@ -23,6 +23,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 
         public override void Execute()
         {
+            Retain();
+
             if (!_screenService.TryGet.Screen(out ProductionMenuScreenView screen))
             {
                 Stop();
@@ -41,6 +43,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 
             if (left.Count > 0) _internalSignals.RowsLeft.Dispatch(left);
             if (entered.Count > 0) _internalSignals.RowsEntered.Dispatch(entered);
+
+            Release();
         }
     }
 }

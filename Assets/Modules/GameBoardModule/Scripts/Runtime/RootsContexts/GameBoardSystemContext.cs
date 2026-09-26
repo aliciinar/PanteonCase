@@ -36,6 +36,12 @@ namespace Modules.GameBoardModule.RootsContexts
         {
             base.CommandBindings();
             CommandBinder.Bind(_signals.Incoming.BuildBoard).ToSequence<BuildGameBoardCommand>();
+            CommandBinder.Bind(_signals.Incoming.FindFreeArea).ToSequence<FindFreeAreaCommand>();
+
+            // A building picked in the production menu is shown on the free area nearest the board's centre.
+            CommandBinder.Bind(_signals.Incoming.PlaceBuilding)
+                .ToSequence<FindBuildingAreaCommand>()
+                .ToSequence<ShowBuildingCommand>();
         }
 
         public override void Setup()

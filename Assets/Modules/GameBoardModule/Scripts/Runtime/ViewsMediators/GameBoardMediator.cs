@@ -10,11 +10,22 @@ namespace Modules.GameBoardModule.ViewsMediators
         [Inject]       private GameBoardView            _view            { get; set; }
         [InjectSignal] private GameBoardInternalSignals _internalSignals { get; set; }
 
-        public void OnRegister() => _internalSignals.Draw.AddListener(OnDraw);
+        public void OnRegister()
+        {
+            _internalSignals.Draw.AddListener(OnDraw);
+            _internalSignals.ShowBuilding.AddListener(OnShowBuilding);
+        }
 
-        public void OnRemove() => _internalSignals.Draw.RemoveListener(OnDraw);
+        public void OnRemove()
+        {
+            _internalSignals.Draw.RemoveListener(OnDraw);
+            _internalSignals.ShowBuilding.RemoveListener(OnShowBuilding);
+        }
 
         private void OnDraw(GameBoardLayoutVO layout) =>
             _view.Draw(layout.GridBounds, layout.FrameBounds, layout.CellSize, layout.Cells);
+
+        private void OnShowBuilding(BoardBuildingVO building) =>
+            _view.PlaceBuilding(building.Building, building.Type, building.Sprite, building.Area);
     }
 }
