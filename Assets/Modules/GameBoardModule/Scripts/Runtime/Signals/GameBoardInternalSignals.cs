@@ -17,5 +17,17 @@ namespace Modules.GameBoardModule.Signals
 
         /// <summary>A building the board view puts on the board.</summary>
         public Signal<BoardBuildingVO> ShowBuilding = new();
+
+        /// <summary>Show a placement's ghost and the confirm / cancel prompt beside it.</summary>
+        public Signal<PlacementPreviewVO> ShowPlacementPreview = new();
+
+        /// <summary>Take the placement preview off the board.</summary>
+        public Signal HidePlacementPreview = new();
+
+        /// <summary>The player pressed the preview's green tick.</summary>
+        public Signal PlacementConfirmed = new();
+
+        /// <summary>The player pressed the preview's red cross.</summary>
+        public Signal PlacementCancelled = new();
     }
 }

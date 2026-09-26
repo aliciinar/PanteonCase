@@ -3,6 +3,7 @@ using FlowIoC.BaseModule.Function.Provider;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.ConsoleModule;
 using Modules.BuildingsModule.Shared.Enums;
+using Modules.GameBoardModule.Data.ValueObjects;
 using Modules.GameBoardModule.Models;
 using Modules.GameBoardModule.Signals;
 using UnityEngine;
@@ -10,9 +11,9 @@ using UnityEngine;
 namespace Modules.GameBoardModule.Controllers
 {
     /// <summary>
-    /// Finds the free area nearest the board's centre that a building's footprint fits in, and hands it
-    /// to the next step as a RectInt in cells. If the footprint fits nowhere, announces NoFreeArea and
-    /// stops the flow.
+    /// Finds the free area nearest the board's centre that a building's footprint fits in, and hands the
+    /// building and that area to the next step as a BuildingPlacementVO. If the footprint fits nowhere,
+    /// announces NoFreeArea and stops the flow.
     /// </summary>
     internal class FindBuildingAreaCommand : Command
     {
@@ -37,7 +38,7 @@ namespace Modules.GameBoardModule.Controllers
                 return;
             }
 
-            Release(new RectInt(origin.Value, size));
+            Release(new BuildingPlacementVO(_buildType, new RectInt(origin.Value, size)));
         }
     }
 }

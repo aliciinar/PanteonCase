@@ -14,12 +14,22 @@ namespace Modules.GameBoardModule.ViewsMediators
         {
             _internalSignals.Draw.AddListener(OnDraw);
             _internalSignals.ShowBuilding.AddListener(OnShowBuilding);
+            _internalSignals.ShowPlacementPreview.AddListener(OnShowPlacementPreview);
+            _internalSignals.HidePlacementPreview.AddListener(_view.HidePlacementPreview);
+
+            _view.PlacementConfirmClicked += OnPlacementConfirmClicked;
+            _view.PlacementCancelClicked += OnPlacementCancelClicked;
         }
 
         public void OnRemove()
         {
             _internalSignals.Draw.RemoveListener(OnDraw);
             _internalSignals.ShowBuilding.RemoveListener(OnShowBuilding);
+            _internalSignals.ShowPlacementPreview.RemoveListener(OnShowPlacementPreview);
+            _internalSignals.HidePlacementPreview.RemoveListener(_view.HidePlacementPreview);
+
+            _view.PlacementConfirmClicked -= OnPlacementConfirmClicked;
+            _view.PlacementCancelClicked -= OnPlacementCancelClicked;
         }
 
         private void OnDraw(GameBoardLayoutVO layout) =>
@@ -27,5 +37,12 @@ namespace Modules.GameBoardModule.ViewsMediators
 
         private void OnShowBuilding(BoardBuildingVO building) =>
             _view.PlaceBuilding(building.Building, building.Type, building.Sprite, building.Area);
+
+        private void OnShowPlacementPreview(PlacementPreviewVO preview) =>
+            _view.ShowPlacementPreview(preview.Sprite, preview.Area, preview.PromptCentre);
+
+        private void OnPlacementConfirmClicked() => _internalSignals.PlacementConfirmed.Dispatch();
+
+        private void OnPlacementCancelClicked() => _internalSignals.PlacementCancelled.Dispatch();
     }
 }

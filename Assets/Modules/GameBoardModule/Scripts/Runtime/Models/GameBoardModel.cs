@@ -33,6 +33,7 @@ namespace Modules.GameBoardModule.Models
         public CellVO[,] Cells => _runtimeData.Cells;
         public IReadOnlyDictionary<BuildType, BoardBuildingCVO> Buildings { get; private set; }
         public int LastEntityId { get; set; }
+        public BuildingPlacementVO PendingPlacement { get; set; }
 
         private RD_GameBoard _runtimeData;
 

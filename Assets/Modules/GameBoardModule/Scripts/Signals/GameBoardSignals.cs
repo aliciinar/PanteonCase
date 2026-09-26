@@ -22,9 +22,9 @@ namespace Modules.GameBoardModule.Signals
         public Signal<Vector2Int> FindFreeArea = new();
 
         /// <summary>
-        /// Put a building of this type on the free area nearest the board's centre: its cells become
-        /// occupied and it is shown there, as large as its footprint. Answered with NoFreeArea when it
-        /// fits nowhere.
+        /// Preview a building of this type on the free area nearest the board's centre and wait for the
+        /// player: the green tick places it there (its cells become occupied), the red cross drops it.
+        /// A new pick while one is waiting replaces it. Answered with NoFreeArea when it fits nowhere.
         /// </summary>
         public Signal<BuildType> PlaceBuilding = new();
     }
