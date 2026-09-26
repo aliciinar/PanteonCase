@@ -12,9 +12,6 @@ namespace Modules.GameBoardModule.Signals
     /// </summary>
     internal class GameBoardInternalSignals : ISignalHolder
     {
-        /// <summary>Dispatched once in Launch: lay the board out and announce it.</summary>
-        public Signal Build = new();
-
         /// <summary>The layout the board view draws.</summary>
         public Signal<GameBoardLayoutVO> Draw = new();
     }

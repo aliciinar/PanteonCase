@@ -3,18 +3,20 @@ using FlowIoC.BaseModule.Contexts;
 using Modules.CameraModule.Signals;
 using Modules.GameBoardModule.Signals;
 using Modules.GameplayModule.GameplayScreenModule.Signals;
+using Modules.MainModule.Signals;
 
 namespace Modules.ConnectorModule.RootsContexts
 {
     /// <summary>
-    /// What the camera is told: the board's bounds to keep in view, and the free screen area between
-    /// the gameplay HUD's panels to draw into.
+    /// What the camera is told: the board's bounds to keep in view, the free screen area between the
+    /// gameplay HUD's panels to draw into, and when the window changes size.
     /// </summary>
     public class CameraConnectorSubContext : Context
     {
         private CameraSignals _cameraSignals;
         private GameBoardSignals _gameBoardSignals;
         private GameplayScreenSignals _gameplayScreenSignals;
+        private MainSignals _mainSignals;
 
         public override void Setup()
         {
@@ -23,6 +25,7 @@ namespace Modules.ConnectorModule.RootsContexts
             _cameraSignals = InjectionBinderCrossContext.GetInstance<CameraSignals>();
             _gameBoardSignals = InjectionBinderCrossContext.GetInstance<GameBoardSignals>();
             _gameplayScreenSignals = InjectionBinderCrossContext.GetInstance<GameplayScreenSignals>();
+            _mainSignals = InjectionBinderCrossContext.GetInstance<MainSignals>();
 
             IncomingSignals();
         }
@@ -31,6 +34,7 @@ namespace Modules.ConnectorModule.RootsContexts
         {
             _gameBoardSignals.Outgoing.BoardBuilt.Connect(_cameraSignals.Incoming.FitToBounds);
             _gameplayScreenSignals.Outgoing.PlayAreaChanged.Connect(_cameraSignals.Incoming.SetViewport);
+            _mainSignals.Outgoing.ScreenResized.Connect(_cameraSignals.Incoming.ScreenResized);
         }
 
         public override void DestroyContext()
@@ -44,6 +48,7 @@ namespace Modules.ConnectorModule.RootsContexts
         {
             _gameBoardSignals.Outgoing.BoardBuilt.Disconnect();
             _gameplayScreenSignals.Outgoing.PlayAreaChanged.Disconnect();
+            _mainSignals.Outgoing.ScreenResized.Disconnect();
         }
     }
 }

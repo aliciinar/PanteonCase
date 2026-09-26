@@ -1,5 +1,6 @@
 using FlowIoC.BaseModule.Connectors;
 using FlowIoC.BaseModule.Contexts;
+using Modules.GameBoardModule.Signals;
 using Modules.GameplayModule.GameplayScreenModule.Signals;
 using Modules.LoadingModule.LoadingScreenModule.Signals;
 using Modules.MainModule.Signals;
@@ -10,6 +11,7 @@ namespace Modules.ConnectorModule.RootsContexts
     {
         private MainSignals _mainSignals;
         private GameplayScreenSignals _gameplayScreenSignals;
+        private GameBoardSignals _gameBoardSignals;
         private LoadingScreenSignals _loadingScreenSignals;
 
         public override void Setup()
@@ -18,6 +20,7 @@ namespace Modules.ConnectorModule.RootsContexts
 
             _mainSignals = InjectionBinderCrossContext.GetInstance<MainSignals>();
             _gameplayScreenSignals = InjectionBinderCrossContext.GetInstance<GameplayScreenSignals>();
+            _gameBoardSignals = InjectionBinderCrossContext.GetInstance<GameBoardSignals>();
             _loadingScreenSignals = InjectionBinderCrossContext.GetInstance<LoadingScreenSignals>();
 
             IncomingSignals();
@@ -32,8 +35,9 @@ namespace Modules.ConnectorModule.RootsContexts
 
         private void OutgoingSignals()
         {
-            // Once the boot is done the player goes straight into the game.
+            // Once the boot is done the player goes straight into the game: the HUD opens and the board is built.
             _mainSignals.Outgoing.Started.Connect(_gameplayScreenSignals.Incoming.OpenGameplayScreen);
+            _mainSignals.Outgoing.Started.Connect(_gameBoardSignals.Incoming.BuildBoard);
         }
 
         public override void DestroyContext()

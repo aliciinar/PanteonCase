@@ -1,4 +1,5 @@
 using FlowIoC.BaseModule.Signals;
+using UnityEngine;
 
 namespace Modules.MainModule.Signals
 {
@@ -32,6 +33,12 @@ namespace Modules.MainModule.Signals
             /// decide that opening the main screen is what starting means.
             /// </summary>
             public Signal Started = new();
+
+            /// <summary>
+            /// The application window changed size. Carries the new size in pixels, so whatever lays
+            /// itself out against the screen can do it again.
+            /// </summary>
+            public Signal<Vector2Int> ScreenResized = new();
         }
     }
 }

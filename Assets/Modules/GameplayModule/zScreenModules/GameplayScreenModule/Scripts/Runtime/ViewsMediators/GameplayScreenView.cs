@@ -21,7 +21,6 @@ namespace Modules.GameplayModule.GameplayScreenModule.ViewsMediators
         private readonly Vector3[] _corners = new Vector3[4];
 
         private bool _isPlayAreaDirty;
-        private Vector2Int _lastScreenSize;
 
         /// <summary>Measures the play area and raises PlayAreaChanged with it.</summary>
         public void ReportPlayArea()
@@ -49,13 +48,6 @@ namespace Modules.GameplayModule.GameplayScreenModule.ViewsMediators
 
         private void LateUpdate()
         {
-            var screenSize = new Vector2Int(Screen.width, Screen.height);
-            if (screenSize != _lastScreenSize)
-            {
-                _lastScreenSize = screenSize;
-                _isPlayAreaDirty = true;
-            }
-
             if (_isPlayAreaDirty) ReportPlayArea();
         }
 

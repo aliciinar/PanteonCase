@@ -5,6 +5,7 @@ using Modules.LoadingModule.Services;
 using Modules.LoadingModule.Shared.Constants;
 using Modules.MainModule.Constants;
 using Modules.MainModule.Controllers;
+using Modules.MainModule.Models;
 using Modules.MainModule.Signals;
 
 namespace Modules.MainModule.RootsContexts
@@ -24,6 +25,7 @@ namespace Modules.MainModule.RootsContexts
         public override void InjectionBindings()
         {
             base.InjectionBindings();
+            InjectionBinder.Bind<IScreenModel, ScreenModel>();
         }
 
         public override void MediationBindings()

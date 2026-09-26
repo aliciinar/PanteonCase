@@ -27,6 +27,7 @@ namespace Modules.GameBoardModule.Models
         public Rect FrameBounds { get; private set; }
         public CellVO[,] Cells { get; private set; }
 
+        // detayına bakılacak.
         public void PostConstruct()
         {
             GameBoardCVO board = _root.GetComponent<RootAdapter>().GetScriptable<CD_GameBoard>().Board;
@@ -39,7 +40,7 @@ namespace Modules.GameBoardModule.Models
 
             float padding = board.FramePaddingInCells * CellSize;
             FrameBounds = new Rect(GridBounds.xMin - padding, GridBounds.yMin - padding,
-                                   GridBounds.width + padding * 2f, GridBounds.height + padding * 2f);
+                GridBounds.width + padding * 2f, GridBounds.height + padding * 2f);
 
             Cells = CreateCells();
         }
@@ -53,17 +54,21 @@ namespace Modules.GameBoardModule.Models
         public bool IsInside(Vector2Int cell) =>
             cell.x >= 0 && cell.y >= 0 && cell.x < GridSize.x && cell.y < GridSize.y;
 
+        // detayına bakılacak.
         private CellVO[,] CreateCells()
         {
             var cells = new CellVO[GridSize.x, GridSize.y];
 
             for (int column = 0; column < GridSize.x; column++)
-            for (int row = 0; row < GridSize.y; row++)
             {
-                var centre = new Vector2(GridBounds.xMin + (column + 0.5f) * CellSize,
-                                         GridBounds.yMin + (row + 0.5f) * CellSize);
-                cells[column, row] = new CellVO(centre);
+                for (int row = 0; row < GridSize.y; row++)
+                {
+                    var centre = new Vector2(GridBounds.xMin + (column + 0.5f) * CellSize,
+                        GridBounds.yMin + (row + 0.5f) * CellSize);
+                    cells[column, row] = new CellVO(centre);
+                }
             }
+            
 
             return cells;
         }

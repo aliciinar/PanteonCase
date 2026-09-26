@@ -11,6 +11,8 @@ namespace Modules.GameBoardModule.Signals
 
     public class GameBoardSignalsIncoming
     {
+        /// <summary>Lay the board out, draw it and announce it.</summary>
+        public Signal BuildBoard = new();
     }
 
     public class GameBoardSignalsOutgoing

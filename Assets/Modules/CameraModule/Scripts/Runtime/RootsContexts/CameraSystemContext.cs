@@ -44,7 +44,7 @@ namespace Modules.CameraModule.RootsContexts
                 .ToSequence<SetCameraFocusCommand>()
                 .ToSequence<FitCameraCommand>();
 
-            CommandBinder.Bind(_internalSignals.ScreenResized).ToSequence<FitCameraCommand>();
+            CommandBinder.Bind(_signals.Incoming.ScreenResized).ToSequence<FitCameraCommand>();
         }
 
         public override void Setup()

@@ -12,9 +12,6 @@ namespace Modules.CameraModule.Signals
     /// </summary>
     internal class CameraInternalSignals : ISignalHolder
     {
-        /// <summary>The window changed size, so the viewport's aspect did too: fit again.</summary>
-        public Signal ScreenResized = new();
-
         /// <summary>The fit the camera view applies.</summary>
         public Signal<CameraFitVO> ApplyFit = new();
     }

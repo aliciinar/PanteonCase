@@ -19,6 +19,9 @@ namespace Modules.CameraModule.Signals
 
         /// <summary>A world rect the camera has to keep entirely in view, centred.</summary>
         public Signal<Rect> FitToBounds = new();
+
+        /// <summary>The window changed size (new size in pixels), so the viewport's aspect did too: fit again.</summary>
+        public Signal<Vector2Int> ScreenResized = new();
     }
 
     public class CameraSignalsOutgoing
