@@ -3,24 +3,35 @@ using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.GameBoardModule.Data.ValueObjects;
 using Modules.GameBoardModule.Models;
 using Modules.GameBoardModule.Signals;
+using Modules.GridModule.Services;
+using UnityEngine;
 
 namespace Modules.GameBoardModule.Controllers
 {
-    /// <summary>Hands the model's layout to the board view and announces the board's bounds.</summary>
+    /// <summary>
+    /// Lays the board out: the grid service builds an empty grid of the configured size, centred on the
+    /// world origin, and the frame is the grid plus its padding. The board view draws both, and the
+    /// board's bounds - frame included - are announced.
+    /// </summary>
     internal class BuildGameBoardCommand : Command
     {
         [Inject]       private IGameBoardModel          _gameBoardModel  { get; set; }
+        [Inject]       private IGridService             _gridService     { get; set; }
         [InjectSignal] private GameBoardSignals         _signals         { get; set; }
         [InjectSignal] private GameBoardInternalSignals _internalSignals { get; set; }
 
         public override void Execute()
         {
-            _internalSignals.Draw.Dispatch(new GameBoardLayoutVO(_gameBoardModel.GridBounds,
-                                                                 _gameBoardModel.FrameBounds,
-                                                                 _gameBoardModel.CellSize,
-                                                                 _gameBoardModel.Cells));
+            float cellSize = _gameBoardModel.CellSize;
+            _gridService.Build(_gameBoardModel.GridSize, cellSize);
 
-            _signals.Outgoing.BoardBuilt.Dispatch(_gameBoardModel.FrameBounds);
+            Rect gridBounds = _gridService.Bounds;
+            float padding = _gameBoardModel.FramePaddingInCells * cellSize;
+            var frameBounds = new Rect(gridBounds.xMin - padding, gridBounds.yMin - padding,
+                                       gridBounds.width + padding * 2f, gridBounds.height + padding * 2f);
+
+            _internalSignals.Draw.Dispatch(new GameBoardLayoutVO(gridBounds, frameBounds, cellSize, _gridService.Cells));
+            _signals.Outgoing.BoardBuilt.Dispatch(frameBounds);
         }
     }
 }

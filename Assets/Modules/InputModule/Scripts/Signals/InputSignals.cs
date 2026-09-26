@@ -22,8 +22,8 @@ namespace Modules.InputModule.Signals
         /// <summary>The pointer was pressed on the world here.</summary>
         public Signal<Vector2> PointerPressed = new();
 
-        /// <summary>The press goes on and the pointer has moved here.</summary>
-        public Signal<Vector2> PointerDragged = new();
+        /// <summary>The press goes on and the pointer has moved here. Kept out of the Flow Console - it fires every frame of a drag.</summary>
+        public Signal<Vector2> PointerDragged = new(hideCommandLog: true);
 
         /// <summary>The press ended here.</summary>
         public Signal<Vector2> PointerReleased = new();

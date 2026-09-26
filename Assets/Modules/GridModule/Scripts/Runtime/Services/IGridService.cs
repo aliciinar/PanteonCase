@@ -1,0 +1,52 @@
+using Modules.GridModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Shared.Enums;
+using UnityEngine;
+
+namespace Modules.GridModule.Services
+{
+    /// <summary>
+    /// The board's grid as data, and the questions every module asks of it. The grid is centred on the
+    /// world origin; cell [0, 0] is the bottom-left one. It knows no building or unit - what stands on a
+    /// cell is an entity id and a kind - and it is the only thing that writes what occupies a cell.
+    /// </summary>
+    public interface IGridService
+    {
+        /// <summary>Columns (x) and rows (y).</summary>
+        Vector2Int GridSize { get; }
+
+        /// <summary>Edge of one cell in world units.</summary>
+        float CellSize { get; }
+
+        /// <summary>The world rect the cells cover.</summary>
+        Rect Bounds { get; }
+
+        /// <summary>Every cell, indexed [column, row], each with what stands on it.</summary>
+        CellVO[,] Cells { get; }
+
+        /// <summary>Lays out an empty grid of this size, centred on the world origin, replacing any before it.</summary>
+        void Build(Vector2Int gridSize, float cellSize);
+
+        /// <summary>The cell a world position falls in. May lie outside the grid - check with IsInside.</summary>
+        Vector2Int WorldToCell(Vector2 worldPosition);
+
+        bool IsInside(Vector2Int cell);
+
+        /// <summary>The world rect an area of cells covers.</summary>
+        Rect AreaToWorldRect(RectInt area);
+
+        /// <summary>Whether the area lies entirely inside the grid and nothing stands on any of its cells.</summary>
+        bool IsAreaFree(RectInt area);
+
+        /// <summary>The bottom-left cell that centres an area of this size on the grid.</summary>
+        Vector2Int CentredOrigin(Vector2Int size);
+
+        /// <summary>The bottom-left cell of the free area of this size nearest the grid's centre, or null when it fits nowhere.</summary>
+        Vector2Int? FindFreeArea(Vector2Int size);
+
+        /// <summary>The nearest bottom-left cell that keeps an area of this size inside the grid.</summary>
+        Vector2Int ClampArea(Vector2Int origin, Vector2Int size);
+
+        /// <summary>Marks every cell of the area as standing under a new entity of this kind, and returns its id.</summary>
+        int Occupy(RectInt area, CellOccupantType type);
+    }
+}

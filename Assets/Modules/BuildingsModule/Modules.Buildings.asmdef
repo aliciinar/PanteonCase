@@ -3,7 +3,10 @@
   "references": [
     "FlowIoC",
     "Modules.Buildings.Shared",
-    "Modules.Buildings.Signals"
+    "Modules.Buildings.Signals",
+    "Modules.Grid",
+    "Modules.Grid.Shared",
+    "Unity.RenderPipelines.Core.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

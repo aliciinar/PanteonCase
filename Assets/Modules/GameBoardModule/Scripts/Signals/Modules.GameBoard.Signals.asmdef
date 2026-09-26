@@ -1,9 +1,7 @@
 {
   "name": "Modules.GameBoard.Signals",
   "references": [
-    "FlowIoC",
-    "Modules.GameBoard.Shared",
-    "Modules.Buildings.Shared"
+    "FlowIoC"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

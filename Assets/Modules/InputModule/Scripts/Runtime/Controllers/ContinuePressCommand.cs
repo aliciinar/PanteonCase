@@ -1,3 +1,4 @@
+using FlowIoC.BaseModule.Attributes;
 using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Function.Provider;
 using FlowIoC.BaseModule.Injectable.Attributes;
@@ -9,8 +10,10 @@ namespace Modules.InputModule.Controllers
 {
     /// <summary>
     /// The pointer moved while pressed. Announced only for a press that began on the world - which
-    /// goes on being announced even when the pointer crosses UI on the way.
+    /// goes on being announced even when the pointer crosses UI on the way. Kept out of the Flow
+    /// Console - it runs every frame of a drag.
     /// </summary>
+    [HideCommandLog]
     internal class ContinuePressCommand : Command
     {
         [Inject]       private IPointerModel     _pointerModel     { get; set; }

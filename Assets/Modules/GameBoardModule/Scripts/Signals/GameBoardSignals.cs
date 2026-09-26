@@ -1,5 +1,4 @@
 using FlowIoC.BaseModule.Signals;
-using Modules.BuildingsModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.GameBoardModule.Signals
@@ -20,23 +19,6 @@ namespace Modules.GameBoardModule.Signals
         /// Answered with FreeAreaFound or NoFreeArea.
         /// </summary>
         public Signal<Vector2Int> FindFreeArea = new();
-
-        /// <summary>
-        /// Preview a building of this type on the free area nearest the board's centre - or at the
-        /// centre, red, announcing NoFreeArea, when it fits nowhere - and wait for the player: pressing
-        /// the board moves it, the green tick places it there (its cells become occupied), the red cross
-        /// drops it. A new pick while one is waiting replaces it.
-        /// </summary>
-        public Signal<BuildType> PlaceBuilding = new();
-
-        /// <summary>A press began on the world here (world units).</summary>
-        public Signal<Vector2> PointerPressed = new();
-
-        /// <summary>The press goes on and the pointer has moved here.</summary>
-        public Signal<Vector2> PointerDragged = new();
-
-        /// <summary>The press ended here.</summary>
-        public Signal<Vector2> PointerReleased = new();
     }
 
     public class GameBoardSignalsOutgoing

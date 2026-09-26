@@ -24,7 +24,7 @@ namespace Modules.InputModule.Signals
         public Signal PollPointer = new(hideCommandLog: true);
 
         public Signal<Vector2> PointerPressed = new();
-        public Signal<Vector2> PointerDragged = new();
+        public Signal<Vector2> PointerDragged = new(hideCommandLog: true);
         public Signal<Vector2> PointerReleased = new();
     }
 }

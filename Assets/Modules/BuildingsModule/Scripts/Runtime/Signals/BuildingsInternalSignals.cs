@@ -1,4 +1,5 @@
 using FlowIoC.BaseModule.Signals;
+using Modules.BuildingsModule.Data.ValueObjects;
 
 namespace Modules.BuildingsModule.Signals
 {
@@ -11,5 +12,19 @@ namespace Modules.BuildingsModule.Signals
     /// </summary>
     internal class BuildingsInternalSignals : ISignalHolder
     {
+        /// <summary>A placed building the buildings view puts on the board.</summary>
+        public Signal<PlacedBuildingVO> ShowBuilding = new();
+
+        /// <summary>Show a placement's ghost and the confirm / cancel prompt beside it.</summary>
+        public Signal<PlacementPreviewVO> ShowPlacementPreview = new();
+
+        /// <summary>Take the placement preview off the board.</summary>
+        public Signal HidePlacementPreview = new();
+
+        /// <summary>The player pressed the preview's green tick.</summary>
+        public Signal PlacementConfirmed = new();
+
+        /// <summary>The player pressed the preview's red cross.</summary>
+        public Signal PlacementCancelled = new();
     }
 }

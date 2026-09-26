@@ -5,15 +5,17 @@ using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Data.UnityObjects;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Data.ValueObjects;
 using Modules.BuildingsModule.ProductionMenuScreenModule.RootsContexts;
+using Modules.BuildingsModule.Shared.Data.UnityObjects;
+using Modules.BuildingsModule.Shared.Data.ValueObjects;
 using Modules.BuildingsModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.BuildingsModule.ProductionMenuScreenModule.Models
 {
     /// <summary>
-    /// Reads CD_ProductionMenu off the Root's adapter in PostConstruct - the screen's context is listed
-    /// on BuildingsSystemRoot, so that is the Root - and keeps the menu's entries in the asset's order,
-    /// along with the rows currently on screen.
+    /// Reads CD_ProductionMenu and CD_Buildings off the Root's adapter in PostConstruct - the screen's
+    /// context is listed on BuildingsSystemRoot, so that is the Root - and keeps the menu's entries in
+    /// CD_Buildings' order, each with its icon, along with the rows currently on screen.
     /// </summary>
     internal class ProductionMenuModel : IProductionMenuModel, IConstructable
     {
@@ -30,11 +32,11 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Models
 
         public void PostConstruct()
         {
-            CD_ProductionMenu config = _root.GetComponent<RootAdapter>().GetScriptable<CD_ProductionMenu>();
+            var adapter = _root.GetComponent<RootAdapter>();
 
-            Columns = config.Columns;
-            foreach (KeyValuePair<BuildType, Sprite> entry in config.Sprites)
-                _items.Add(new ProductionItemVO(entry.Key, entry.Value));
+            Columns = adapter.GetScriptable<CD_ProductionMenu>().Columns;
+            foreach (KeyValuePair<BuildType, BuildingCVO> entry in adapter.GetScriptable<CD_Buildings>().Buildings)
+                _items.Add(new ProductionItemVO(entry.Key, entry.Value.Icon));
         }
 
         public void Deconstruct()

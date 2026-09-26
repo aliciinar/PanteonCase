@@ -1,4 +1,4 @@
-using Modules.GameBoardModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GameBoardModule.Data.ValueObjects
