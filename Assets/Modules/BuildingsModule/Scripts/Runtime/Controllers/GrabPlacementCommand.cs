@@ -23,7 +23,7 @@ namespace Modules.BuildingsModule.Controllers
         {
             Retain();
 
-            BuildingPlacementVO placement = _placementModel.PendingPlacement;
+            BuildingPlacementVO placement = _placementModel.Pending;
             Vector2Int cell = _gridService.WorldToCell(_pointer);
 
             if (!_gridService.IsInside(cell))
@@ -32,10 +32,9 @@ namespace Modules.BuildingsModule.Controllers
                 return;
             }
 
-            _placementModel.GrabOffset = placement.Area.Contains(cell)
+            _placementModel.Grab(placement.Area.Contains(cell)
                 ? placement.Area.position - cell
-                : -(placement.Area.size / 2);
-            _placementModel.IsDragging = true;
+                : -(placement.Area.size / 2));
 
             Vector2Int origin = _gridService.ClampArea(cell + _placementModel.GrabOffset, placement.Area.size);
             Release(new BuildingPlacementVO(placement.Type, new RectInt(origin, placement.Area.size)));

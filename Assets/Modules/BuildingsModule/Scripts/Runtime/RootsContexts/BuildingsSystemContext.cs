@@ -7,18 +7,16 @@ using Modules.BuildingsModule.ViewsMediators;
 
 namespace Modules.BuildingsModule.RootsContexts
 {
-
     public class BuildingsSystemContext : Context
     {
-		private BuildingsSignals _signals;
-
-		private BuildingsInternalSignals _internalSignals;
+        private BuildingsSignals _signals;
+        private BuildingsInternalSignals _internalSignals;
 
         public override void SignalBindings()
         {
             base.SignalBindings();
-			_internalSignals = InjectionBinder.Bind<BuildingsInternalSignals>();
-			_signals = InjectionBinderCrossContext.Bind<BuildingsSignals>();
+            _internalSignals = InjectionBinder.Bind<BuildingsInternalSignals>();
+            _signals = InjectionBinderCrossContext.Bind<BuildingsSignals>();
         }
 
         public override void InjectionBindings()
@@ -83,16 +81,6 @@ namespace Modules.BuildingsModule.RootsContexts
             CommandBinder.Bind(_internalSignals.PlacementCancelled)
                 .ToSequence<DiscardPendingPlacementCommand>()
                 .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview);
-        }
-
-        public override void Setup()
-        {
-            base.Setup();
-        }
-
-        public override void Launch()
-        {
-            base.Launch();
         }
     }
 }

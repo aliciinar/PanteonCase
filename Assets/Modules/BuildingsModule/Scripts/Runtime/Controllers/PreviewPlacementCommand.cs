@@ -24,7 +24,7 @@ namespace Modules.BuildingsModule.Controllers
 
         public override void Execute(BuildingPlacementVO placement)
         {
-            _placementModel.PendingPlacement = placement;
+            _placementModel.Wait(placement);
 
             Rect area = _gridService.AreaToWorldRect(placement.Area);
             bool fits = _gridService.IsAreaFree(placement.Area);

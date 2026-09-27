@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Modules.BuildingsModule.Data.ValueObjects
 {
     /// <summary>A building and the area of the board it goes on, in cells. Handed from step to step of a placement.</summary>
-    public class BuildingPlacementVO
+    internal class BuildingPlacementVO
     {
         public BuildType Type { get; }
 

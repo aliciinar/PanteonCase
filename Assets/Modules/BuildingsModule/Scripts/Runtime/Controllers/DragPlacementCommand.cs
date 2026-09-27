@@ -30,7 +30,7 @@ namespace Modules.BuildingsModule.Controllers
                 return;
             }
 
-            BuildingPlacementVO placement = _placementModel.PendingPlacement;
+            BuildingPlacementVO placement = _placementModel.Pending;
             Vector2Int cell = _gridService.WorldToCell(_pointer);
             Vector2Int origin = _gridService.ClampArea(cell + _placementModel.GrabOffset, placement.Area.size);
 

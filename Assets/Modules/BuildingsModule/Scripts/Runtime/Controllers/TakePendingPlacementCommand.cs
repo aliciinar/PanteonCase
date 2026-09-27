@@ -1,6 +1,5 @@
 using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Injectable.Attributes;
-using Modules.BuildingsModule.Data.ValueObjects;
 using Modules.BuildingsModule.Models;
 
 namespace Modules.BuildingsModule.Controllers
@@ -16,12 +15,7 @@ namespace Modules.BuildingsModule.Controllers
         public override void Execute()
         {
             Retain();
-
-            BuildingPlacementVO placement = _placementModel.PendingPlacement;
-            _placementModel.PendingPlacement = null;
-            _placementModel.IsDragging = false;
-
-            Release(placement);
+            Release(_placementModel.Take());
         }
     }
 }

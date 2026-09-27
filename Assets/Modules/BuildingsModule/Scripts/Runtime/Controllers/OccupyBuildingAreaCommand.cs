@@ -24,7 +24,7 @@ namespace Modules.BuildingsModule.Controllers
             int id = _gridService.Occupy(placement.Area, CellOccupantType.Building);
             int hp = _buildingsModel.Buildings[placement.Type].Hp;
 
-            _boardBuildingsModel.Buildings.Add(id, new BuildingRecordVO(id, placement.Type, placement.Area, hp));
+            _boardBuildingsModel.Add(new BuildingRecordVO(id, placement.Type, placement.Area, hp));
         }
     }
 }

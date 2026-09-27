@@ -18,7 +18,7 @@ namespace Modules.BuildingsModule.Controllers
 
         public override void Execute()
         {
-            if (_placementModel.PendingPlacement != null)
+            if (_placementModel.IsWaiting)
                 _internalSignals.PlacementPressed.Dispatch(_pointer);
             else
                 _internalSignals.BoardPressed.Dispatch(_pointer);

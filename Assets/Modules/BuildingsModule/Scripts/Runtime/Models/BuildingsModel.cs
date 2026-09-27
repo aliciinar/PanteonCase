@@ -24,8 +24,6 @@ namespace Modules.BuildingsModule.Models
         public void PostConstruct() =>
             Buildings = _root.GetComponent<RootAdapter>().GetScriptable<CD_Buildings>().Buildings;
 
-        public void Deconstruct()
-        {
-        }
+        public void Deconstruct() { }
     }
 }

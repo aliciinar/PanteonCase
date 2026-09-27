@@ -9,6 +9,6 @@ namespace Modules.BuildingsModule.Controllers
     {
         [Inject] private IPlacementModel _placementModel { get; set; }
 
-        public override void Execute() => _placementModel.IsDragging = false;
+        public override void Execute() => _placementModel.Release();
     }
 }

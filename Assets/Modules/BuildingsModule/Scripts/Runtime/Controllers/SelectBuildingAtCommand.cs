@@ -30,16 +30,13 @@ namespace Modules.BuildingsModule.Controllers
 
             if (occupant is { Type: CellOccupantType.Building })
             {
-                BuildingRecordVO building = _boardBuildingsModel.Buildings[occupant.EntityId];
-                _boardBuildingsModel.Selected = building;
+                BuildingRecordVO building = _boardBuildingsModel.Get(occupant.EntityId);
+                _boardBuildingsModel.Select(building);
                 _signals.Outgoing.BuildingSelected.Dispatch(new BuildingInfoVO(building.Type, building.Hp));
                 return;
             }
 
-            if (_boardBuildingsModel.Selected == null) return;
-
-            _boardBuildingsModel.Selected = null;
-            _signals.Outgoing.SelectionCleared.Dispatch();
+            if (_boardBuildingsModel.ClearSelection()) _signals.Outgoing.SelectionCleared.Dispatch();
         }
     }
 }
