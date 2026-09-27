@@ -40,7 +40,10 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.ViewsMediators
             {
                 unit.Card.Bind(unit.Type, unit.Sprite);
                 unit.Card.Clicked += OnUnitClicked;
+                // The pool parks a card keeping its world scale, so it comes back carrying the canvas
+                // scale factor it left with; unreset, every trip through the pool shrinks it again.
                 unit.Card.RectTransform.SetParent(_units, false);
+                unit.Card.RectTransform.localScale = Vector3.one;
                 _cards.Add(unit.Card);
             }
 

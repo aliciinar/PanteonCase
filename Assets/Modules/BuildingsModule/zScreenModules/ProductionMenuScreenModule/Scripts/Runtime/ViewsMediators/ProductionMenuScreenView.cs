@@ -53,8 +53,11 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators
                     card.Bind(row.Items[i].Type, row.Items[i].Sprite);
                     card.Clicked += OnItemClicked;
 
+                    // The pool parks a card keeping its world scale, so it comes back carrying the canvas
+                    // scale factor it left with; unreset, every trip through the pool shrinks it again.
                     RectTransform cell = card.RectTransform;
                     cell.SetParent(Content, false);
+                    cell.localScale = Vector3.one;
                     cell.anchorMin = cell.anchorMax = new Vector2(0f, 1f);
                     cell.pivot = new Vector2(0f, 1f);
                     cell.sizeDelta = _cellSize;
