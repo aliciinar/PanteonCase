@@ -1,25 +1,21 @@
-using System.Collections.Generic;
 using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.ScreenModule.Service;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Data.ValueObjects;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Models;
-using Modules.BuildingsModule.ProductionMenuScreenModule.Signals;
 using Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators;
 using UnityEngine;
 
 namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 {
     /// <summary>
-    /// Decides which rows of the endless menu are on screen for where the scroll stands, and announces
-    /// the rows that came into view and the ones that left. Nothing is announced while the scroll stays
-    /// within the same rows.
+    /// Works out which rows of the endless menu are on screen for where the scroll stands. While they are the rows
+    /// already shown - most of a scroll - the sequence stops here; when they changed, the next step moves the cards.
     /// </summary>
     internal class UpdateVisibleRowsCommand : Command
     {
-        [Inject]       private IScreenService                      _screenService       { get; set; }
-        [Inject]       private IProductionMenuModel                _productionMenuModel { get; set; }
-        [InjectSignal] private ProductionMenuScreenInternalSignals _internalSignals     { get; set; }
+        [Inject] private IScreenService       _screenService       { get; set; }
+        [Inject] private IProductionMenuModel _productionMenuModel { get; set; }
 
         public override void Execute()
         {
@@ -32,19 +28,15 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
             }
 
             ScrollStateVO scroll = screen.ScrollState;
+            float rowHeight = _productionMenuModel.Grid.RowHeight;
 
-            // Row r covers [r × rowHeight, (r + 1) × rowHeight) measured down from the top of row 0.
-            int first = Mathf.FloorToInt(scroll.Offset / scroll.RowHeight);
-            int last = Mathf.FloorToInt((scroll.Offset + scroll.ViewportHeight) / scroll.RowHeight);
+            // Row r covers [r × rowHeight, (r + 1) × rowHeight) measured down from the top of row 0. Floor, not a
+            // cast: a row half shown above row 0 is -1.3 → -2, where a cast would drop it.
+            int first = Mathf.FloorToInt(scroll.Offset / rowHeight);
+            int last = Mathf.FloorToInt((scroll.Offset + scroll.ViewportHeight) / rowHeight);
 
-            var entered = new List<int>();
-            var left = new List<int>();
-            _productionMenuModel.SetVisibleRows(first, last, entered, left);
-
-            if (left.Count > 0) _internalSignals.RowsLeft.Dispatch(left);
-            if (entered.Count > 0) _internalSignals.RowsEntered.Dispatch(entered);
-
-            Release();
+            if (_productionMenuModel.SetVisibleRows(first, last)) Release();
+            else Stop();
         }
     }
 }

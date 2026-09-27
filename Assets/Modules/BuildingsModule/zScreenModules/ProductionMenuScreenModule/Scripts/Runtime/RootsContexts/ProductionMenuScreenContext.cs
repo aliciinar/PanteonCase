@@ -20,14 +20,14 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.RootsContexts
             HasHideAnimation = false,
         };
 
-		private ProductionMenuScreenSignals _signals;
-		private ProductionMenuScreenInternalSignals _internalSignals;
+        private ProductionMenuScreenSignals _signals;
+        private ProductionMenuScreenInternalSignals _internalSignals;
 
         public override void SignalBindings()
         {
             base.SignalBindings();
-			_signals = InjectionBinderCrossContext.Bind<ProductionMenuScreenSignals>();
-			_internalSignals = InjectionBinder.Bind<ProductionMenuScreenInternalSignals>();
+            _signals = InjectionBinderCrossContext.Bind<ProductionMenuScreenSignals>();
+            _internalSignals = InjectionBinder.Bind<ProductionMenuScreenInternalSignals>();
         }
 
         public override void InjectionBindings()
@@ -49,11 +49,12 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.RootsContexts
                 .ToSequence<WaitForLayoutCommand>()
                 .ToSequence<RelayoutProductionMenuCommand>();
 
-            // Every scroll decides which rows are on screen; rows that come into view take cards from
-            // the pool, and the cards of rows that left go back to it.
-            CommandBinder.Bind(_internalSignals.Scrolled).ToSequence<UpdateVisibleRowsCommand>();
-            CommandBinder.Bind(_internalSignals.RowsEntered).ToSequence<SpawnProductionRowsCommand>();
-            CommandBinder.Bind(_internalSignals.RowsLeft).ToSequence<ReleaseProductionRowsCommand>();
+            // Every scroll works out the visible rows; only when they changed are the cards of the rows that left
+            // moved to the rows that came in. The pool is asked only when the number of cards has to change.
+            CommandBinder.Bind(_internalSignals.Scrolled)
+                .ToSequence<UpdateVisibleRowsCommand>()
+                .ToSequence<RecycleProductionRowsCommand>();
+
             CommandBinder.Bind(_internalSignals.MenuClosed).ToSequence<CloseProductionMenuCommand>();
         }
     }

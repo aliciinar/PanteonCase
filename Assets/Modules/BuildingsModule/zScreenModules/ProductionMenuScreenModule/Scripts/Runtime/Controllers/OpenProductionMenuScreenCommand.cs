@@ -3,13 +3,16 @@ using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.ConsoleModule;
 using FlowIoC.ScreenModule.Service;
+using Modules.BuildingsModule.ProductionMenuScreenModule.Models;
 using Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators;
 
 namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 {
+    /// <summary>Opens the menu and hands it the grid its cards are laid on; the next step fills it.</summary>
     internal class OpenProductionMenuScreenCommand : Command
     {
-        [Inject] private IScreenService _screenService { get; set; }
+        [Inject] private IScreenService       _screenService       { get; set; }
+        [Inject] private IProductionMenuModel _productionMenuModel { get; set; }
 
         /// <summary>
         /// Three ways out, and every one of them resolves the retain: the screen opened, the screen
@@ -30,6 +33,7 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
                     return;
                 }
 
+                screen.SetGrid(_productionMenuModel.Grid);
                 Release();
             }
             catch (Exception exception)

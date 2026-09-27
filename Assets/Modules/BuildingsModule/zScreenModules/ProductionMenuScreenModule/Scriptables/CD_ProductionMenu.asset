@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: CD_ProductionMenu
   m_EditorClassIdentifier: Modules.ProductionMenu.Screen::Modules.BuildingsModule.ProductionMenuScreenModule.Data.UnityObjects.CD_ProductionMenu
   Columns: 2
+  CellSize: {x: 140, y: 140}
+  Spacing: {x: 16, y: 16}

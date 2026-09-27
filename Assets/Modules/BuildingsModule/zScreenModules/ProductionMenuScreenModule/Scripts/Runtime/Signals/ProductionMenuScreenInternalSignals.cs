@@ -12,14 +12,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Signals
     /// </summary>
     internal class ProductionMenuScreenInternalSignals : ISignalHolder
     {
-        /// <summary>The menu scrolled or was laid out again: work out the visible rows.</summary>
+        /// <summary>The menu scrolled or was laid out again: work out the visible rows, and move the cards if they changed.</summary>
         public Signal Scrolled = new(hideCommandLog: true);
-
-        /// <summary>These rows came into view and need cards.</summary>
-        public Signal<List<int>> RowsEntered = new(hideCommandLog: true);
-
-        /// <summary>These rows left the view; their cards go back to the pool.</summary>
-        public Signal<List<int>> RowsLeft = new(hideCommandLog: true);
 
         /// <summary>The menu closed. Carries every card it held, to go back to the pool.</summary>
         public Signal<List<ProductionItem>> MenuClosed = new();

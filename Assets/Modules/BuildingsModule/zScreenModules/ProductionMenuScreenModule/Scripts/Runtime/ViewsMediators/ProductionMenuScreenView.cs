@@ -11,94 +11,107 @@ using UnityEngine.UI;
 namespace Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators
 {
     /// <summary>
-    /// The production menu panel on the left of the screen. The ScrollRect scrolls it (Unrestricted, so
-    /// it has no ends); this view reports where the scroll stands, places the rows of cards it is handed
-    /// at their fixed place in the content, and takes rows off when told. Which rows are on screen, what
-    /// they show and where their cards come from is decided by the commands.
+    /// The production menu panel on the left of the screen. The ScrollRect scrolls it (Unrestricted, so it has no
+    /// ends); this view reports where the scroll stands and moves the cards it holds as the commands say. A card
+    /// stays in the content for as long as the menu is open: one whose row left the view is freed, spare, and shown
+    /// in a row that came in. Which rows are on screen, what they show and when the pool is asked is the commands'.
     /// </summary>
     [RequireComponent(typeof(ViewInjector))]
     public class ProductionMenuScreenView : ScreenView
     {
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RectTransform _panel;
-        [SerializeField] private Vector2 _cellSize = new(140f, 140f);
-        [SerializeField] private Vector2 _spacing = new(16f, 16f);
 
         /// <summary>The scroll moved.</summary>
         public Action Scrolled;
 
         public Action<BuildType> ItemClicked;
 
-        private readonly Dictionary<int, List<ProductionItem>> _rows = new();
+        /// <summary>Every card on the menu, showing a row or spare.</summary>
+        private readonly List<ProductionItem> _cards = new();
+
+        /// <summary>The cards showing no row.</summary>
+        private readonly Stack<ProductionItem> _spares = new();
+
         private readonly Vector3[] _corners = new Vector3[4];
 
+        /// <summary>The grid, centred across the content.</summary>
+        private ProductionGridVO _grid;
+
         private RectTransform Content => _scrollRect.content;
-        private float RowHeight => _cellSize.y + _spacing.y;
+
+        /// <summary>Where the scroll stands now, in canvas units.</summary>
+        internal ScrollStateVO ScrollState => new(Content.anchoredPosition.y, _scrollRect.viewport.rect.height);
+
+        public int SpareCount => _spares.Count;
 
         private void OnEnable() => _scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
 
         private void OnDisable() => _scrollRect.onValueChanged.RemoveListener(OnScrollValueChanged);
 
-        /// <summary>Where the scroll stands now, in canvas units.</summary>
-        internal ScrollStateVO ScrollState =>
-            new(Content.anchoredPosition.y, _scrollRect.viewport.rect.height, RowHeight);
-
-        internal void PlaceRows(IReadOnlyList<ProductionRowVO> rows)
+        // The screen is pooled: every opening starts at the top, standing still.
+        public override void BeforeScreenActivation()
         {
-            foreach (ProductionRowVO row in rows)
-            {
-                for (int i = 0; i < row.Cards.Count; i++)
-                {
-                    ProductionItem card = row.Cards[i];
-                    card.Bind(row.Items[i].Type, row.Items[i].Sprite);
-                    card.Clicked += OnItemClicked;
-
-                    // The pool parks a card keeping its world scale, so it comes back carrying the canvas
-                    // scale factor it left with; unreset, every trip through the pool shrinks it again.
-                    RectTransform cell = card.RectTransform;
-                    cell.SetParent(Content, false);
-                    cell.localScale = Vector3.one;
-                    cell.anchorMin = cell.anchorMax = new Vector2(0f, 1f);
-                    cell.pivot = new Vector2(0f, 1f);
-                    cell.sizeDelta = _cellSize;
-                }
-
-                _rows[row.Row] = row.Cards;
-                PositionRow(row.Row, row.Cards);
-            }
-        }
-
-        /// <summary>Takes these rows off the menu and hands their cards back.</summary>
-        public List<ProductionItem> RemoveRows(IReadOnlyList<int> rows)
-        {
-            var cards = new List<ProductionItem>();
-
-            foreach (int row in rows)
-            {
-                if (!_rows.Remove(row, out List<ProductionItem> rowCards)) continue;
-                cards.AddRange(Detach(rowCards));
-            }
-
-            return cards;
-        }
-
-        /// <summary>Takes every card off the menu, hands them back, and scrolls back to the top.</summary>
-        public List<ProductionItem> RemoveAllRows()
-        {
-            var cards = new List<ProductionItem>();
-            foreach (List<ProductionItem> row in _rows.Values) cards.AddRange(Detach(row));
-            _rows.Clear();
-
+            base.BeforeScreenActivation();
             _scrollRect.StopMovement();
             Content.anchoredPosition = Vector2.zero;
-            return cards;
         }
 
-        /// <summary>Puts every row back in place - the columns move when the panel's width changes.</summary>
-        public void RepositionRows()
+        /// <summary>The grid the cards are laid on.</summary>
+        internal void SetGrid(ProductionGridVO grid) => _grid = grid.WithContentWidth(Content.rect.width);
+
+        /// <summary>Centres the grid across the content again - its width follows the panel's - and puts every shown card back in its cell.</summary>
+        public void Relayout()
         {
-            foreach (KeyValuePair<int, List<ProductionItem>> row in _rows)
-                PositionRow(row.Key, row.Value);
+            _grid = _grid.WithContentWidth(Content.rect.width);
+
+            foreach (ProductionItem card in _cards)
+                if (!card.IsSpare) card.Reposition(_grid);
+        }
+
+        /// <summary>Frees every card showing a row outside <paramref name="first"/> to <paramref name="last"/>.</summary>
+        public void FreeRowsOutside(int first, int last)
+        {
+            foreach (ProductionItem card in _cards)
+            {
+                if (card.IsSpare || (card.Row >= first && card.Row <= last)) continue;
+
+                card.Free();
+                _spares.Push(card);
+            }
+        }
+
+        /// <summary>Takes a card from the pool onto the menu, spare until a row is shown in it.</summary>
+        public void AddCard(ProductionItem card)
+        {
+            card.RectTransform.SetParent(Content, false);
+            card.FitToCell(_grid.CellSize);
+            card.Clicked += OnItemClicked;
+
+            _cards.Add(card);
+            _spares.Push(card);
+        }
+
+        /// <summary>Shows this entry at this cell, in a spare card.</summary>
+        internal void ShowCell(int row, int column, ProductionItemVO entry) =>
+            _spares.Pop().ShowSlot(row, column, entry, _grid);
+
+        /// <summary>Hands back a spare card for the pool - the menu holds more cards than its rows show.</summary>
+        public bool TryTakeSpare(out ProductionItem card)
+        {
+            if (!_spares.TryPop(out card)) return false;
+
+            _cards.Remove(card);
+            return true;
+        }
+
+        /// <summary>Takes every card off the menu and hands them back - the menu closed.</summary>
+        public List<ProductionItem> RemoveAllCards()
+        {
+            var cards = new List<ProductionItem>(_cards);
+            _cards.Clear();
+            _spares.Clear();
+            return cards;
         }
 
         /// <summary>
@@ -117,24 +130,6 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators
 
             return Rect.MinMaxRect(Mathf.Ceil(bottomLeft.x) / Screen.width, Mathf.Ceil(bottomLeft.y) / Screen.height,
                                    Mathf.Floor(topRight.x) / Screen.width, Mathf.Floor(topRight.y) / Screen.height);
-        }
-
-        // Rows sit at fixed places in the content (row 0 at the top, negative rows above it), so
-        // scrolling moves the content alone and no card is repositioned while the list moves.
-        private void PositionRow(int row, List<ProductionItem> cards)
-        {
-            float rowWidth = cards.Count * _cellSize.x + (cards.Count - 1) * _spacing.x;
-            float left = (Content.rect.width - rowWidth) * 0.5f;
-            float y = -row * RowHeight - _spacing.y * 0.5f;
-
-            for (int column = 0; column < cards.Count; column++)
-                cards[column].RectTransform.anchoredPosition = new Vector2(left + column * (_cellSize.x + _spacing.x), y);
-        }
-
-        private IEnumerable<ProductionItem> Detach(List<ProductionItem> cards)
-        {
-            foreach (ProductionItem card in cards) card.Clicked -= OnItemClicked;
-            return cards;
         }
 
         private void OnScrollValueChanged(Vector2 normalizedPosition) => Scrolled?.Invoke();

@@ -8,8 +8,8 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
 {
     /// <summary>
     /// Lays the menu out against the screen as it is now - after it opened, or after the window was
-    /// resized: puts the rows back in their columns, announces the area the panel covers (the camera
-    /// draws next to it), and has the visible rows worked out again.
+    /// resized: centres the grid again and puts the cards back in their cells, announces the area the
+    /// panel covers (the camera draws next to it), and has the visible rows worked out again.
     /// </summary>
     internal class RelayoutProductionMenuCommand : Command
     {
@@ -28,7 +28,7 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
                 return;
             }
 
-            screen.RepositionRows();
+            screen.Relayout();
             _signals.Outgoing.AreaChanged.Dispatch(screen.MeasureArea());
             _internalSignals.Scrolled.Dispatch();
 

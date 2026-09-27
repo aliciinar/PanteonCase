@@ -43,7 +43,7 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators
         {
             Unsubscribe();
 
-            List<ProductionItem> cards = _view.RemoveAllRows();
+            List<ProductionItem> cards = _view.RemoveAllCards();
             _internalSignals.MenuClosed.Dispatch(cards);
         }
 

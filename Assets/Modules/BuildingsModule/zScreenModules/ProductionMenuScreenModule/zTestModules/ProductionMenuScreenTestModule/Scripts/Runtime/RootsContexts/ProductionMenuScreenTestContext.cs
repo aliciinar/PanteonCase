@@ -15,8 +15,7 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.ProductionMenuScree
         public override void Launch()
         {
             base.Launch();
-			_screenService.Open<ProductionMenuScreenView>().Show();
-
+            _screenService.Open<ProductionMenuScreenView>().Show();
         }
     }
 }

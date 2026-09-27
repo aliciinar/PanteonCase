@@ -13,9 +13,9 @@ using UnityEngine;
 namespace Modules.BuildingsModule.ProductionMenuScreenModule.Models
 {
     /// <summary>
-    /// Reads CD_ProductionMenu and CD_Buildings off the Root's adapter in PostConstruct - the screen's
-    /// context is listed on BuildingsSystemRoot, so that is the Root - and keeps the menu's entries in
-    /// CD_Buildings' order, each with its icon, along with the rows currently on screen.
+    /// Reads CD_ProductionMenu and CD_Buildings off the Root's adapter in PostConstruct - the screen's context is
+    /// listed on BuildingsSystemRoot, so that is the Root - and keeps the menu's entries in CD_Buildings' order, each
+    /// with its icon and label, along with the range of rows on screen.
     /// </summary>
     internal class ProductionMenuModel : IProductionMenuModel, IConstructable
     {
@@ -25,43 +25,57 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Models
         public bool IsPostConstructed { get; set; }
         public bool IsDeconstructed { get; set; }
 
-        public int Columns { get; private set; }
+        public ProductionGridVO Grid { get; private set; }
+        public int FirstVisibleRow { get; private set; }
+        public int LastVisibleRow { get; private set; }
+        public IReadOnlyList<int> RowsEntered => _rowsEntered;
 
-        private readonly List<ProductionItemVO> _items = new();
-        private readonly HashSet<int> _visibleRows = new();
+        private readonly List<ProductionItemVO> _entries = new();
+        private readonly List<int> _rowsEntered = new();
+        private bool _hasVisibleRows;
 
         public void PostConstruct()
         {
             var adapter = _root.GetComponent<RootAdapter>();
 
-            Columns = adapter.GetScriptable<CD_ProductionMenu>().Columns;
-            foreach (KeyValuePair<BuildType, BuildingCVO> entry in adapter.GetScriptable<CD_Buildings>().Buildings)
-                _items.Add(new ProductionItemVO(entry.Key, entry.Value.Icon));
+            var menu = adapter.GetScriptable<CD_ProductionMenu>();
+            Grid = new ProductionGridVO(menu.Columns, menu.CellSize, menu.Spacing);
+
+            foreach (KeyValuePair<BuildType, BuildingCVO> building in adapter.GetScriptable<CD_Buildings>().Buildings)
+                _entries.Add(new ProductionItemVO(building.Key, building.Value.Icon, building.Key.ToString()));
         }
 
         public void Deconstruct()
         {
-            _items.Clear();
-            _visibleRows.Clear();
+            _entries.Clear();
+            ClearVisibleRows();
         }
 
-        public ProductionItemVO ItemAt(int row, int column)
+        public ProductionItemVO EntryAt(int row, int column)
         {
-            int index = row * Columns + column;
-            return _items[(index % _items.Count + _items.Count) % _items.Count];
+            int index = row * Grid.Columns + column;
+            int count = _entries.Count;
+            return _entries[(index % count + count) % count];
         }
 
-        public void SetVisibleRows(int first, int last, List<int> entered, List<int> left)
+        public bool SetVisibleRows(int first, int last)
         {
-            foreach (int row in _visibleRows)
-                if (row < first || row > last) left.Add(row);
+            if (_hasVisibleRows && first == FirstVisibleRow && last == LastVisibleRow) return false;
 
-            foreach (int row in left) _visibleRows.Remove(row);
-
+            _rowsEntered.Clear();
             for (int row = first; row <= last; row++)
-                if (_visibleRows.Add(row)) entered.Add(row);
+                if (!_hasVisibleRows || row < FirstVisibleRow || row > LastVisibleRow) _rowsEntered.Add(row);
+
+            FirstVisibleRow = first;
+            LastVisibleRow = last;
+            _hasVisibleRows = true;
+            return true;
         }
 
-        public void ClearVisibleRows() => _visibleRows.Clear();
+        public void ClearVisibleRows()
+        {
+            _hasVisibleRows = false;
+            _rowsEntered.Clear();
+        }
     }
 }

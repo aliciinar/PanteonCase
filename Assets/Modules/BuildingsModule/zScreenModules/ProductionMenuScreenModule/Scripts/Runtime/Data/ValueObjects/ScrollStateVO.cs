@@ -9,14 +9,10 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Data.ValueObjects
         /// <summary>Height of the visible part of the menu.</summary>
         public readonly float ViewportHeight;
 
-        /// <summary>Height of one row, card plus spacing.</summary>
-        public readonly float RowHeight;
-
-        public ScrollStateVO(float offset, float viewportHeight, float rowHeight)
+        public ScrollStateVO(float offset, float viewportHeight)
         {
             Offset = offset;
             ViewportHeight = viewportHeight;
-            RowHeight = rowHeight;
         }
     }
 }
