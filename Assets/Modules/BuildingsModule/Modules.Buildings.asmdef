@@ -6,7 +6,8 @@
     "Modules.Buildings.Signals",
     "Modules.Grid",
     "Unity.RenderPipelines.Core.Runtime",
-    "Modules.Units.Shared"
+    "Modules.Units.Shared",
+    "Modules.Grid.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

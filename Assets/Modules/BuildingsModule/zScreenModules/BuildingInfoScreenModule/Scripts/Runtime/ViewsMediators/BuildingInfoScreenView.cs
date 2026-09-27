@@ -4,7 +4,7 @@ using FlowIoC.BaseModule.Injectable.Components;
 using FlowIoC.ScreenModule.ViewsMediators.Screen;
 using Modules.BuildingsModule.BuildingInfoScreenModule.Data.ValueObjects;
 using Modules.BuildingsModule.BuildingInfoScreenModule.Entities;
-using Modules.UnitsModule.Shared.Enums;
+using Modules.UnitsModule.Shared.Data.ValueObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +26,7 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.ViewsMediators
         [SerializeField] private GameObject _production;
         [SerializeField] private RectTransform _units;
 
-        public Action<UnitType> UnitClicked;
+        public Action<UnitSpawnRequestVO> UnitClicked;
 
         private readonly List<UnitItem> _cards = new();
 
@@ -38,7 +38,7 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.ViewsMediators
 
             foreach (UnitCardVO unit in units)
             {
-                unit.Card.Bind(unit.Type, unit.Sprite);
+                unit.Card.Bind(unit.Request, unit.Sprite);
                 unit.Card.Clicked += OnUnitClicked;
                 unit.Card.RectTransform.SetParent(_units, false);
                 _cards.Add(unit.Card);
@@ -56,7 +56,7 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.ViewsMediators
             return cards;
         }
 
-        private void OnUnitClicked(UnitType unitType) => UnitClicked?.Invoke(unitType);
+        private void OnUnitClicked(UnitSpawnRequestVO request) => UnitClicked?.Invoke(request);
 
         /// <summary>
         /// This method runs if screenData.HasShowAnimation bool is true.

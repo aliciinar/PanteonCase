@@ -2,7 +2,7 @@ using FlowIoC.BaseModule.Root;
 
 namespace Modules.GridModule.RootsContexts
 {
-    public class GridServiceRoot : Root<GridServiceContext>
+    public class GridSystemRoot : Root<GridSystemContext>
     {
         
     }

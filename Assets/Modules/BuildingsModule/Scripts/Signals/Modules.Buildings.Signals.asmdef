@@ -3,7 +3,7 @@
   "references": [
     "FlowIoC",
     "Modules.Buildings.Shared",
-    "Modules.Units.Shared"
+    "Modules.Grid.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

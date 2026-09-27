@@ -26,12 +26,9 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Models
         public bool IsDeconstructed { get; set; }
 
         public ProductionGridVO Grid { get; private set; }
-        public int FirstVisibleRow { get; private set; }
-        public int LastVisibleRow { get; private set; }
-        public IReadOnlyList<int> RowsEntered => _rowsEntered;
-
         private readonly List<ProductionItemVO> _entries = new();
-        private readonly List<int> _rowsEntered = new();
+        private int _firstVisibleRow;
+        private int _lastVisibleRow;
         private bool _hasVisibleRows;
 
         public void PostConstruct()
@@ -58,24 +55,18 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Models
             return _entries[(index % count + count) % count];
         }
 
-        public bool SetVisibleRows(int first, int last)
+        public bool AreVisibleRows(int first, int last) =>
+            _hasVisibleRows && first == _firstVisibleRow && last == _lastVisibleRow;
+
+        public bool IsRowVisible(int row) => _hasVisibleRows && row >= _firstVisibleRow && row <= _lastVisibleRow;
+
+        public void SetVisibleRows(int first, int last)
         {
-            if (_hasVisibleRows && first == FirstVisibleRow && last == LastVisibleRow) return false;
-
-            _rowsEntered.Clear();
-            for (int row = first; row <= last; row++)
-                if (!_hasVisibleRows || row < FirstVisibleRow || row > LastVisibleRow) _rowsEntered.Add(row);
-
-            FirstVisibleRow = first;
-            LastVisibleRow = last;
+            _firstVisibleRow = first;
+            _lastVisibleRow = last;
             _hasVisibleRows = true;
-            return true;
         }
 
-        public void ClearVisibleRows()
-        {
-            _hasVisibleRows = false;
-            _rowsEntered.Clear();
-        }
+        public void ClearVisibleRows() => _hasVisibleRows = false;
     }
 }

@@ -24,7 +24,6 @@ namespace Modules.BuildingsModule.RootsContexts
             base.InjectionBindings();
             InjectionBinder.Bind<IBuildingsModel, BuildingsModel>();
             InjectionBinder.Bind<IPlacementModel, PlacementModel>();
-            InjectionBinder.Bind<IBoardBuildingsModel, BoardBuildingsModel>();
         }
 
         public override void MediationBindings()
@@ -47,13 +46,10 @@ namespace Modules.BuildingsModule.RootsContexts
                 .ToSequence<PreviewPlacementCommand>()
                 .ToSequence<SignalDispatchCommand>(_signals.Outgoing.PlacementStarted);
 
-            // A press on the board is for the building waiting to be placed while one waits, and picks
-            // what stands on the board otherwise.
-            CommandBinder.Bind(_signals.Incoming.PointerPressed).ToSequence<RoutePressCommand>();
-
-            // Pressing the board moves the waiting building to the pressed cell, or grabs it where it was
-            // pressed; while the press lasts it follows the pointer. Green where it fits, red where not.
-            CommandBinder.Bind(_internalSignals.PlacementPressed)
+            // While a building waits to be placed, pressing the board moves it to the pressed cell, or grabs
+            // it where it was pressed; while the press lasts it follows the pointer. Green where it fits, red
+            // where not. With nothing waiting, a press is not the placement's and goes no further.
+            CommandBinder.Bind(_signals.Incoming.PointerPressed)
                 .ToSequence<GrabPlacementCommand>()
                 .ToSequence<PreviewPlacementCommand>();
 
@@ -63,14 +59,13 @@ namespace Modules.BuildingsModule.RootsContexts
 
             CommandBinder.Bind(_signals.Incoming.PointerReleased).ToSequence<ReleasePlacementCommand>();
 
-            // With nothing waiting, a press selects the building under it - announced, so its information
-            // shows - or clears the selection when it lands anywhere else.
-            CommandBinder.Bind(_internalSignals.BoardPressed).ToSequence<SelectBuildingAtCommand>();
+            // The grid says what a press landed on. A building is announced as selected, with its door and
+            // spawn point, so its information shows; anything else clears the selection. Neither while a
+            // building waits to be placed.
+            CommandBinder.Bind(_signals.Incoming.SelectBuilding).ToSequence<SelectBuildingCommand>();
+            CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<ClearBuildingSelectionCommand>();
 
-            // A unit picked in the information panel comes out of the selected building.
-            CommandBinder.Bind(_signals.Incoming.ProduceUnit).ToSequence<ProduceUnitCommand>();
-
-            // Green tick: the building takes its cells, is recorded under the grid's id for them and is
+            // Green tick: the building is put on the grid - its cells hold its data from now on - and is
             // built there. The placement travels from step to step, so the preview is hidden last -
             // SignalDispatchCommand releases no data - and the placement is over: no drags are wanted.
             CommandBinder.Bind(_internalSignals.PlacementConfirmed)

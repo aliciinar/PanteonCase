@@ -14,7 +14,7 @@ namespace Modules.GridModule.Models
     /// </summary>
     internal class GridModel : IGridModel, IConstructable
     {
-        [Inject(nameof(GridServiceContext))]
+        [Inject(nameof(GridSystemContext))]
         private GameObject _root { get; set; }
 
         public bool IsPostConstructed { get; set; }
@@ -23,7 +23,6 @@ namespace Modules.GridModule.Models
         public Vector2Int GridSize { get; set; }
         public float CellSize { get; set; }
         public Rect Bounds { get; set; }
-        public int LastEntityId { get; set; }
 
         public CellVO[,] Cells
         {

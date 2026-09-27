@@ -3,8 +3,9 @@ using FlowIoC.BaseModule.Function.Provider;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.GridModule.Controllers;
 using Modules.GridModule.Data.ValueObjects;
-using Modules.GridModule.Enums;
 using Modules.GridModule.Models;
+using Modules.GridModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.GridModule.Services
@@ -87,16 +88,11 @@ namespace Modules.GridModule.Services
                                   Mathf.Clamp(origin.y, 0, Mathf.Max(0, gridSize.y - size.y)));
         }
 
-        public int Occupy(RectInt area, CellOccupantType type)
+        public void Occupy(RectInt area, CellOccupantVO occupant)
         {
-            _gridModel.LastEntityId++;
-            var occupant = new CellOccupantVO(_gridModel.LastEntityId, type);
-
             CellVO[,] cells = _gridModel.Cells;
             foreach (Vector2Int cell in area.allPositionsWithin)
                 cells[cell.x, cell.y].Occupant = occupant;
-
-            return occupant.EntityId;
         }
 
         public Vector2Int? FindNearestFreeAreaBfs(Vector2Int size) =>

@@ -1,6 +1,6 @@
 using FlowIoC.BaseModule.Signals;
 using Modules.BuildingsModule.Shared.Data.ValueObjects;
-using Modules.UnitsModule.Shared.Enums;
+using Modules.UnitsModule.Shared.Data.ValueObjects;
 
 namespace Modules.BuildingsModule.BuildingInfoScreenModule.Signals
 {
@@ -14,7 +14,8 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.Signals
     {
         /// <summary>
         /// Show this building inside the information panel: its image, name and health, and a card per
-        /// unit it produces. Opens the screen when it is closed and refills it when it is open.
+        /// unit it produces - each card asking for its unit at the building's door and spawn point. Opens
+        /// the screen when it is closed and refills it when it is open.
         /// </summary>
         public Signal<BuildingInfoVO> ShowBuildingInfo = new();
 
@@ -24,7 +25,7 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.Signals
 
     public class BuildingInfoScreenSignalsOutgoing
     {
-        /// <summary>The player clicked the card of this unit: the shown building is to produce one.</summary>
-        public Signal<UnitType> UnitClicked = new();
+        /// <summary>The player clicked a unit card: the shown building produces that unit - out of its door, walking to its spawn point.</summary>
+        public Signal<UnitSpawnRequestVO> UnitRequested = new();
     }
 }

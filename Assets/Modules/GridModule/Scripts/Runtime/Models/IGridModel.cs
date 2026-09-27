@@ -17,8 +17,5 @@ namespace Modules.GridModule.Models
 
         /// <summary>Every cell, indexed [column, row]. Held by RD_Grid; this is the asset's array.</summary>
         CellVO[,] Cells { get; set; }
-
-        /// <summary>The entity id last given to something put on the grid. Ids count up from 1 and are never reused.</summary>
-        int LastEntityId { get; set; }
     }
 }

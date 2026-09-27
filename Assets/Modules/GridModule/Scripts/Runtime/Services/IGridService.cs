@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using Modules.GridModule.Data.ValueObjects;
-using Modules.GridModule.Enums;
+using Modules.GridModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.GridModule.Services
 {
     /// <summary>
-    /// The board's grid as data, and the questions every module asks of it. The grid is centred on the
-    /// world origin; cell [0, 0] is the bottom-left one. It knows no building or unit - what stands on a
-    /// cell is an entity id and a kind - and it is the only thing that writes what occupies a cell.
-    /// A search names its algorithm: Bfs and AStar are what runs.
+    /// The board's grid, everything standing on it, and the questions every module asks of them. The grid
+    /// is centred on the world origin; cell [0, 0] is the bottom-left one. What stands on a cell is a
+    /// CellOccupantVO - a BoardBuildingVO or a BoardUnitVO, the only copy of that thing's data - and the
+    /// grid is the only thing that writes what occupies a cell. A search names its algorithm: Bfs and AStar
+    /// are what runs.
     /// </summary>
     public interface IGridService
     {
@@ -45,8 +47,8 @@ namespace Modules.GridModule.Services
         /// <summary>The nearest bottom-left cell that keeps an area of this size inside the grid.</summary>
         Vector2Int ClampArea(Vector2Int origin, Vector2Int size);
 
-        /// <summary>Marks every cell of the area as standing under a new entity of this kind, and returns its id.</summary>
-        int Occupy(RectInt area, CellOccupantType type);
+        /// <summary>Puts the occupant on every cell of the area - the same instance on each, so any cell it covers answers for it.</summary>
+        void Occupy(RectInt area, CellOccupantVO occupant);
 
         /// <summary>The bottom-left cell of the free area of this size nearest the grid's centre, by breadth-first search; null when it fits nowhere.</summary>
         Vector2Int? FindNearestFreeAreaBfs(Vector2Int size);

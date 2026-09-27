@@ -1,6 +1,5 @@
 using FlowIoC.BaseModule.Signals;
 using Modules.BuildingsModule.Data.ValueObjects;
-using UnityEngine;
 
 namespace Modules.BuildingsModule.Signals
 {
@@ -27,11 +26,5 @@ namespace Modules.BuildingsModule.Signals
 
         /// <summary>The player pressed the preview's red cross.</summary>
         public Signal PlacementCancelled = new();
-
-        /// <summary>A press began on the board here (world units) while a building waits to be placed.</summary>
-        public Signal<Vector2> PlacementPressed = new();
-
-        /// <summary>A press began on the board here (world units) with no building waiting to be placed.</summary>
-        public Signal<Vector2> BoardPressed = new();
     }
 }

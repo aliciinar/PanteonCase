@@ -1,6 +1,6 @@
 using System;
 using Modules.GridModule.Data.ValueObjects;
-using Modules.GridModule.Enums;
+using Modules.GridModule.Shared.Enums;
 using Sirenix.OdinInspector;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -34,7 +34,7 @@ namespace Modules.GridModule.Data.UnityObjects
 
         /// <summary>
         /// Odin draws each cell of the table through this: free cells grey, buildings red, soldiers blue,
-        /// labelled with the occupant's entity id. The method exists in builds too, empty, so the
+        /// labelled with what stands there - its type and health. The method exists in builds too, empty, so the
         /// attribute's nameof still compiles there.
         /// </summary>
         private static CellVO DrawCell(Rect rect, CellVO cell)
@@ -48,9 +48,9 @@ namespace Modules.GridModule.Data.UnityObjects
                 return cell;
             }
 
-            Color color = cell.Occupant.Type == CellOccupantType.Building ? BuildingColor : SoldierColor;
+            Color color = cell.Occupant.Kind == CellOccupantType.Building ? BuildingColor : SoldierColor;
             EditorGUI.DrawRect(inner, color);
-            GUI.Label(rect, cell.Occupant.EntityId.ToString(), EditorStyles.centeredGreyMiniLabel);
+            GUI.Label(rect, cell.Occupant.ToString(), EditorStyles.centeredGreyMiniLabel);
 #endif
             return cell;
         }

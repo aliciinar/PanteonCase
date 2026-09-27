@@ -1,3 +1,4 @@
+using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GridModule.Data.ValueObjects

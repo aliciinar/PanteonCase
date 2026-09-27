@@ -3,8 +3,8 @@ using FlowIoC.BaseModule.Function.ReturnableFunctions;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.GridModule.Constants;
 using Modules.GridModule.Data.ValueObjects;
-using Modules.GridModule.Enums;
 using Modules.GridModule.Services;
+using Modules.GridModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.GridModule.Controllers
@@ -73,7 +73,7 @@ namespace Modules.GridModule.Controllers
             return null;
         }
 
-        private static bool IsBlocked(CellVO cell, CellOccupantType blockedBy) => !cell.IsFree && cell.Occupant.Type == blockedBy;
+        private static bool IsBlocked(CellVO cell, CellOccupantType blockedBy) => !cell.IsFree && cell.Occupant.Kind == blockedBy;
 
         private static int Distance(Vector2Int a, Vector2Int b) => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
 

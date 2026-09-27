@@ -3,6 +3,7 @@ using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.PoolModule.Services;
 using FlowIoC.ScreenModule.Service;
+using Modules.BuildingsModule.ProductionMenuScreenModule.Data.ValueObjects;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Entities;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Models;
 using Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators;
@@ -14,7 +15,7 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
     /// the menu and only shows another building in another cell. The pool is asked only for the difference - more
     /// rows on screen than cards (the first opening, a taller window) - and takes back what fewer rows leave spare.
     /// </summary>
-    internal class RecycleProductionRowsCommand : Command
+    internal class RecycleProductionRowsCommand : Command<VisibleRowsVO>
     {
         /// <summary>The key of the card in CD_PoolGroup_Buildings.</summary>
         private const string ItemPoolKey = "production_item";
@@ -23,7 +24,7 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
         [Inject] private IProductionMenuModel _productionMenuModel { get; set; }
         [Inject] private IPoolService         _poolService         { get; set; }
 
-        public override void Execute()
+        public override void Execute(VisibleRowsVO rows)
         {
             Retain();
 
@@ -33,9 +34,9 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.Controllers
                 return;
             }
 
-            screen.FreeRowsOutside(_productionMenuModel.FirstVisibleRow, _productionMenuModel.LastVisibleRow);
+            screen.FreeRowsOutside(rows.First, rows.Last);
 
-            IReadOnlyList<int> rowsEntered = _productionMenuModel.RowsEntered;
+            IReadOnlyList<int> rowsEntered = rows.Entered;
             int columns = _productionMenuModel.Grid.Columns;
 
             for (int missing = rowsEntered.Count * columns - screen.SpareCount; missing > 0; missing--)

@@ -17,7 +17,9 @@
     "Modules.Buildings.Signals",
     "Modules.Units.Signals",
     "Modules.Units.Shared",
-    "Modules.BuildingInfo.Screen.Signals"
+    "Modules.BuildingInfo.Screen.Signals",
+    "Modules.Grid.Signals",
+    "Modules.Grid.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

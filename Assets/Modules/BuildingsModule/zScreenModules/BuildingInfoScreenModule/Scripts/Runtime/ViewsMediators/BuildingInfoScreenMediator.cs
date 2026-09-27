@@ -3,7 +3,7 @@ using FlowIoC.BaseModule.ViewsMediators.Mediator;
 using FlowIoC.ScreenModule.Enums;
 using FlowIoC.ScreenModule.ViewsMediators.Screen;
 using Modules.BuildingsModule.BuildingInfoScreenModule.Signals;
-using Modules.UnitsModule.Shared.Enums;
+using Modules.UnitsModule.Shared.Data.ValueObjects;
 
 namespace Modules.BuildingsModule.BuildingInfoScreenModule.ViewsMediators
 {
@@ -38,11 +38,11 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.ViewsMediators
             _internalSignals.InfoClosed.Dispatch(_view.RemoveUnits());
         }
 
-        private void OnUnitClicked(UnitType unitType)
+        private void OnUnitClicked(UnitSpawnRequestVO request)
         {
             if (_view.Data.State != ScreenState.AvailableToSendSignal) return;
 
-            _signals.Outgoing.UnitClicked.Dispatch(unitType);
+            _signals.Outgoing.UnitRequested.Dispatch(request);
         }
     }
 }

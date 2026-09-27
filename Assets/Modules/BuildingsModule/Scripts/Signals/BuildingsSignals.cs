@@ -1,8 +1,7 @@
 using FlowIoC.BaseModule.Signals;
 using Modules.BuildingsModule.Shared.Data.ValueObjects;
 using Modules.BuildingsModule.Shared.Enums;
-using Modules.UnitsModule.Shared.Data.ValueObjects;
-using Modules.UnitsModule.Shared.Enums;
+using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.BuildingsModule.Signals
@@ -24,8 +23,9 @@ namespace Modules.BuildingsModule.Signals
         public Signal<BuildType> PlaceBuilding = new();
 
         /// <summary>
-        /// A press began on the world here (world units). While a building waits to be placed it moves
-        /// that building; otherwise it selects the building under it, or clears the selection.
+        /// A press began on the world here (world units). Heard only while a building waits to be placed:
+        /// it moves that building. What a press selects comes from the grid, through SelectBuilding and
+        /// ClearSelection.
         /// </summary>
         public Signal<Vector2> PointerPressed = new();
 
@@ -35,16 +35,20 @@ namespace Modules.BuildingsModule.Signals
         /// <summary>The press ended here.</summary>
         public Signal<Vector2> PointerReleased = new();
 
-        /// <summary>The selected building produces a unit of this type; it walks out of the building's door.</summary>
-        public Signal<UnitType> ProduceUnit = new();
+        /// <summary>A building on the board was pressed: select it. Ignored while a building waits to be placed.</summary>
+        public Signal<BoardBuildingVO> SelectBuilding = new();
+
+        /// <summary>Something other than a building was pressed: nothing is selected. Ignored while a building waits to be placed.</summary>
+        public Signal ClearSelection = new();
+
     }
 
     public class BuildingsSignalsOutgoing
     {
-        /// <summary>A placed building asks for a unit: which one, the door it comes out of and where it walks to.</summary>
-        public Signal<UnitSpawnRequestVO> UnitRequested = new();
-
-        /// <summary>The player selected a building on the board (or pressed the selected one again).</summary>
+        /// <summary>
+        /// The player selected a building on the board (or pressed the selected one again): which one, its
+        /// health, and the grid cells its units come out of and walk to.
+        /// </summary>
         public Signal<BuildingInfoVO> BuildingSelected = new();
 
         /// <summary>The player pressed away from the selected building; nothing is selected any more.</summary>
