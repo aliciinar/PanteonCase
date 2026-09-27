@@ -5,7 +5,7 @@ namespace Modules.InputModule.Signals
 {
     /// <summary>
     /// What the module says to its own commands. None of these leave the module, so they sit apart
-    /// from the public holder in Shared rather than widening what the module offers.
+    /// from the public holder in Scripts/Signals rather than widening what the module offers.
     ///
     /// There is no Incoming and no Outgoing here. Those two halves say what a module accepts and
     /// what it announces across a boundary, and an internal signal never crosses one.
@@ -22,6 +22,9 @@ namespace Modules.InputModule.Signals
         /// Flow Console, which would otherwise log a line every frame.
         /// </summary>
         public Signal PollPointer = new(hideCommandLog: true);
+
+        /// <summary>Whether the view reads the pointer's moves while pressed - only while someone needs them.</summary>
+        public Signal<bool> DragListening = new();
 
         public Signal<Vector2> PointerPressed = new();
         public Signal<Vector2> PointerDragged = new(hideCommandLog: true);

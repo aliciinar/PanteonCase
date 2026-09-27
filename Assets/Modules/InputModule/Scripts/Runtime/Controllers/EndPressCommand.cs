@@ -18,7 +18,7 @@ namespace Modules.InputModule.Controllers
         public override void Execute()
         {
             if (!_pointerModel.IsPressOnWorld) return;
-            _pointerModel.IsPressOnWorld = false;
+            _pointerModel.EndPress();
 
             Vector2 world = _functionProvider.Call<ScreenToWorldFunction>().AddParams(_screenPosition)
                                              .ExecuteAndGetResult<Vector2>();

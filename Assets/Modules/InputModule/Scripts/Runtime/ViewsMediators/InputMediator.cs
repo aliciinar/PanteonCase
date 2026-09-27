@@ -6,8 +6,9 @@ using UnityEngine;
 namespace Modules.InputModule.ViewsMediators
 {
     /// <summary>
-    /// Hands what the pointer does to the module's commands, which decide whether it is announced, and
-    /// has the view read the pointer whenever the commands' polling asks for it (PollPointer).
+    /// Hands what the pointer does to the module's commands, which decide whether it is announced, has
+    /// the view read the pointer whenever the commands' polling asks for it (PollPointer), and tells it
+    /// whether a press's moves are wanted (DragListening).
     /// </summary>
     public class InputMediator : IMediator
     {
@@ -17,6 +18,7 @@ namespace Modules.InputModule.ViewsMediators
         public void OnRegister()
         {
             _internalSignals.PollPointer.AddListener(_view.Poll);
+            _internalSignals.DragListening.AddListener(_view.ListenToDrag);
 
             _view.PressStarted += OnPressStarted;
             _view.PointerPressed += OnPointerPressed;
@@ -27,6 +29,7 @@ namespace Modules.InputModule.ViewsMediators
         public void OnRemove()
         {
             _internalSignals.PollPointer.RemoveListener(_view.Poll);
+            _internalSignals.DragListening.RemoveListener(_view.ListenToDrag);
 
             _view.PressStarted -= OnPressStarted;
             _view.PointerPressed -= OnPointerPressed;

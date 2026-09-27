@@ -11,7 +11,8 @@ namespace Modules.ConnectorModule.RootsContexts
     /// What the buildings module is told: which building the player picked in its production menu,
     /// which unit they picked in its info screen, and every press of the pointer that started on the
     /// world - where it began, where it was dragged, where it ended. And what its info screen is told:
-    /// the building selected on the board, or that nothing is.
+    /// the building selected on the board, or that nothing is; and what input is told: that a building
+    /// is being placed, so a press's drags are wanted, and that the placement is over.
     /// </summary>
     public class BuildingsConnectorSubContext : Context
     {
@@ -48,6 +49,10 @@ namespace Modules.ConnectorModule.RootsContexts
             // The info screen shows the selected building and closes when nothing is selected.
             _buildingsSignals.Outgoing.BuildingSelected.Connect(_buildingInfoScreenSignals.Incoming.ShowBuildingInfo);
             _buildingsSignals.Outgoing.SelectionCleared.Connect(_buildingInfoScreenSignals.Incoming.HideBuildingInfo);
+
+            // Input reads a press's moves only while a building is being placed.
+            _buildingsSignals.Outgoing.PlacementStarted.Connect(_inputSignals.Incoming.StartListeningToDrag);
+            _buildingsSignals.Outgoing.PlacementEnded.Connect(_inputSignals.Incoming.StopListeningToDrag);
         }
 
         public override void DestroyContext()
@@ -71,6 +76,8 @@ namespace Modules.ConnectorModule.RootsContexts
         {
             _buildingsSignals.Outgoing.BuildingSelected.Disconnect();
             _buildingsSignals.Outgoing.SelectionCleared.Disconnect();
+            _buildingsSignals.Outgoing.PlacementStarted.Disconnect();
+            _buildingsSignals.Outgoing.PlacementEnded.Disconnect();
         }
     }
 }

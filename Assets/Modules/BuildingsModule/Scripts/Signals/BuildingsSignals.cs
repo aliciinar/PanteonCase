@@ -49,5 +49,11 @@ namespace Modules.BuildingsModule.Signals
 
         /// <summary>The player pressed away from the selected building; nothing is selected any more.</summary>
         public Signal SelectionCleared = new();
+
+        /// <summary>A building is being placed: its ghost waits on the board and presses move it, so a press's drags are wanted until PlacementEnded.</summary>
+        public Signal PlacementStarted = new();
+
+        /// <summary>The placement was confirmed or cancelled: nothing needs a press's drags any more.</summary>
+        public Signal PlacementEnded = new();
     }
 }

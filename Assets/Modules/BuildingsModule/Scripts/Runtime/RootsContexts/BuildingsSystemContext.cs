@@ -40,10 +40,12 @@ namespace Modules.BuildingsModule.RootsContexts
 
             // A building picked in the production menu is previewed on the free area nearest the board's
             // centre - or at the centre, red, when none is left - and waits for the player's answer; a new
-            // pick while one is waiting just moves the preview.
+            // pick while one is waiting just moves the preview. From now on a press's drags are wanted.
+            // SignalDispatchCommand releases no data, so it goes last.
             CommandBinder.Bind(_signals.Incoming.PlaceBuilding)
                 .ToSequence<FindBuildingAreaCommand>()
-                .ToSequence<PreviewPlacementCommand>();
+                .ToSequence<PreviewPlacementCommand>()
+                .ToSequence<SignalDispatchCommand>(_signals.Outgoing.PlacementStarted);
 
             // A press on the board is for the building waiting to be placed while one waits, and picks
             // what stands on the board otherwise.
@@ -70,17 +72,19 @@ namespace Modules.BuildingsModule.RootsContexts
 
             // Green tick: the building takes its cells, is recorded under the grid's id for them and is
             // built there. The placement travels from step to step, so the preview is hidden last -
-            // SignalDispatchCommand releases no data.
+            // SignalDispatchCommand releases no data - and the placement is over: no drags are wanted.
             CommandBinder.Bind(_internalSignals.PlacementConfirmed)
                 .ToSequence<TakePendingPlacementCommand>()
                 .ToSequence<OccupyBuildingAreaCommand>()
                 .ToSequence<ShowBuildingCommand>()
-                .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview);
+                .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview)
+                .ToSequence<SignalDispatchCommand>(_signals.Outgoing.PlacementEnded);
 
-            // Red cross: nothing is placed and the preview goes away.
+            // Red cross: nothing is placed, the preview goes away and the placement is over.
             CommandBinder.Bind(_internalSignals.PlacementCancelled)
                 .ToSequence<DiscardPendingPlacementCommand>()
-                .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview);
+                .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview)
+                .ToSequence<SignalDispatchCommand>(_signals.Outgoing.PlacementEnded);
         }
     }
 }

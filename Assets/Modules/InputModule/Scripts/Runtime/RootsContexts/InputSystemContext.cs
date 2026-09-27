@@ -1,4 +1,5 @@
 using FlowIoC.BaseModule.Contexts;
+using FlowIoC.BaseModule.Controller.Commands;
 using Modules.InputModule.Controllers;
 using Modules.InputModule.Models;
 using Modules.InputModule.Signals;
@@ -6,18 +7,16 @@ using Modules.InputModule.ViewsMediators;
 
 namespace Modules.InputModule.RootsContexts
 {
-
     public class InputSystemContext : Context
     {
-		private InputSignals _signals;
-
-		private InputInternalSignals _internalSignals;
+        private InputSignals _signals;
+        private InputInternalSignals _internalSignals;
 
         public override void SignalBindings()
         {
             base.SignalBindings();
-			_internalSignals = InjectionBinder.Bind<InputInternalSignals>();
-			_signals = InjectionBinderCrossContext.Bind<InputSignals>();
+            _internalSignals = InjectionBinder.Bind<InputInternalSignals>();
+            _signals = InjectionBinderCrossContext.Bind<InputSignals>();
         }
 
         public override void InjectionBindings()
@@ -45,16 +44,11 @@ namespace Modules.InputModule.RootsContexts
             CommandBinder.Bind(_internalSignals.PointerReleased)
                 .ToSequence<EndPressCommand>()
                 .ToSequence<StopPointerPollingCommand>();
-        }
 
-        public override void Setup()
-        {
-            base.Setup();
-        }
-
-        public override void Launch()
-        {
-            base.Launch();
+            // The pointer's moves are read only while someone needs them - a building being placed - from
+            // StartListeningToDrag to StopListeningToDrag. Presses and releases are always heard.
+            CommandBinder.Bind(_signals.Incoming.StartListeningToDrag).ToSequence<SignalDispatchCommand<bool>>(_internalSignals.DragListening, true);
+            CommandBinder.Bind(_signals.Incoming.StopListeningToDrag).ToSequence<SignalDispatchCommand<bool>>(_internalSignals.DragListening, false);
         }
     }
 }
