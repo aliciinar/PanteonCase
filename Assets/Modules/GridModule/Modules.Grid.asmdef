@@ -1,8 +1,7 @@
 {
   "name": "Modules.Grid",
   "references": [
-    "FlowIoC",
-    "Modules.Grid.Shared"
+    "FlowIoC"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

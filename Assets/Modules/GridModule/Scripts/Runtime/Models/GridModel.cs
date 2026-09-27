@@ -2,8 +2,8 @@ using FlowIoC.BaseModule.Adapters;
 using FlowIoC.BaseModule.Constructables;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.GridModule.Data.UnityObjects;
+using Modules.GridModule.Data.ValueObjects;
 using Modules.GridModule.RootsContexts;
-using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GridModule.Models

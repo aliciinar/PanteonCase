@@ -9,8 +9,8 @@ namespace Modules.GameBoardModule.Controllers
 {
     /// <summary>
     /// Finds where an area of the given size fits on the board, as close to the board's centre as
-    /// possible (IGridService.FindFreeArea), and announces it - or announces that it fits nowhere and
-    /// stops the flow.
+    /// possible (IGridService.FindNearestFreeAreaBfs), and announces it - or announces that it fits
+    /// nowhere and stops the flow.
     /// </summary>
     internal class FindFreeAreaCommand : Command
     {
@@ -22,7 +22,7 @@ namespace Modules.GameBoardModule.Controllers
         {
             Retain();
 
-            Vector2Int? origin = _gridService.FindFreeArea(_size);
+            Vector2Int? origin = _gridService.FindNearestFreeAreaBfs(_size);
 
             if (origin == null)
             {

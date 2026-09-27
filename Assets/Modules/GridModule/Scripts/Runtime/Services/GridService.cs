@@ -1,20 +1,23 @@
 using System.Collections.Generic;
+using FlowIoC.BaseModule.Function.Provider;
 using FlowIoC.BaseModule.Injectable.Attributes;
+using Modules.GridModule.Controllers;
+using Modules.GridModule.Data.ValueObjects;
+using Modules.GridModule.Enums;
 using Modules.GridModule.Models;
-using Modules.GridModule.Shared.Data.ValueObjects;
-using Modules.GridModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.GridModule.Services
 {
-    public class GridService : IGridService
+    /// <summary>
+    /// Answers the grid's questions. Lookups and geometry are answered here - some run once per cell of a search
+    /// or once per frame of a drag, too often to go through the function provider. The searches are Functions in
+    /// Controllers/, one per algorithm.
+    /// </summary>
+    internal class GridService : IGridService
     {
-        private static readonly Vector2Int[] NeighbourSteps =
-        {
-            Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left
-        };
-
         [Inject] private IGridModel _gridModel { get; set; }
+        [Inject] private IFunctionProvider _functionProvider { get; set; }
 
         public Vector2Int GridSize => _gridModel.GridSize;
         public float CellSize => _gridModel.CellSize;
@@ -77,38 +80,6 @@ namespace Modules.GridModule.Services
             return new Vector2Int(Mathf.Max(0, (gridSize.x - size.x) / 2), Mathf.Max(0, (gridSize.y - size.y) / 2));
         }
 
-        /// <summary>
-        /// Breadth-first search over the grid. Each cell is tried as the area's bottom-left corner, starting
-        /// from the corner that would centre the area on the grid, then its four neighbours, then theirs -
-        /// so corners are tried in order of how many steps they are from the centred position, and the
-        /// first one where the whole area is free is the nearest fit. If the search runs out of cells,
-        /// nothing fits anywhere. An area larger than the grid starts at 0 and is rejected everywhere.
-        /// </summary>
-        public Vector2Int? FindFreeArea(Vector2Int size)
-        {
-            Vector2Int start = CentredOrigin(size);
-
-            var frontier = new Queue<Vector2Int>();
-            var visited = new HashSet<Vector2Int>();
-            frontier.Enqueue(start);
-            visited.Add(start);
-
-            while (frontier.Count > 0)
-            {
-                Vector2Int cell = frontier.Dequeue();
-
-                if (IsAreaFree(new RectInt(cell, size))) return cell;
-
-                foreach (Vector2Int step in NeighbourSteps)
-                {
-                    Vector2Int next = cell + step;
-                    if (IsInside(next) && visited.Add(next)) frontier.Enqueue(next);
-                }
-            }
-
-            return null;
-        }
-
         public Vector2Int ClampArea(Vector2Int origin, Vector2Int size)
         {
             Vector2Int gridSize = _gridModel.GridSize;
@@ -128,7 +99,18 @@ namespace Modules.GridModule.Services
             return occupant.EntityId;
         }
 
-        // detayına bakılacak.
+        public Vector2Int? FindNearestFreeAreaBfs(Vector2Int size) =>
+            _functionProvider.Call<FindNearestFreeAreaBfsFunction>().AddParams(size)
+                             .ExecuteAndGetResult<Vector2Int?>();
+
+        public Vector2Int? FindNearestFreeCellBfs(Vector2Int source) =>
+            _functionProvider.Call<FindNearestFreeCellBfsFunction>().AddParams(source)
+                             .ExecuteAndGetResult<Vector2Int?>();
+
+        public List<Vector2Int> FindPathAStar(Vector2Int start, Vector2Int goal, CellOccupantType blockedBy) =>
+            _functionProvider.Call<FindPathAStarFunction>().AddParams(start, goal, blockedBy)
+                             .ExecuteAndGetResult<List<Vector2Int>>();
+
         private CellVO[,] CreateCells()
         {
             Vector2Int gridSize = _gridModel.GridSize;

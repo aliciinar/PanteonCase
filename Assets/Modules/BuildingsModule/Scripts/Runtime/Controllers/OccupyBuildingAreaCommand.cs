@@ -2,8 +2,8 @@ using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.BuildingsModule.Data.ValueObjects;
 using Modules.BuildingsModule.Models;
+using Modules.GridModule.Enums;
 using Modules.GridModule.Services;
-using Modules.GridModule.Shared.Enums;
 
 namespace Modules.BuildingsModule.Controllers
 {

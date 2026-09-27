@@ -4,9 +4,9 @@ using Modules.BuildingsModule.Data.ValueObjects;
 using Modules.BuildingsModule.Models;
 using Modules.BuildingsModule.Shared.Data.ValueObjects;
 using Modules.BuildingsModule.Signals;
+using Modules.GridModule.Data.ValueObjects;
+using Modules.GridModule.Enums;
 using Modules.GridModule.Services;
-using Modules.GridModule.Shared.Data.ValueObjects;
-using Modules.GridModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.BuildingsModule.Controllers

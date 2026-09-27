@@ -1,6 +1,6 @@
 using System;
-using Modules.GridModule.Shared.Data.ValueObjects;
-using Modules.GridModule.Shared.Enums;
+using Modules.GridModule.Data.ValueObjects;
+using Modules.GridModule.Enums;
 using Sirenix.OdinInspector;
 using UnityEngine;
 #if UNITY_EDITOR

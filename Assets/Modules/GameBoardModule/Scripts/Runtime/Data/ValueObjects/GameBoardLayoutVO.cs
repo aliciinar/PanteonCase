@@ -1,5 +1,5 @@
 using Modules.GameBoardModule.Entities;
-using Modules.GridModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GameBoardModule.Data.ValueObjects

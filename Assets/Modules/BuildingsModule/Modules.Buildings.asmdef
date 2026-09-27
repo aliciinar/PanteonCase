@@ -5,7 +5,6 @@
     "Modules.Buildings.Shared",
     "Modules.Buildings.Signals",
     "Modules.Grid",
-    "Modules.Grid.Shared",
     "Unity.RenderPipelines.Core.Runtime",
     "Modules.Units.Shared"
   ],

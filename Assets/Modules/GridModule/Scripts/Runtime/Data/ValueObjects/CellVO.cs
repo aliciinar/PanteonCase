@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Modules.GridModule.Shared.Data.ValueObjects
+namespace Modules.GridModule.Data.ValueObjects
 {
     /// <summary>
     /// One cell of the grid: where it is and what stands on it. Every module may read cells; only the

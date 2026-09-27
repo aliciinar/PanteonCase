@@ -1,7 +1,7 @@
 using FlowIoC.BaseModule.Injectable.Components;
 using FlowIoC.BaseModule.ViewsMediators.View;
 using Modules.GameBoardModule.Entities;
-using Modules.GridModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GameBoardModule.ViewsMediators

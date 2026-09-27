@@ -1,5 +1,6 @@
-using Modules.GridModule.Shared.Data.ValueObjects;
-using Modules.GridModule.Shared.Enums;
+using System.Collections.Generic;
+using Modules.GridModule.Data.ValueObjects;
+using Modules.GridModule.Enums;
 using UnityEngine;
 
 namespace Modules.GridModule.Services
@@ -8,6 +9,7 @@ namespace Modules.GridModule.Services
     /// The board's grid as data, and the questions every module asks of it. The grid is centred on the
     /// world origin; cell [0, 0] is the bottom-left one. It knows no building or unit - what stands on a
     /// cell is an entity id and a kind - and it is the only thing that writes what occupies a cell.
+    /// A search names its algorithm: Bfs and AStar are what runs.
     /// </summary>
     public interface IGridService
     {
@@ -40,13 +42,23 @@ namespace Modules.GridModule.Services
         /// <summary>The bottom-left cell that centres an area of this size on the grid.</summary>
         Vector2Int CentredOrigin(Vector2Int size);
 
-        /// <summary>The bottom-left cell of the free area of this size nearest the grid's centre, or null when it fits nowhere.</summary>
-        Vector2Int? FindFreeArea(Vector2Int size);
-
         /// <summary>The nearest bottom-left cell that keeps an area of this size inside the grid.</summary>
         Vector2Int ClampArea(Vector2Int origin, Vector2Int size);
 
         /// <summary>Marks every cell of the area as standing under a new entity of this kind, and returns its id.</summary>
         int Occupy(RectInt area, CellOccupantType type);
+
+        /// <summary>The bottom-left cell of the free area of this size nearest the grid's centre, by breadth-first search; null when it fits nowhere.</summary>
+        Vector2Int? FindNearestFreeAreaBfs(Vector2Int size);
+
+        /// <summary>The free cell nearest this one, by breadth-first search - the cell itself when it is free; null when no cell is free.</summary>
+        Vector2Int? FindNearestFreeCellBfs(Vector2Int source);
+
+        /// <summary>
+        /// The shortest four-neighbour walk from <paramref name="start"/> to <paramref name="goal"/> by A*, both
+        /// included, never stepping on a cell whose occupant is <paramref name="blockedBy"/>; null when the goal
+        /// cannot be reached.
+        /// </summary>
+        List<Vector2Int> FindPathAStar(Vector2Int start, Vector2Int goal, CellOccupantType blockedBy);
     }
 }

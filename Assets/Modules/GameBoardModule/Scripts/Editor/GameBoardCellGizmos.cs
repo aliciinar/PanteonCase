@@ -1,6 +1,6 @@
 #if UNITY_EDITOR
-using Modules.GridModule.Shared.Data.ValueObjects;
 using Modules.GameBoardModule.ViewsMediators;
+using Modules.GridModule.Data.ValueObjects;
 using UnityEditor;
 using UnityEngine;
 

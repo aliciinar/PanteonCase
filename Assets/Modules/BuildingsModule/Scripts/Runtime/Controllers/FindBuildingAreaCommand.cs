@@ -28,7 +28,7 @@ namespace Modules.BuildingsModule.Controllers
             Retain();
 
             Vector2Int size = _buildingsModel.Buildings[_buildType].Size;
-            Vector2Int? origin = _gridService.FindFreeArea(size);
+            Vector2Int? origin = _gridService.FindNearestFreeAreaBfs(size);
 
             if (origin == null)
             {

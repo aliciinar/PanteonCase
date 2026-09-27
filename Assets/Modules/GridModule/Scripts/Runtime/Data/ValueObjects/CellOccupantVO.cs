@@ -1,6 +1,6 @@
-using Modules.GridModule.Shared.Enums;
+using Modules.GridModule.Enums;
 
-namespace Modules.GridModule.Shared.Data.ValueObjects
+namespace Modules.GridModule.Data.ValueObjects
 {
     /// <summary>What stands on a cell: which entity, and what kind it is. A free cell holds none.</summary>
     public class CellOccupantVO

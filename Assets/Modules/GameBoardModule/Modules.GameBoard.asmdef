@@ -3,8 +3,7 @@
   "references": [
     "FlowIoC",
     "Modules.GameBoard.Signals",
-    "Modules.Grid",
-    "Modules.Grid.Shared"
+    "Modules.Grid"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

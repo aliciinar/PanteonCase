@@ -1,4 +1,4 @@
-using Modules.GridModule.Shared.Data.ValueObjects;
+using Modules.GridModule.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.GridModule.Models
