@@ -1,0 +1,21 @@
+{
+  "name": "Modules.Info.Screen",
+  "references": [
+    "FlowIoC",
+    "Modules.Info.Screen.Signals",
+    "Modules.Buildings.Shared",
+    "Modules.Units.Shared",
+    "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Modules.Gameplay.Shared"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -25,6 +25,7 @@ namespace Modules.BuildingsModule.RootsContexts
             base.InjectionBindings();
             InjectionBinder.Bind<IBuildingsModel, BuildingsModel>();
             InjectionBinder.Bind<IPlacementModel, PlacementModel>();
+            InjectionBinder.Bind<IBuildingSelectionModel, BuildingSelectionModel>();
         }
 
         public override void MediationBindings()
@@ -60,10 +61,10 @@ namespace Modules.BuildingsModule.RootsContexts
             CommandBinder.Bind(_signals.Incoming.PointerReleased).ToSequence<ReleasePlacementCommand>();
 
             // The grid says what a press landed on - and says nothing while a building waits to be placed. A
-            // building is announced as selected, with its door and spawn point, so its information shows;
-            // anything else clears the selection.
+            // building is selected - tinted on the board and announced, with its door and spawn point, so its
+            // information shows; anything else clears the selection.
             CommandBinder.Bind(_signals.Incoming.SelectBuilding).ToSequence<SelectBuildingCommand>();
-            CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<SignalDispatchCommand>(_signals.Outgoing.SelectionCleared);
+            CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<ClearBuildingSelectionCommand>();
 
             // Green tick: the building is put on the board - its cells hold its data, and its data its object,
             // from now on. The placement travels from step to step, so the preview is hidden last -

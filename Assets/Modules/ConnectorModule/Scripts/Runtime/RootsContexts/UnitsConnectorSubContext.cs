@@ -1,6 +1,6 @@
 using FlowIoC.BaseModule.Connectors;
 using FlowIoC.BaseModule.Contexts;
-using Modules.BuildingsModule.BuildingInfoScreenModule.Signals;
+using Modules.GameplayModule.InfoScreenModule.Signals;
 using Modules.GridModule.Signals;
 using Modules.InputModule.Signals;
 using Modules.UnitsModule.Signals;
@@ -8,15 +8,16 @@ using Modules.UnitsModule.Signals;
 namespace Modules.ConnectorModule.RootsContexts
 {
     /// <summary>
-    /// What the units module is told: a unit card clicked in the building info screen asks for a unit; and, from the
-    /// grid, what a press landed on - a unit selects it, anything else clears the selection - and which free cell a
-    /// secondary press ordered - a free cell to walk to, or something to attack - and what became of a struck unit;
-    /// and, from input, that a press landed on UI, which clears the selection too.
+    /// What the units module is told: a unit card clicked in the info screen asks for a unit; and, from the grid, what
+    /// a press landed on - a unit selects it, anything else clears the selection - and which free cell a secondary
+    /// press ordered - a free cell to walk to, or something to attack - and what became of a struck unit; and, from
+    /// input, that a press landed on UI, which clears the selection too. What it announces: a selected unit is shown
+    /// in the info screen, and a cleared selection hides it.
     /// </summary>
     public class UnitsConnectorSubContext : Context
     {
         private UnitsSignals _unitsSignals;
-        private BuildingInfoScreenSignals _buildingInfoScreenSignals;
+        private InfoScreenSignals _infoScreenSignals;
         private GridSignals _gridSignals;
         private InputSignals _inputSignals;
 
@@ -25,16 +26,17 @@ namespace Modules.ConnectorModule.RootsContexts
             base.Setup();
 
             _unitsSignals = InjectionBinderCrossContext.GetInstance<UnitsSignals>();
-            _buildingInfoScreenSignals = InjectionBinderCrossContext.GetInstance<BuildingInfoScreenSignals>();
+            _infoScreenSignals = InjectionBinderCrossContext.GetInstance<InfoScreenSignals>();
             _gridSignals = InjectionBinderCrossContext.GetInstance<GridSignals>();
             _inputSignals = InjectionBinderCrossContext.GetInstance<InputSignals>();
 
             IncomingSignals();
+            OutgoingSignals();
         }
 
         private void IncomingSignals()
         {
-            _buildingInfoScreenSignals.Outgoing.UnitRequested.Connect(_unitsSignals.Incoming.SpawnUnit);
+            _infoScreenSignals.Outgoing.UnitRequested.Connect(_unitsSignals.Incoming.SpawnUnit);
 
             _gridSignals.Outgoing.UnitPressed.Connect(_unitsSignals.Incoming.SelectUnit);
             _gridSignals.Outgoing.EmptyPressed.Connect(_unitsSignals.Incoming.ClearSelection);
@@ -51,16 +53,23 @@ namespace Modules.ConnectorModule.RootsContexts
             _inputSignals.Outgoing.PointerPressedOverUI.Connect(_unitsSignals.Incoming.ClearSelection);
         }
 
+        private void OutgoingSignals()
+        {
+            _unitsSignals.Outgoing.UnitSelected.Connect(_infoScreenSignals.Incoming.ShowUnitInfo);
+            _unitsSignals.Outgoing.SelectionCleared.Connect(_infoScreenSignals.Incoming.HideUnitInfo);
+        }
+
         public override void DestroyContext()
         {
             UnbindIncomingSignals();
+            UnbindOutgoingSignals();
 
             base.DestroyContext();
         }
 
         private void UnbindIncomingSignals()
         {
-            _buildingInfoScreenSignals.Outgoing.UnitRequested.Disconnect();
+            _infoScreenSignals.Outgoing.UnitRequested.Disconnect();
             _gridSignals.Outgoing.UnitPressed.Disconnect();
             _gridSignals.Outgoing.EmptyPressed.Disconnect();
             _gridSignals.Outgoing.BuildingPressed.Disconnect();
@@ -69,6 +78,12 @@ namespace Modules.ConnectorModule.RootsContexts
             _gridSignals.Outgoing.UnitDamaged.Disconnect();
             _gridSignals.Outgoing.UnitDestroyed.Disconnect();
             _inputSignals.Outgoing.PointerPressedOverUI.Disconnect();
+        }
+
+        private void UnbindOutgoingSignals()
+        {
+            _unitsSignals.Outgoing.UnitSelected.Disconnect();
+            _unitsSignals.Outgoing.SelectionCleared.Disconnect();
         }
     }
 }

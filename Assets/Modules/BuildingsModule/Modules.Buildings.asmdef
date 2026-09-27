@@ -8,7 +8,8 @@
     "Unity.RenderPipelines.Core.Runtime",
     "Modules.Units.Shared",
     "Modules.Grid.Shared",
-    "Modules.Gameplay.Shared"
+    "Modules.Gameplay.Shared",
+    "Unity.TextMeshPro"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

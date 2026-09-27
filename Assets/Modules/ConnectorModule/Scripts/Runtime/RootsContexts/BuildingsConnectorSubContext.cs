@@ -1,6 +1,6 @@
 using FlowIoC.BaseModule.Connectors;
 using FlowIoC.BaseModule.Contexts;
-using Modules.BuildingsModule.BuildingInfoScreenModule.Signals;
+using Modules.GameplayModule.InfoScreenModule.Signals;
 using Modules.BuildingsModule.ProductionMenuScreenModule.Signals;
 using Modules.BuildingsModule.Signals;
 using Modules.GridModule.Signals;
@@ -20,7 +20,7 @@ namespace Modules.ConnectorModule.RootsContexts
     {
         private BuildingsSignals _buildingsSignals;
         private ProductionMenuScreenSignals _productionMenuScreenSignals;
-        private BuildingInfoScreenSignals _buildingInfoScreenSignals;
+        private InfoScreenSignals _infoScreenSignals;
         private InputSignals _inputSignals;
         private GridSignals _gridSignals;
 
@@ -30,7 +30,7 @@ namespace Modules.ConnectorModule.RootsContexts
 
             _buildingsSignals = InjectionBinderCrossContext.GetInstance<BuildingsSignals>();
             _productionMenuScreenSignals = InjectionBinderCrossContext.GetInstance<ProductionMenuScreenSignals>();
-            _buildingInfoScreenSignals = InjectionBinderCrossContext.GetInstance<BuildingInfoScreenSignals>();
+            _infoScreenSignals = InjectionBinderCrossContext.GetInstance<InfoScreenSignals>();
             _inputSignals = InjectionBinderCrossContext.GetInstance<InputSignals>();
             _gridSignals = InjectionBinderCrossContext.GetInstance<GridSignals>();
 
@@ -58,8 +58,8 @@ namespace Modules.ConnectorModule.RootsContexts
         private void OutgoingSignals()
         {
             // The info screen shows the selected building and closes when nothing is selected.
-            _buildingsSignals.Outgoing.BuildingSelected.Connect(_buildingInfoScreenSignals.Incoming.ShowBuildingInfo);
-            _buildingsSignals.Outgoing.SelectionCleared.Connect(_buildingInfoScreenSignals.Incoming.HideBuildingInfo);
+            _buildingsSignals.Outgoing.BuildingSelected.Connect(_infoScreenSignals.Incoming.ShowBuildingInfo);
+            _buildingsSignals.Outgoing.SelectionCleared.Connect(_infoScreenSignals.Incoming.HideBuildingInfo);
 
             // Input reads a press's moves only while a building is being placed.
             _buildingsSignals.Outgoing.PlacementStarted.Connect(_inputSignals.Incoming.StartListeningToDrag);

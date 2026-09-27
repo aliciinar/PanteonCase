@@ -14,5 +14,8 @@ namespace Modules.BuildingsModule.Shared.Data.UnityObjects
     public class CD_Buildings : ScriptableObject
     {
         public SerializedDictionary<BuildType, BuildingCVO> Buildings = new();
+
+        [Tooltip("The colour a selected building's sprite is tinted with on the board. A vertex colour, so it still batches.")]
+        public Color SelectedTint = new(1f, 0.85f, 0.3f, 1f);
     }
 }

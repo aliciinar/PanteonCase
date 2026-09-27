@@ -6,12 +6,15 @@ using UnityEngine;
 namespace Modules.BuildingsModule.Shared.Data.ValueObjects
 {
     /// <summary>
-    /// One building as the designer authors it: how the menu and the board show it, its footprint, its
-    /// health, and - for a building that produces units - what it produces and where they appear.
+    /// One building as the designer authors it: its name, how the menu and the board show it, its footprint,
+    /// its health, and - for a building that produces units - what it produces and where they appear.
     /// </summary>
     [Serializable]
     public class BuildingCVO
     {
+        [Tooltip("The name the player reads: on the production menu card, under the placement prompt and in the information panel.")]
+        public string Name;
+
         [Tooltip("The building's card image in the production menu.")]
         public Sprite Icon;
 

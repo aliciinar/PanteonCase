@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace Modules.UnitsModule.Shared.Data.ValueObjects
 {
-    /// <summary>One unit as the designer authors it: how it looks, how much health it has and how hard it hits.</summary>
+    /// <summary>One unit as the designer authors it: its name, how it looks, how much health it has and how hard it hits.</summary>
     [Serializable]
     public class UnitCVO
     {
+        [Tooltip("The name the player reads - on the production card and in the information panel.")]
+        public string Name;
+
         [Tooltip("The unit on the board and in the information panel. A unit covers one cell.")]
         public Sprite Sprite;
 

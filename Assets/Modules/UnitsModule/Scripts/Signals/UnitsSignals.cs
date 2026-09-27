@@ -45,6 +45,12 @@ namespace Modules.UnitsModule.Signals
         /// <summary>A unit of this type was asked for, but no cell of the board is free.</summary>
         public Signal<UnitType> NoRoomForUnit = new();
 
+        /// <summary>A unit was selected: which one and its health now.</summary>
+        public Signal<UnitInfoVO> UnitSelected = new();
+
+        /// <summary>The selected unit is no longer selected - another press cleared it, or it was destroyed.</summary>
+        public Signal SelectionCleared = new();
+
         /// <summary>A strike landed on this, for this much damage.</summary>
         public Signal<CellOccupantVO, int> AttackLanded = new();
 
