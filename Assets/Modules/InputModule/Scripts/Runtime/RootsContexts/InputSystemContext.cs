@@ -35,15 +35,17 @@ namespace Modules.InputModule.RootsContexts
         {
             base.CommandBindings();
 
-            // The pointer is read every frame only while a press lasts, through IUpdateProvider.
+            // The pointer is read every frame only while a button is down, through IUpdateProvider.
             CommandBinder.Bind(_internalSignals.PressStarted).ToSequence<StartPointerPollingCommand>();
+            CommandBinder.Bind(_internalSignals.PressesEnded).ToSequence<StopPointerPollingCommand>();
 
             // A press is announced from start to end only when it began on the world, not over UI.
             CommandBinder.Bind(_internalSignals.PointerPressed).ToSequence<BeginPressCommand>();
             CommandBinder.Bind(_internalSignals.PointerDragged).ToSequence<ContinuePressCommand>();
-            CommandBinder.Bind(_internalSignals.PointerReleased)
-                .ToSequence<EndPressCommand>()
-                .ToSequence<StopPointerPollingCommand>();
+            CommandBinder.Bind(_internalSignals.PointerReleased).ToSequence<EndPressCommand>();
+
+            // A secondary press is announced where it went down, when that is on the world.
+            CommandBinder.Bind(_internalSignals.SecondaryPressed).ToSequence<SecondaryPressCommand>();
 
             // The pointer's moves are read only while someone needs them - a building being placed - from
             // StartListeningToDrag to StopListeningToDrag. Presses and releases are always heard.

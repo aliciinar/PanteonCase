@@ -5,6 +5,7 @@ using FlowIoC.BaseModule.SharedData;
 using Modules.UnitsModule.Shared.Data.UnityObjects;
 using Modules.UnitsModule.Shared.Data.ValueObjects;
 using Modules.UnitsModule.Shared.Enums;
+using UnityEngine;
 
 namespace Modules.UnitsModule.Models
 {
@@ -21,8 +22,14 @@ namespace Modules.UnitsModule.Models
         public bool IsDeconstructed { get; set; }
 
         public IReadOnlyDictionary<UnitType, UnitCVO> Units { get; private set; }
+        public Color SelectedTint { get; private set; }
 
-        public void PostConstruct() => Units = _sharedDataModel.GetScriptable<CD_Units>().Units;
+        public void PostConstruct()
+        {
+            var config = _sharedDataModel.GetScriptable<CD_Units>();
+            Units = config.Units;
+            SelectedTint = config.SelectedTint;
+        }
 
         public void Deconstruct()
         {

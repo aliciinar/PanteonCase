@@ -22,13 +22,17 @@ namespace Modules.InputModule.Signals
     }
 
     /// <summary>
-    /// A press of the pointer that started on the game world, not over UI, from start to end. Every
-    /// position is in world units.
+    /// A press of the pointer that started on the game world, not over UI, from start to end, and a
+    /// secondary press on the world. Every position is in world units. A press over UI is only said to
+    /// have happened.
     /// </summary>
     public class InputSignalsOutgoing
     {
         /// <summary>The pointer was pressed on the world here.</summary>
         public Signal<Vector2> PointerPressed = new();
+
+        /// <summary>The pointer was pressed over UI - a HUD panel, a card, a button. What it pressed is the UI's own business.</summary>
+        public Signal PointerPressedOverUI = new();
 
         /// <summary>
         /// The press goes on and the pointer has moved here - only between StartListeningToDrag and
@@ -38,5 +42,8 @@ namespace Modules.InputModule.Signals
 
         /// <summary>The press ended here.</summary>
         public Signal<Vector2> PointerReleased = new();
+
+        /// <summary>The secondary button (right mouse button) was pressed on the world here.</summary>
+        public Signal<Vector2> PointerSecondaryPressed = new();
     }
 }

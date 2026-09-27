@@ -6,24 +6,23 @@ using Modules.UnitsModule.ViewsMediators;
 
 namespace Modules.UnitsModule.RootsContexts
 {
-
     public class UnitsSystemContext : Context
     {
-		private UnitsSignals _signals;
-
-		private UnitsInternalSignals _internalSignals;
+        private UnitsSignals _signals;
+        private UnitsInternalSignals _internalSignals;
 
         public override void SignalBindings()
         {
             base.SignalBindings();
-			_internalSignals = InjectionBinder.Bind<UnitsInternalSignals>();
-			_signals = InjectionBinderCrossContext.Bind<UnitsSignals>();
+            _internalSignals = InjectionBinder.Bind<UnitsInternalSignals>();
+            _signals = InjectionBinderCrossContext.Bind<UnitsSignals>();
         }
 
         public override void InjectionBindings()
         {
             base.InjectionBindings();
             InjectionBinder.Bind<IUnitsModel, UnitsModel>();
+            InjectionBinder.Bind<IUnitSelectionModel, UnitSelectionModel>();
         }
 
         public override void MediationBindings()
@@ -42,16 +41,18 @@ namespace Modules.UnitsModule.RootsContexts
                 .ToSequence<FindUnitGoalCommand>()
                 .ToSequence<PlanUnitPathCommand>()
                 .ToSequence<ShowUnitCommand>();
-        }
 
-        public override void Setup()
-        {
-            base.Setup();
-        }
+            // A pressed unit is selected and tinted; a press anywhere else leaves no unit selected.
+            CommandBinder.Bind(_signals.Incoming.SelectUnit).ToSequence<SelectUnitCommand>();
+            CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<ClearUnitSelectionCommand>();
 
-        public override void Launch()
-        {
-            base.Launch();
+            // A free cell ordered with the selected unit: it takes the cell and walks there by A*, around buildings.
+            CommandBinder.Bind(_signals.Incoming.MoveSelectedUnit)
+                .ToSequence<PlanUnitMoveCommand>()
+                .ToSequence<MoveUnitCommand>();
+
+            // Every cell a walking unit steps into is kept by the grid, so a new order turns the unit where it is.
+            CommandBinder.Bind(_internalSignals.UnitStepped).ToSequence<TrackUnitStepCommand>();
         }
     }
 }

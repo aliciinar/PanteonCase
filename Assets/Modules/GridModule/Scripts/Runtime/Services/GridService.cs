@@ -95,6 +95,16 @@ namespace Modules.GridModule.Services
                 cells[cell.x, cell.y].Occupant = occupant;
         }
 
+        public void MoveOccupant(BoardUnitVO unit, Vector2Int to)
+        {
+            CellVO[,] cells = _gridModel.Cells;
+            cells[unit.Cell.x, unit.Cell.y].Occupant = null;
+            cells[to.x, to.y].Occupant = unit;
+            unit.Cell = to;
+        }
+
+        public void StepUnit(BoardUnitVO unit, Vector2Int cell) => unit.StepCell = cell;
+
         public Vector2Int? FindNearestFreeAreaBfs(Vector2Int size) =>
             _functionProvider.Call<FindNearestFreeAreaBfsFunction>().AddParams(size)
                              .ExecuteAndGetResult<Vector2Int?>();

@@ -12,10 +12,10 @@ using UnityEngine;
 namespace Modules.UnitsModule.Controllers
 {
     /// <summary>
-    /// Puts a unit on the board and sets it walking. The planned cells arrive from the step before it
-    /// and are turned into world points - the first one where it appears, the rest where it walks - a
-    /// unit comes out of the pool (group "units", warmed while the game loaded) and the units view does
-    /// the rest.
+    /// Puts a unit on the board and sets it walking. The unit and its planned cells arrive from the step
+    /// before it and the cells are turned into world points - the first one where it appears, the rest
+    /// where it walks - a unit comes out of the pool (group "units", warmed while the game loaded) and the
+    /// units view does the rest. Speed is CD_Units' cells per second, in world units.
     /// </summary>
     internal class ShowUnitCommand : Command<UnitMoveVO>
     {
@@ -29,7 +29,7 @@ namespace Modules.UnitsModule.Controllers
 
         public override void Execute(UnitMoveVO move)
         {
-            UnitCVO unit = _unitsModel.Units[move.Type];
+            UnitCVO unit = _unitsModel.Units[move.Unit.Type];
             Rect spawnArea = CellRect(move.Path[0]);
 
             var waypoints = new Vector3[move.Path.Count - 1];
@@ -37,7 +37,8 @@ namespace Modules.UnitsModule.Controllers
                 waypoints[i - 1] = CellRect(move.Path[i]).center;
 
             var boardUnit = _poolService.Get<BoardUnit>(UnitPoolKey, null);
-            _internalSignals.ShowUnit.Dispatch(new PlacedUnitVO(boardUnit, move.Type, unit.Sprite, spawnArea, waypoints, unit.MoveSpeed));
+            _internalSignals.ShowUnit.Dispatch(new PlacedUnitVO(move.Unit, boardUnit, unit.Sprite, spawnArea, waypoints,
+                                                                unit.MoveSpeed * _gridService.CellSize));
         }
 
         private Rect CellRect(Vector2Int cell) => _gridService.AreaToWorldRect(new RectInt(cell, Vector2Int.one));

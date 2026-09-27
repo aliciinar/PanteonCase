@@ -14,8 +14,11 @@ namespace Modules.InputModule.Signals
     /// </summary>
     internal class InputInternalSignals : ISignalHolder
     {
-        /// <summary>A press has started: the view is polled every frame from now until it ends.</summary>
+        /// <summary>A button went down: the view is polled every frame from now until PressesEnded.</summary>
         public Signal PressStarted = new();
+
+        /// <summary>Neither button is down any more: the view is not polled until the next PressStarted.</summary>
+        public Signal PressesEnded = new();
 
         /// <summary>
         /// Once a frame while a press lasts, from IUpdateProvider: read the pointer. Kept out of the
@@ -29,5 +32,6 @@ namespace Modules.InputModule.Signals
         public Signal<Vector2> PointerPressed = new();
         public Signal<Vector2> PointerDragged = new(hideCommandLog: true);
         public Signal<Vector2> PointerReleased = new();
+        public Signal<Vector2> SecondaryPressed = new();
     }
 }

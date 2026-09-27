@@ -21,9 +21,11 @@ namespace Modules.InputModule.ViewsMediators
             _internalSignals.DragListening.AddListener(_view.ListenToDrag);
 
             _view.PressStarted += OnPressStarted;
+            _view.PressesEnded += OnPressesEnded;
             _view.PointerPressed += OnPointerPressed;
             _view.PointerDragged += OnPointerDragged;
             _view.PointerReleased += OnPointerReleased;
+            _view.SecondaryPressed += OnSecondaryPressed;
         }
 
         public void OnRemove()
@@ -32,17 +34,23 @@ namespace Modules.InputModule.ViewsMediators
             _internalSignals.DragListening.RemoveListener(_view.ListenToDrag);
 
             _view.PressStarted -= OnPressStarted;
+            _view.PressesEnded -= OnPressesEnded;
             _view.PointerPressed -= OnPointerPressed;
             _view.PointerDragged -= OnPointerDragged;
             _view.PointerReleased -= OnPointerReleased;
+            _view.SecondaryPressed -= OnSecondaryPressed;
         }
 
         private void OnPressStarted() => _internalSignals.PressStarted.Dispatch();
+
+        private void OnPressesEnded() => _internalSignals.PressesEnded.Dispatch();
 
         private void OnPointerPressed(Vector2 screenPosition) => _internalSignals.PointerPressed.Dispatch(screenPosition);
 
         private void OnPointerDragged(Vector2 screenPosition) => _internalSignals.PointerDragged.Dispatch(screenPosition);
 
         private void OnPointerReleased(Vector2 screenPosition) => _internalSignals.PointerReleased.Dispatch(screenPosition);
+
+        private void OnSecondaryPressed(Vector2 screenPosition) => _internalSignals.SecondaryPressed.Dispatch(screenPosition);
     }
 }

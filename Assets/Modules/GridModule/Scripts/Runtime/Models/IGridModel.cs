@@ -17,5 +17,11 @@ namespace Modules.GridModule.Models
 
         /// <summary>Every cell, indexed [column, row]. Held by RD_Grid; this is the asset's array.</summary>
         CellVO[,] Cells { get; set; }
+
+        /// <summary>
+        /// Whether a press on the board is picked - answered with what it landed on. Not while a building is being
+        /// placed: then a press only moves that building.
+        /// </summary>
+        bool IsPicking { get; set; }
     }
 }

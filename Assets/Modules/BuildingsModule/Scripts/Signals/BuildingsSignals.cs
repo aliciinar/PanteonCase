@@ -35,10 +35,10 @@ namespace Modules.BuildingsModule.Signals
         /// <summary>The press ended here.</summary>
         public Signal<Vector2> PointerReleased = new();
 
-        /// <summary>A building on the board was pressed: select it. Ignored while a building waits to be placed.</summary>
+        /// <summary>A building on the board was pressed: select it.</summary>
         public Signal<BoardBuildingVO> SelectBuilding = new();
 
-        /// <summary>Something other than a building was pressed: nothing is selected. Ignored while a building waits to be placed.</summary>
+        /// <summary>Something other than a building was pressed: nothing is selected.</summary>
         public Signal ClearSelection = new();
 
     }
@@ -54,10 +54,13 @@ namespace Modules.BuildingsModule.Signals
         /// <summary>The player pressed away from the selected building; nothing is selected any more.</summary>
         public Signal SelectionCleared = new();
 
-        /// <summary>A building is being placed: its ghost waits on the board and presses move it, so a press's drags are wanted until PlacementEnded.</summary>
+        /// <summary>
+        /// A building is being placed: its ghost waits on the board and presses move it, so a press's drags are wanted
+        /// and nothing else may take a press until PlacementEnded.
+        /// </summary>
         public Signal PlacementStarted = new();
 
-        /// <summary>The placement was confirmed or cancelled: nothing needs a press's drags any more.</summary>
+        /// <summary>The placement was confirmed or cancelled: nothing needs a press's drags any more, and presses are free again.</summary>
         public Signal PlacementEnded = new();
     }
 }

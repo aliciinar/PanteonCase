@@ -59,11 +59,11 @@ namespace Modules.BuildingsModule.RootsContexts
 
             CommandBinder.Bind(_signals.Incoming.PointerReleased).ToSequence<ReleasePlacementCommand>();
 
-            // The grid says what a press landed on. A building is announced as selected, with its door and
-            // spawn point, so its information shows; anything else clears the selection. Neither while a
-            // building waits to be placed.
+            // The grid says what a press landed on - and says nothing while a building waits to be placed. A
+            // building is announced as selected, with its door and spawn point, so its information shows;
+            // anything else clears the selection.
             CommandBinder.Bind(_signals.Incoming.SelectBuilding).ToSequence<SelectBuildingCommand>();
-            CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<ClearBuildingSelectionCommand>();
+            CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<SignalDispatchCommand>(_signals.Outgoing.SelectionCleared);
 
             // Green tick: the building is put on the grid - its cells hold its data from now on - and is
             // built there. The placement travels from step to step, so the preview is hidden last -

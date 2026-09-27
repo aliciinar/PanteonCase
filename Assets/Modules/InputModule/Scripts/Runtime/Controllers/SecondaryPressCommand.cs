@@ -1,7 +1,6 @@
 using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Function.Provider;
 using FlowIoC.BaseModule.Injectable.Attributes;
-using Modules.InputModule.Models;
 using Modules.InputModule.Signals;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,30 +8,22 @@ using UnityEngine.EventSystems;
 namespace Modules.InputModule.Controllers
 {
     /// <summary>
-    /// A press began. Over UI - a HUD panel, a production card, the placement prompt - it belongs to
-    /// the UI: only that it happened is announced, nothing of where, and no drag or release of it follows.
-    /// On the world it is announced in world units.
+    /// The secondary button went down. Over UI it belongs to the UI and is not announced; on the world it
+    /// is announced in world units. A secondary press has no drag or release anyone needs.
     /// </summary>
-    internal class BeginPressCommand : Command
+    internal class SecondaryPressCommand : Command
     {
-        [Inject]       private IPointerModel     _pointerModel     { get; set; }
         [Inject]       private IFunctionProvider _functionProvider { get; set; }
         [InjectSignal] private InputSignals      _signals          { get; set; }
         [SignalParam]  private Vector2           _screenPosition   { get; set; }
 
         public override void Execute()
         {
-            _pointerModel.BeginPress(!EventSystem.current.IsPointerOverGameObject());
-
-            if (!_pointerModel.IsPressOnWorld)
-            {
-                _signals.Outgoing.PointerPressedOverUI.Dispatch();
-                return;
-            }
+            if (EventSystem.current.IsPointerOverGameObject()) return;
 
             Vector2 world = _functionProvider.Call<ScreenToWorldFunction>().AddParams(_screenPosition)
                                              .ExecuteAndGetResult<Vector2>();
-            _signals.Outgoing.PointerPressed.Dispatch(world);
+            _signals.Outgoing.PointerSecondaryPressed.Dispatch(world);
         }
     }
 }

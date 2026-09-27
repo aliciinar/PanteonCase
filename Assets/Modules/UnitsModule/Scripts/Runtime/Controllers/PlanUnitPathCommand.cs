@@ -40,10 +40,10 @@ namespace Modules.UnitsModule.Controllers
                 path = new List<Vector2Int> { goal };
             }
 
-            int hp = _unitsModel.Units[spawn.Request.Type].Hp;
-            _gridService.Occupy(new RectInt(goal, Vector2Int.one), new BoardUnitVO(spawn.Request.Type, hp));
+            var unit = new BoardUnitVO(spawn.Request.Type, _unitsModel.Units[spawn.Request.Type].Hp, goal);
+            _gridService.Occupy(new RectInt(goal, Vector2Int.one), unit);
 
-            Release(new UnitMoveVO(spawn.Request.Type, path));
+            Release(new UnitMoveVO(unit, path));
         }
     }
 }

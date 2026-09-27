@@ -23,6 +23,7 @@ namespace Modules.GridModule.Models
         public Vector2Int GridSize { get; set; }
         public float CellSize { get; set; }
         public Rect Bounds { get; set; }
+        public bool IsPicking { get; set; } = true;
 
         public CellVO[,] Cells
         {

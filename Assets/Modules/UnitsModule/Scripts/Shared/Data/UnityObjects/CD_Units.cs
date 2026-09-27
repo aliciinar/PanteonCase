@@ -14,5 +14,8 @@ namespace Modules.UnitsModule.Shared.Data.UnityObjects
     public class CD_Units : ScriptableObject
     {
         public SerializedDictionary<UnitType, UnitCVO> Units = new();
+
+        [Tooltip("The colour a selected unit's sprite is tinted with. A vertex colour, so tinted units still batch.")]
+        public Color SelectedTint = new(1f, 0.85f, 0.3f, 1f);
     }
 }

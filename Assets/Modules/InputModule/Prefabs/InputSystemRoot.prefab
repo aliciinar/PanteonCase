@@ -145,3 +145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Modules.Input::Modules.InputModule.ViewsMediators.InputView
   _point: {fileID: -5043678534723316372, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _press: {fileID: 5544769928227021102, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _secondaryPress: {fileID: -203745501709954695, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
