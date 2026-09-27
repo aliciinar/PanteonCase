@@ -18,5 +18,8 @@ namespace Modules.UnitsModule.Shared.Data.ValueObjects
 
         [Tooltip("Walking speed in cells per second.")]
         [Min(0.1f)] public float MoveSpeed = 4f;
+
+        [Tooltip("Seconds a strike takes - the lunge at the target and back. The game waits for it, like for a walk.")]
+        [Min(0.05f)] public float StrikeDuration = 0.3f;
     }
 }

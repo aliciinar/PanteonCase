@@ -31,9 +31,12 @@ namespace Modules.GridModule.RootsContexts
             base.CommandBindings();
 
             // A press on the board is answered with what it landed on: a building, a unit, or nothing. A secondary
-            // press is answered only when it landed on a free cell - an order to go there.
+            // press is an order: to go to a free cell, or to attack what stands on it.
             CommandBinder.Bind(_signals.Incoming.PointerPressed).ToSequence<PickCellCommand>();
             CommandBinder.Bind(_signals.Incoming.PointerSecondaryPressed).ToSequence<PickSecondaryCellCommand>();
+
+            // A strike lowers what it hit; what reaches 0 leaves the board.
+            CommandBinder.Bind(_signals.Incoming.DamageOccupant).ToSequence<DamageOccupantCommand>();
 
             // While a building is being placed a press only moves it, so nothing is picked.
             CommandBinder.Bind(_signals.Incoming.SuspendPicking).ToSequence<SetPickingCommand>(false);

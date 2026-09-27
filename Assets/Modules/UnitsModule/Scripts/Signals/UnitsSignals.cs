@@ -29,11 +29,29 @@ namespace Modules.UnitsModule.Signals
 
         /// <summary>A free cell was ordered: the selected unit, if any, walks there by A*.</summary>
         public Signal<Vector2Int> MoveSelectedUnit = new();
+
+        /// <summary>A building or a unit was ordered attacked: the selected unit, if any, walks up to it and strikes once.</summary>
+        public Signal<CellOccupantVO> AttackWithSelectedUnit = new();
+
+        /// <summary>This unit was struck and still stands - its health is on it: show the hit.</summary>
+        public Signal<BoardUnitVO> UnitDamaged = new();
+
+        /// <summary>This unit was destroyed and is off the board: put it away.</summary>
+        public Signal<BoardUnitVO> RemoveUnit = new();
     }
 
     public class UnitsSignalsOutgoing
     {
         /// <summary>A unit of this type was asked for, but no cell of the board is free.</summary>
         public Signal<UnitType> NoRoomForUnit = new();
+
+        /// <summary>A strike landed on this, for this much damage.</summary>
+        public Signal<CellOccupantVO, int> AttackLanded = new();
+
+        /// <summary>A unit started an action - walking out of its door, walking to a cell, or walking up to strike.</summary>
+        public Signal ActionStarted = new();
+
+        /// <summary>The action is over.</summary>
+        public Signal ActionEnded = new();
     }
 }

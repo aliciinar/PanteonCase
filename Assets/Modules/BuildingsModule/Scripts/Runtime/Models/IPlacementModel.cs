@@ -14,6 +14,9 @@ namespace Modules.BuildingsModule.Models
 
         bool IsWaiting { get; }
 
+        /// <summary>Whether an action is running (RD_GameStatus): then no building is picked, placed or dropped.</summary>
+        bool IsGameLocked { get; }
+
         /// <summary>Whether the pending placement is held by a press and follows the pointer.</summary>
         bool IsDragging { get; }
 

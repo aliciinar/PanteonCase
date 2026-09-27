@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6714883090345358872}
   - component: {fileID: 7422317409910993039}
+  - component: {fileID: 2967277599570441707}
   m_Layer: 0
   m_Name: GameplaySystemRoot
   m_TagString: Untagged
@@ -63,3 +64,29 @@ MonoBehaviour:
   AutoSetup: 1
   AutoLaunch: 1
   IsTest: 0
+--- !u!114 &2967277599570441707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486889424014116514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f39bbf08b2e417abc79bcaf1de79c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FlowIoC::FlowIoC.BaseModule.Adapters.RootAdapter
+  _scriptableMap:
+    m_Keys: []
+    m_Values: []
+  _sharedScriptableMap:
+    m_Keys:
+    - RD_GameStatus
+    m_Values:
+    - {fileID: 11400000, guid: cd271be6b1c6c8b4caff04ca1540a4b4, type: 2}
+  _monoMap:
+    m_Keys: []
+    m_Values: []
+  _sharedMonoMap:
+    m_Keys: []
+    m_Values: []

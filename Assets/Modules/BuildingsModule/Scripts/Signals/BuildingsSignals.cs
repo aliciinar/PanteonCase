@@ -41,6 +41,12 @@ namespace Modules.BuildingsModule.Signals
         /// <summary>Something other than a building was pressed: nothing is selected.</summary>
         public Signal ClearSelection = new();
 
+        /// <summary>This building was struck and still stands - its health is on it: show the hit.</summary>
+        public Signal<BoardBuildingVO> BuildingDamaged = new();
+
+        /// <summary>This building was destroyed and is off the board: put it away.</summary>
+        public Signal<BoardBuildingVO> RemoveBuilding = new();
+
     }
 
     public class BuildingsSignalsOutgoing

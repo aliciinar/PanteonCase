@@ -19,7 +19,8 @@
     "Modules.Units.Shared",
     "Modules.BuildingInfo.Screen.Signals",
     "Modules.Grid.Signals",
-    "Modules.Grid.Shared"
+    "Modules.Grid.Shared",
+    "Modules.Gameplay.Signals"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

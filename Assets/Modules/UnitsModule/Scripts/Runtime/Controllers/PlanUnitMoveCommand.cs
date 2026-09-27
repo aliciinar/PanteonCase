@@ -12,10 +12,10 @@ using UnityEngine;
 namespace Modules.UnitsModule.Controllers
 {
     /// <summary>
-    /// The selected unit is ordered to a free cell: the walk is the grid's A* from where the unit is - the cell it
-    /// stands on, or is stepping into while it walks - around buildings; units walk through units, as they do out of
-    /// a door. The unit takes its new cell right away, so no other unit is sent there, and frees the one it held.
-    /// With no unit selected, or no way to the cell - it is walled in by buildings - nothing happens.
+    /// The selected unit is ordered to a free cell: the walk is the grid's A* from the cell it stands on, around
+    /// buildings - units walk through units, as they do out of a door. The unit takes its new cell right away, so no
+    /// other unit is sent there, and frees the one it held. With no unit selected, or no way to the cell - it is
+    /// walled in by buildings - nothing happens.
     /// </summary>
     internal class PlanUnitMoveCommand : Command
     {
@@ -34,10 +34,10 @@ namespace Modules.UnitsModule.Controllers
                 return;
             }
 
-            List<Vector2Int> path = _gridService.FindPathAStar(unit.StepCell, _target, CellOccupantType.Building);
+            List<Vector2Int> path = _gridService.FindPathAStar(unit.Cell, _target, CellOccupantType.Building);
             if (path == null)
             {
-                FlowLogger.Log($"PlanUnitMoveCommand - the {unit.Type} has no way from {unit.StepCell} to {_target}; it stays.");
+                FlowLogger.Log($"PlanUnitMoveCommand - the {unit.Type} has no way from {unit.Cell} to {_target}; it stays.");
                 Stop();
                 return;
             }

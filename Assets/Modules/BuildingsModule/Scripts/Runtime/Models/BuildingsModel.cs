@@ -20,6 +20,7 @@ namespace Modules.BuildingsModule.Models
         public bool IsDeconstructed { get; set; }
 
         public IReadOnlyDictionary<BuildType, BuildingCVO> Buildings { get; private set; }
+        public Transform BoardParent => _root.transform;
 
         public void PostConstruct() =>
             Buildings = _root.GetComponent<RootAdapter>().GetScriptable<CD_Buildings>().Buildings;

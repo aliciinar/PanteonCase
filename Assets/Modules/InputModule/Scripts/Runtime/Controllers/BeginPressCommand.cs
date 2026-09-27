@@ -11,7 +11,8 @@ namespace Modules.InputModule.Controllers
     /// <summary>
     /// A press began. Over UI - a HUD panel, a production card, the placement prompt - it belongs to
     /// the UI: only that it happened is announced, nothing of where, and no drag or release of it follows.
-    /// On the world it is announced in world units.
+    /// On the world it is announced in world units. While an action runs (RD_GameStatus) nothing of the
+    /// press is announced, wherever it is.
     /// </summary>
     internal class BeginPressCommand : Command
     {
@@ -22,6 +23,13 @@ namespace Modules.InputModule.Controllers
 
         public override void Execute()
         {
+            if (_pointerModel.IsGameLocked)
+            {
+                // Not on the world: none of this press - drag or release - is announced either.
+                _pointerModel.BeginPress(false);
+                return;
+            }
+
             _pointerModel.BeginPress(!EventSystem.current.IsPointerOverGameObject());
 
             if (!_pointerModel.IsPressOnWorld)

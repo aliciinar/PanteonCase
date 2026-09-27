@@ -9,6 +9,9 @@ namespace Modules.InputModule.Models
         /// </summary>
         bool IsPressOnWorld { get; }
 
+        /// <summary>Whether an action is running (RD_GameStatus): then no press is announced at all.</summary>
+        bool IsGameLocked { get; }
+
         /// <summary>A press started - on the world, or over UI.</summary>
         void BeginPress(bool onWorld);
 

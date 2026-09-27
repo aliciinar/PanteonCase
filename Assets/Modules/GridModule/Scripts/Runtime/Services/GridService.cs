@@ -103,7 +103,16 @@ namespace Modules.GridModule.Services
             unit.Cell = to;
         }
 
-        public void StepUnit(BoardUnitVO unit, Vector2Int cell) => unit.StepCell = cell;
+        public void Remove(CellOccupantVO occupant)
+        {
+            CellVO[,] cells = _gridModel.Cells;
+            foreach (Vector2Int cell in occupant.Area.allPositionsWithin)
+                cells[cell.x, cell.y].Occupant = null;
+        }
+
+        public Vector2Int? FindFreeCellAroundBfs(RectInt area, Vector2Int towards) =>
+            _functionProvider.Call<FindFreeCellAroundBfsFunction>().AddParams(area, towards)
+                             .ExecuteAndGetResult<Vector2Int?>();
 
         public Vector2Int? FindNearestFreeAreaBfs(Vector2Int size) =>
             _functionProvider.Call<FindNearestFreeAreaBfsFunction>().AddParams(size)

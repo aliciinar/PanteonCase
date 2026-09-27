@@ -3,7 +3,8 @@
   "references": [
     "FlowIoC",
     "Modules.Input.Signals",
-    "Unity.InputSystem"
+    "Unity.InputSystem",
+    "Modules.Gameplay.Shared"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

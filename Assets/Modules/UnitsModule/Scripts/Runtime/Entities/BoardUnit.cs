@@ -1,75 +1,59 @@
 using DG.Tweening;
 using FlowIoC.PoolModule.Entities;
+using Modules.GridModule.Shared.Entities;
 using UnityEngine;
 
 namespace Modules.UnitsModule.Entities
 {
     /// <summary>
-    /// A unit on the board: one sprite renderer that walks. Pooled (group "units"), so the same objects
-    /// are reused as units come and go. Walking is a tween along the planned cells at a steady speed -
-    /// how the unit moves is presentation; where it goes was decided before it got here. Selected, its
-    /// sprite is tinted - a vertex colour, so a tinted unit still batches with the rest.
+    /// A unit on the board: one sprite renderer that walks and strikes, and a health bar above it. Pooled (group
+    /// "units"), so the same objects are reused as units come and go. The unit's data - the grid's BoardUnitVO - keeps
+    /// this object as its View, so a command reaches it through the cell the unit stands on and does the work on it:
+    /// the walk, the strike, the tint, the hit. This object only holds what those commands work on, and puts itself
+    /// back the way it came when it returns to the pool.
     /// </summary>
-    public class BoardUnit : PoolableItem
+    public class BoardUnit : PoolableItem, IOccupantView
     {
         [SerializeField] private SpriteRenderer _renderer;
 
-        /// <summary>The unit starts stepping towards this waypoint - the centre of the cell it is walking into.</summary>
-        public System.Action<Vector3> StepStarted;
+        [Tooltip("The health bar, above the unit - hidden while the unit is unhurt.")]
+        [SerializeField] private Transform _healthBar;
 
-        private Tween _walk;
+        [Tooltip("The bar's fill, pivoted on its left end: its x scale is the health left.")]
+        [SerializeField] private Transform _healthFill;
 
-        /// <summary>
-        /// Draws the sprite over a world rect - the cell the unit stands on. The sprite is scaled to the
-        /// rect, so a unit covers one cell whatever the sprite's own pixel size.
-        /// </summary>
-        public void Show(Sprite sprite, Rect area)
-        {
-            _renderer.sprite = sprite;
+        [Tooltip("The colour a hit flashes the sprite with.")]
+        [SerializeField] private Color _hitFlash = new(1f, 0.35f, 0.35f, 1f);
 
-            Vector2 spriteSize = sprite.bounds.size;
-            transform.position = area.center;
-            transform.localScale = new Vector3(area.width / spriteSize.x, area.height / spriteSize.y, 1f);
-        }
+        [Tooltip("Seconds a hit's flash takes, there and back.")]
+        [Min(0.02f)] [SerializeField] private float _hitFlashDuration = 0.2f;
 
-        /// <summary>
-        /// Walks from where the unit is through every waypoint, the last where it stops, replacing any walk under way.
-        /// A first waypoint the unit already stands on is skipped - a unit at rest starts from its own cell.
-        /// </summary>
-        /// <param name="waypoints">The centre of every cell to walk through, one cell apart.</param>
-        /// <param name="unitsPerSecond">Walking speed in world units.</param>
-        public void MoveAlong(Vector3[] waypoints, float unitsPerSecond)
-        {
-            _walk?.Kill();
+        public SpriteRenderer Renderer => _renderer;
+        public Transform HealthBar => _healthBar;
+        public Transform HealthFill => _healthFill;
+        public Color HitFlash => _hitFlash;
+        public float HitFlashDuration => _hitFlashDuration;
 
-            if (waypoints.Length > 0 && waypoints[0] == transform.position)
-                waypoints = waypoints[1..];
+        /// <summary>The action under way - a walk, or a walk and a strike - so a new one can replace it.</summary>
+        public Sequence Action { get; set; }
 
-            if (waypoints.Length == 0) return;
+        /// <summary>The hit flash under way.</summary>
+        public Tween Flash { get; set; }
 
-            // A path tween counts where it starts as waypoint 0, so when waypoint i is reached the unit is on its
-            // way to waypoints[i] - the last index means it has arrived.
-            Vector3[] steps = waypoints;
-            _walk = transform.DOPath(steps, unitsPerSecond, PathType.Linear)
-                             .SetSpeedBased()
-                             .SetEase(Ease.Linear)
-                             .OnWaypointChange(reached =>
-                             {
-                                 if (reached < steps.Length) StepStarted?.Invoke(steps[reached]);
-                             });
-        }
-
-        public void ShowSelected(Color tint) => _renderer.color = tint;
-
-        public void ShowDeselected() => _renderer.color = Color.white;
+        /// <summary>The colour the unit wears when not flashing: white, or the selection tint.</summary>
+        public Color Tint { get; set; } = Color.white;
 
         public override void OnReturnToPool()
         {
-            _walk?.Kill();
-            _walk = null;
-            StepStarted = null;
-            _renderer.sprite = null;
+            Action?.Kill();
+            Action = null;
+            Flash?.Kill();
+            Flash = null;
+            Tint = Color.white;
             _renderer.color = Color.white;
+            _renderer.sprite = null;
+            _healthBar.gameObject.SetActive(false);
+            _healthFill.localScale = Vector3.one;
         }
     }
 }

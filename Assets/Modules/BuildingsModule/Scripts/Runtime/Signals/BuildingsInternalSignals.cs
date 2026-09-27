@@ -12,9 +12,6 @@ namespace Modules.BuildingsModule.Signals
     /// </summary>
     internal class BuildingsInternalSignals : ISignalHolder
     {
-        /// <summary>A placed building the buildings view puts on the board.</summary>
-        public Signal<PlacedBuildingVO> ShowBuilding = new();
-
         /// <summary>Show a placement's ghost and the confirm / cancel prompt beside it.</summary>
         public Signal<PlacementPreviewVO> ShowPlacementPreview = new();
 

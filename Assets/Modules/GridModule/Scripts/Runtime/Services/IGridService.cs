@@ -53,8 +53,14 @@ namespace Modules.GridModule.Services
         /// <summary>Moves the unit to another cell - the same instance, now standing there - and frees the cell it held.</summary>
         void MoveOccupant(BoardUnitVO unit, Vector2Int to);
 
-        /// <summary>The walking unit is now stepping into this cell. It takes nothing: the unit still holds the cell it walks to.</summary>
-        void StepUnit(BoardUnitVO unit, Vector2Int cell);
+        /// <summary>Takes the occupant off the board: every cell it covered is free again.</summary>
+        void Remove(CellOccupantVO occupant);
+
+        /// <summary>
+        /// The free cell next to the area - one of the four steps off one of its cells - nearest <paramref name="towards"/>,
+        /// by breadth-first search out of the area; null when every cell next to it is taken or off the grid.
+        /// </summary>
+        Vector2Int? FindFreeCellAroundBfs(RectInt area, Vector2Int towards);
 
         /// <summary>The bottom-left cell of the free area of this size nearest the grid's centre, by breadth-first search; null when it fits nowhere.</summary>
         Vector2Int? FindNearestFreeAreaBfs(Vector2Int size);

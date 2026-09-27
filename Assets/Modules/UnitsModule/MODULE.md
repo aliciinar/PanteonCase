@@ -1,21 +1,25 @@
 # Units
 
 ## Purpose
-Owns the units of the game: the UnitType every other module names a soldier by, and CD_Units - the one place a unit is defined, with its sprite, health, damage per attack, speed, and the tint a selected unit wears.
+Owns the units of the game: the UnitType every other module names a soldier by, and CD_Units - the one place a unit is defined, with its sprite, health, damage per strike, speed, strike duration, and the tint a selected unit wears.
 
-A unit's data is the grid's `BoardUnitVO` - this module keeps no record of it. Spawning (`Incoming.SpawnUnit`) puts one on the grid at its goal and walks it out of the building's door. The grid says what a press landed on: `Incoming.SelectUnit(BoardUnitVO)` selects and tints it, `Incoming.ClearSelection` - a building, a free cell, off the grid, or any press over UI (Input's `PointerPressedOverUI`: the production menu, the information panel, a button) - untints it. `IUnitSelectionModel` keeps the selected unit, because a later secondary press orders it: `Incoming.MoveSelectedUnit(cell)` → `PlanUnitMoveCommand` (A* from the unit's `StepCell`, around buildings; the unit takes the new cell with `IGridService.MoveOccupant`) → `MoveUnitCommand` (world points, speed-based DOTween walk). While a unit walks, each cell it steps into is reported (`UnitStepped` → `TrackUnitStepCommand` → `IGridService.StepUnit`), so a new order turns it where it is. `PlacedUnitsView` knows which pooled `BoardUnit` shows which `BoardUnitVO`.
+A unit's data is the grid's `BoardUnitVO` - this module keeps no record of it. Spawning (`Incoming.SpawnUnit`) puts one on the grid at its goal and walks it out of the building's door. The grid says what a press landed on: `Incoming.SelectUnit(BoardUnitVO)` selects and tints it, `Incoming.ClearSelection` - a building, a free cell, off the grid, or any press over UI (Input's `PointerPressedOverUI`: the production menu, the information panel, a button) - untints it. `IUnitSelectionModel` keeps the selected unit, because a later secondary press orders it: `Incoming.MoveSelectedUnit(cell)` → `PlanUnitMoveCommand` (A* from the unit's cell, around buildings; the unit takes the new cell with `IGridService.MoveOccupant`) → `MoveUnitCommand` (world points). `Incoming.AttackWithSelectedUnit(target)` → `PlanAttackCommand` (strike from where the unit stands when it is next to the target, otherwise from `IGridService.FindFreeCellAroundBfs(target.Area, unit.Cell)` walked to by A*; nothing when no cell next to the target is free) → `StartAttackCommand` → the unit walks up, lunges once (`CD_Units.StrikeDuration`), and the lunge landing (`UnitStruck` → `StrikeCommand`) announces `Outgoing.AttackLanded(target, Damage)` - the grid lowers the target's health. A struck unit flashes and shows a health bar (`Incoming.UnitDamaged`); a destroyed one (`Incoming.RemoveUnit`) loses its selection and its object goes back to the pool.
+
+**The game is played one action at a time.** Spawning, moving and attacking each end their sequence with `Outgoing.ActionStarted`; the `BoardUnit` sequence finishing (a frame later at the earliest, even with nothing to play) announces `Outgoing.ActionEnded`. The gameplay module locks `RD_GameStatus` in between; `IUnitsModel.IsGameLocked` stops a spawn asked while locked.
+
+**No view maps data to objects.** A unit's `BoardUnitVO.View` is its pooled `BoardUnit` (under UnitsSystemRoot), so a cell leads to the unit and the unit to its object. `BoardUnit` only holds references and its running tweens; the work on it - placing it, walking, striking, tinting, showing a hit, returning it to the pool - is done by the commands and functions in `Controllers/BoardUnits/`, whose tweens call back through the internal `UnitStruck` / `UnitActionFinished`.
 
 ## Known gaps
-- A walking unit is held by the grid at the cell it walks to; pressing where it is on its way does not select it.
 - Units walk through one another while walking; each still stops on a cell of its own.
+- A strike reaches one cell: a target with every cell next to it taken cannot be attacked.
 
 ## Concepts
-unit, soldier, UnitType, CD_Units, UnitCVO, health, hp, damage, attack, selection, SelectedTint, IUnitSelectionModel, move order, right click, MoveSelectedUnit, PlanUnitMoveCommand, A*, StepCell, UnitStepped, BoardUnit, PlacedUnitsView
+unit, soldier, UnitType, CD_Units, UnitCVO, health, hp, damage, attack, selection, SelectedTint, IUnitSelectionModel, move order, right click, MoveSelectedUnit, PlanUnitMoveCommand, attack, strike, AttackWithSelectedUnit, PlanAttackCommand, StrikeWithBoardUnitCommand, PlaceBoardUnitCommand, WalkBoardUnitCommand, ShowBoardUnitHitCommand, RemoveBoardUnitCommand, TintBoardUnitFunction, AppendWalkFunction, CellsToWaypointsFunction, View, StrikeCommand, AttackLanded, FindFreeCellAroundBfs, destroyed, RemoveUnit, pool, health bar, hit flash, action, ActionStarted, ActionEnded, lock, RD_GameStatus, A*, BoardUnit
 
-<!-- FLOWIOC:BEGIN version=1 hash=0521009a | generated by Tools/FlowIoC/Module Scanner - do not edit inside this block -->
+<!-- FLOWIOC:BEGIN version=1 hash=3a2d94ce | generated by Tools/FlowIoC/Module Scanner - do not edit inside this block -->
 **Kind** Main · **Assemblies** Modules.Units, Modules.Units.Shared, Modules.Units.Signals
 **Root** UnitsSystemRoot → UnitsSystemContext
-**Incoming** ClearSelection() · MoveSelectedUnit(Vector2Int) · SelectUnit(BoardUnitVO) · SpawnUnit(UnitSpawnRequestVO)
-**Outgoing** NoRoomForUnit(UnitType)
+**Incoming** AttackWithSelectedUnit(CellOccupantVO) · ClearSelection() · MoveSelectedUnit(Vector2Int) · RemoveUnit(BoardUnitVO) · SelectUnit(BoardUnitVO) · SpawnUnit(UnitSpawnRequestVO) · UnitDamaged(BoardUnitVO)
+**Outgoing** ActionEnded() · ActionStarted() · AttackLanded(CellOccupantVO, int) · NoRoomForUnit(UnitType)
 **Publishes** CD_Units, UnitCVO, UnitSpawnRequestVO, UnitType
 <!-- FLOWIOC:END -->

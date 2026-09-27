@@ -12,7 +12,7 @@ namespace Modules.ConnectorModule.RootsContexts
     /// What the buildings module is told: which building the player picked in its production menu,
     /// every press of the pointer that started on the world -
     /// where it began, where it was dragged, where it ended - and, from the grid, what a press landed on:
-    /// a building selects it, a unit or nothing clears the selection. And what its info screen is told:
+    /// a building selects it, a unit or nothing clears the selection - and what became of a struck building. And what its info screen is told:
     /// the building selected on the board, or that nothing is; and what input is told: that a building
     /// is being placed, so a press's drags are wanted, and that the placement is over.
     /// </summary>
@@ -50,6 +50,9 @@ namespace Modules.ConnectorModule.RootsContexts
             // The unit itself is not the buildings' business - only that the press was not on a building.
             _gridSignals.Outgoing.UnitPressed.Connect(_ => _buildingsSignals.Incoming.ClearSelection.Dispatch());
             _gridSignals.Outgoing.EmptyPressed.Connect(_buildingsSignals.Incoming.ClearSelection);
+
+            _gridSignals.Outgoing.BuildingDamaged.Connect(_buildingsSignals.Incoming.BuildingDamaged);
+            _gridSignals.Outgoing.BuildingDestroyed.Connect(_buildingsSignals.Incoming.RemoveBuilding);
         }
 
         private void OutgoingSignals()
@@ -80,6 +83,8 @@ namespace Modules.ConnectorModule.RootsContexts
             _gridSignals.Outgoing.BuildingPressed.Disconnect();
             _gridSignals.Outgoing.UnitPressed.Disconnect();
             _gridSignals.Outgoing.EmptyPressed.Disconnect();
+            _gridSignals.Outgoing.BuildingDamaged.Disconnect();
+            _gridSignals.Outgoing.BuildingDestroyed.Disconnect();
         }
 
         private void UnbindOutgoingSignals()

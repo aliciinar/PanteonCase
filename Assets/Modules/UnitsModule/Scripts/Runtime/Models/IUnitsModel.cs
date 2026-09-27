@@ -12,5 +12,11 @@ namespace Modules.UnitsModule.Models
 
         /// <summary>The colour a selected unit is tinted with.</summary>
         Color SelectedTint { get; }
+
+        /// <summary>Whether an action is running (RD_GameStatus): then no unit is made.</summary>
+        bool IsGameLocked { get; }
+
+        /// <summary>Where the unit objects on the board hang: the module's Root.</summary>
+        Transform BoardParent { get; }
     }
 }

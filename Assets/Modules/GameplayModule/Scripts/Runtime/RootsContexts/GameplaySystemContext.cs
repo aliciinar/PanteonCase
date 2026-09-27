@@ -1,42 +1,33 @@
-using Modules.GameplayModule.Signals;
 using FlowIoC.BaseModule.Contexts;
+using Modules.GameplayModule.Controllers;
+using Modules.GameplayModule.Models;
+using Modules.GameplayModule.Signals;
 
 namespace Modules.GameplayModule.RootsContexts
 {
-
     public class GameplaySystemContext : Context
     {
-		private GameplaySignals _signals;
+        private GameplaySignals _signals;
 
         public override void SignalBindings()
         {
             base.SignalBindings();
-			_signals = InjectionBinderCrossContext.Bind<GameplaySignals>();
+            _signals = InjectionBinderCrossContext.Bind<GameplaySignals>();
         }
 
         public override void InjectionBindings()
         {
             base.InjectionBindings();
-        }
-
-        public override void MediationBindings()
-        {
-            base.MediationBindings();
+            InjectionBinder.Bind<IGameStatusModel, GameStatusModel>();
         }
 
         public override void CommandBindings()
         {
             base.CommandBindings();
-        }
 
-        public override void Setup()
-        {
-            base.Setup();
-        }
-
-        public override void Launch()
-        {
-            base.Launch();
+            // The game is played one action at a time: while one runs, RD_GameStatus is locked and no order is taken.
+            CommandBinder.Bind(_signals.Incoming.Lock).ToSequence<SetGameLockCommand>(true);
+            CommandBinder.Bind(_signals.Incoming.Unlock).ToSequence<SetGameLockCommand>(false);
         }
     }
 }

@@ -1,6 +1,7 @@
 using FlowIoC.BaseModule.Contexts;
 using FlowIoC.BaseModule.Controller.Commands;
 using Modules.BuildingsModule.Controllers;
+using Modules.BuildingsModule.Controllers.BoardBuildings;
 using Modules.BuildingsModule.Models;
 using Modules.BuildingsModule.Signals;
 using Modules.BuildingsModule.ViewsMediators;
@@ -29,7 +30,6 @@ namespace Modules.BuildingsModule.RootsContexts
         public override void MediationBindings()
         {
             base.MediationBindings();
-            MediationBinder.Bind<PlacedBuildingsView>().To<PlacedBuildingsMediator>();
             MediationBinder.Bind<PlacementPreviewView>().To<PlacementPreviewMediator>();
         }
 
@@ -65,15 +65,19 @@ namespace Modules.BuildingsModule.RootsContexts
             CommandBinder.Bind(_signals.Incoming.SelectBuilding).ToSequence<SelectBuildingCommand>();
             CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<SignalDispatchCommand>(_signals.Outgoing.SelectionCleared);
 
-            // Green tick: the building is put on the grid - its cells hold its data from now on - and is
-            // built there. The placement travels from step to step, so the preview is hidden last -
+            // Green tick: the building is put on the board - its cells hold its data, and its data its object,
+            // from now on. The placement travels from step to step, so the preview is hidden last -
             // SignalDispatchCommand releases no data - and the placement is over: no drags are wanted.
             CommandBinder.Bind(_internalSignals.PlacementConfirmed)
                 .ToSequence<TakePendingPlacementCommand>()
-                .ToSequence<OccupyBuildingAreaCommand>()
-                .ToSequence<ShowBuildingCommand>()
+                .ToSequence<PlaceBoardBuildingCommand>()
                 .ToSequence<SignalDispatchCommand>(_internalSignals.HidePlacementPreview)
                 .ToSequence<SignalDispatchCommand>(_signals.Outgoing.PlacementEnded);
+
+            // A struck building shows the hit; a destroyed one - already off the board - has its object put back
+            // in the pool.
+            CommandBinder.Bind(_signals.Incoming.BuildingDamaged).ToSequence<ShowBoardBuildingHitCommand>();
+            CommandBinder.Bind(_signals.Incoming.RemoveBuilding).ToSequence<ReturnBoardBuildingCommand>();
 
             // Red cross: nothing is placed, the preview goes away and the placement is over.
             CommandBinder.Bind(_internalSignals.PlacementCancelled)
