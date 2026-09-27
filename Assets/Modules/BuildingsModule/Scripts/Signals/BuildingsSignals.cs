@@ -1,6 +1,8 @@
 using FlowIoC.BaseModule.Signals;
+using Modules.BuildingsModule.Shared.Data.ValueObjects;
 using Modules.BuildingsModule.Shared.Enums;
 using Modules.UnitsModule.Shared.Data.ValueObjects;
+using Modules.UnitsModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.BuildingsModule.Signals
@@ -21,7 +23,10 @@ namespace Modules.BuildingsModule.Signals
         /// </summary>
         public Signal<BuildType> PlaceBuilding = new();
 
-        /// <summary>A press began on the world here (world units).</summary>
+        /// <summary>
+        /// A press began on the world here (world units). While a building waits to be placed it moves
+        /// that building; otherwise it selects the building under it, or clears the selection.
+        /// </summary>
         public Signal<Vector2> PointerPressed = new();
 
         /// <summary>The press goes on and the pointer has moved here. Kept out of the Flow Console - it fires every frame of a drag.</summary>
@@ -29,6 +34,9 @@ namespace Modules.BuildingsModule.Signals
 
         /// <summary>The press ended here.</summary>
         public Signal<Vector2> PointerReleased = new();
+
+        /// <summary>The selected building produces a unit of this type; it walks out of the building's door.</summary>
+        public Signal<UnitType> ProduceUnit = new();
     }
 
     public class BuildingsSignalsOutgoing
@@ -38,5 +46,11 @@ namespace Modules.BuildingsModule.Signals
 
         /// <summary>A placed building asks for a unit: which one, the door it comes out of and where it walks to.</summary>
         public Signal<UnitSpawnRequestVO> UnitRequested = new();
+
+        /// <summary>The player selected a building on the board (or pressed the selected one again).</summary>
+        public Signal<BuildingInfoVO> BuildingSelected = new();
+
+        /// <summary>The player pressed away from the selected building; nothing is selected any more.</summary>
+        public Signal SelectionCleared = new();
     }
 }

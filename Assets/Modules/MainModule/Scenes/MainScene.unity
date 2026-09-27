@@ -835,11 +835,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: _poolConfigs.m_Keys.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: _poolConfigs.m_Values.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: '_poolConfigs.m_Keys.Array.data[0]'
@@ -858,6 +858,10 @@ PrefabInstance:
       value: board
       objectReference: {fileID: 0}
     - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
+      propertyPath: '_poolConfigs.m_Keys.Array.data[4]'
+      value: building_info
+      objectReference: {fileID: 0}
+    - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: _poolConfigs.m_Values.Array.data[0].Group
       value: 
       objectReference: {fileID: 11400000, guid: ae4dbe4b8a329c84e9517ed27801d980, type: 2}
@@ -873,6 +877,10 @@ PrefabInstance:
       propertyPath: _poolConfigs.m_Values.Array.data[3].Group
       value: 
       objectReference: {fileID: 11400000, guid: 277e1e18efad3d841b376b753effcfa1, type: 2}
+    - target: {fileID: 7426752600732395206, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
+      propertyPath: _poolConfigs.m_Values.Array.data[4].Group
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e63ffcf9d5264a418bc6eda7a09154e, type: 2}
     - target: {fileID: 7494088446681459491, guid: dba24fc35e779ab4c886fc8ba2195400, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

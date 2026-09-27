@@ -16,7 +16,8 @@
     "Modules.Input.Signals",
     "Modules.Buildings.Signals",
     "Modules.Units.Signals",
-    "Modules.Units.Shared"
+    "Modules.Units.Shared",
+    "Modules.BuildingInfo.Screen.Signals"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -26,7 +26,7 @@ namespace Modules.BuildingsModule.Controllers
             BuildingPlacementVO placement = _placementModel.PendingPlacement;
             Vector2Int cell = _gridService.WorldToCell(_pointer);
 
-            if (placement == null || !_gridService.IsInside(cell))
+            if (!_gridService.IsInside(cell))
             {
                 Stop();
                 return;

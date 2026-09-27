@@ -59,6 +59,17 @@ MonoBehaviour:
     ScreenTag: 0
     ScreenHasShowAnimation: 0
     ScreenHasHideAnimation: 0
+  - ContextScript: {fileID: 11500000, guid: c1cef521f7122b340a47087ad5ca2bbe, type: 3}
+    ContextFullName: Modules.BuildingsModule.BuildingInfoScreenModule.RootsContexts.BuildingInfoScreenContext
+    ContextName: BuildingInfoScreenContext
+    AutoSetup: 1
+    IsTest: 0
+    OverrideScreen: 0
+    ScreenManagerId: 0
+    ScreenLayer: 0
+    ScreenTag: 0
+    ScreenHasShowAnimation: 0
+    ScreenHasHideAnimation: 0
   initializeOrder: 0
   AutoBindInjections: 1
   AutoBindMediations: 1
