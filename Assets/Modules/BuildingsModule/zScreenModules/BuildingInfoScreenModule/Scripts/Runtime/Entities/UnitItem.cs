@@ -25,6 +25,10 @@ namespace Modules.BuildingsModule.BuildingInfoScreenModule.Entities
 
         public override void OnInitialized() => _button.onClick.AddListener(() => Clicked?.Invoke(_unitType));
 
+        // The pool parks a card keeping its world scale, so it comes back carrying the canvas scale factor
+        // it left with; unreset, every trip through the pool shrinks it again.
+        public override void OnGetFromPool() => transform.localScale = Vector3.one;
+
         public override void OnReturnToPool() => Clicked = null;
 
         public void Bind(UnitType unitType, Sprite sprite)
