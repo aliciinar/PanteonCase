@@ -12,7 +12,11 @@ namespace Modules.GameplayModule.InformationScreenModule.ViewsMediators
 
         private readonly Vector3[] _corners = new Vector3[4];
 
-        /// <summary>The panel's area in normalised screen coordinates (0-1, origin bottom-left).</summary>
+        /// <summary>
+        /// The panel's area in normalised screen coordinates (0-1, origin bottom-left), shrunk to the whole pixels
+        /// it paints: at a fractional canvas scale an edge falls mid-pixel, the panel leaves that column unpainted,
+        /// and a camera viewport laid beside the raw edge would round away from it and leave a black seam.
+        /// </summary>
         public Rect MeasureArea()
         {
             Canvas canvas = _panel.GetComponentInParent<Canvas>().rootCanvas;
@@ -22,8 +26,8 @@ namespace Modules.GameplayModule.InformationScreenModule.ViewsMediators
             Vector2 bottomLeft = RectTransformUtility.WorldToScreenPoint(canvasCamera, _corners[0]);
             Vector2 topRight = RectTransformUtility.WorldToScreenPoint(canvasCamera, _corners[2]);
 
-            return Rect.MinMaxRect(bottomLeft.x / Screen.width, bottomLeft.y / Screen.height,
-                                   topRight.x / Screen.width, topRight.y / Screen.height);
+            return Rect.MinMaxRect(Mathf.Ceil(bottomLeft.x) / Screen.width, Mathf.Ceil(bottomLeft.y) / Screen.height,
+                                   Mathf.Floor(topRight.x) / Screen.width, Mathf.Floor(topRight.y) / Screen.height);
         }
 
         /// <summary>
