@@ -31,3 +31,10 @@ MonoBehaviour:
       ProducibleUnits: 
       SpawnPoint: {x: 0, y: 0}
       ExitPoint: {x: 0, y: 0}
+  SelectedTint: {r: 1, g: 0.85, b: 0.3, a: 1}
+  HitFlash: {r: 1, g: 0.35, b: 0.35, a: 1}
+  HitFlashDuration: 0.2
+  HealthBarWidth: 0.8
+  HealthBarInset: 0.2
+  PlacementFitsTint: {r: 0.55, g: 1, b: 0.55, a: 0.7}
+  PlacementBlockedTint: {r: 1, g: 0.4, b: 0.4, a: 0.7}

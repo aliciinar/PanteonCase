@@ -28,6 +28,10 @@ namespace Modules.UnitsModule.Models
 
         public IReadOnlyDictionary<UnitType, UnitCVO> Units { get; private set; }
         public Color SelectedTint { get; private set; }
+        public Color HitFlash { get; private set; }
+        public float HitFlashDuration { get; private set; }
+        public string NoRoomToAttackMessage { get; private set; }
+        public string NoWayMessage { get; private set; }
         public bool IsGameLocked => _gameStatus.IsLocked;
         public Transform BoardParent => _root.transform;
 
@@ -38,6 +42,10 @@ namespace Modules.UnitsModule.Models
             var config = _sharedDataModel.GetScriptable<CD_Units>();
             Units = config.Units;
             SelectedTint = config.SelectedTint;
+            HitFlash = config.HitFlash;
+            HitFlashDuration = config.HitFlashDuration;
+            NoRoomToAttackMessage = config.NoRoomToAttackMessage;
+            NoWayMessage = config.NoWayMessage;
 
             // Filed by GameplaySystemRoot for every module that takes an order.
             _gameStatus = _sharedDataModel.GetScriptable<RD_GameStatus>();

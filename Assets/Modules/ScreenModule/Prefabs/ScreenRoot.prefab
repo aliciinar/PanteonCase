@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2954752605551843113}
   - component: {fileID: 1736705555507732139}
+  - component: {fileID: 7943007667109700152}
   m_Layer: 0
   m_Name: ScreenRoot
   m_TagString: Untagged
@@ -45,7 +46,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be6824c0a4aef743a394c7e05e7a67d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Modules.Screen::Modules.ScreenModule.RootsContexts.ScreenRoot
-  SubContextTypes: []
+  SubContextTypes:
+  - ContextScript: {fileID: 11500000, guid: 5eb09878cbeabbb4dab4ea84dbcaab5e, type: 3}
+    ContextFullName: Modules.ScreenModule.PopupScreenModule.RootsContexts.PopupScreenContext
+    ContextName: PopupScreenContext
+    AutoSetup: 1
+    IsTest: 0
+    OverrideScreen: 0
+    ScreenManagerId: 0
+    ScreenLayer: 0
+    ScreenTag: 0
+    ScreenHasShowAnimation: 0
+    ScreenHasHideAnimation: 0
   initializeOrder: 99
   AutoBindInjections: 1
   AutoBindMediations: 1
@@ -53,6 +65,32 @@ MonoBehaviour:
   AutoSetup: 1
   AutoLaunch: 1
   IsTest: 0
+--- !u!114 &7943007667109700152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021604817494053980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f39bbf08b2e417abc79bcaf1de79c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FlowIoC::FlowIoC.BaseModule.Adapters.RootAdapter
+  _scriptableMap:
+    m_Keys:
+    - CD_PopupScreen
+    m_Values:
+    - {fileID: 11400000, guid: fe9fdb083090e814b9141a090cca1073, type: 2}
+  _sharedScriptableMap:
+    m_Keys: []
+    m_Values: []
+  _monoMap:
+    m_Keys: []
+    m_Values: []
+  _sharedMonoMap:
+    m_Keys: []
+    m_Values: []
 --- !u!1001 &8197000753937167183
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -24,5 +24,8 @@ namespace Modules.UnitsModule.Shared.Data.ValueObjects
 
         [Tooltip("Seconds a strike takes - the lunge at the target and back. The game waits for it, like for a walk.")]
         [Min(0.05f)] public float StrikeDuration = 0.3f;
+
+        [Tooltip("How far the lunge goes towards the target, as a share of the way from the unit's cell to the target's edge.")]
+        [Range(0f, 1f)] public float LungeReach = 0.5f;
     }
 }

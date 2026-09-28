@@ -21,12 +21,6 @@ namespace Modules.BuildingsModule.ViewsMediators
 
         [SerializeField] private BuildingSprite _ghost;
 
-        [Tooltip("The ghost's colour where the building fits.")]
-        [SerializeField] private Color _fitsTint = new(0.55f, 1f, 0.55f, 0.7f);
-
-        [Tooltip("The ghost's colour where the building does not fit.")]
-        [SerializeField] private Color _blockedTint = new(1f, 0.4f, 0.4f, 0.7f);
-
         [Tooltip("World-space canvas holding the two buttons, authored in cells (one canvas unit = one cell).")]
         [SerializeField] private RectTransform _prompt;
 
@@ -48,14 +42,16 @@ namespace Modules.BuildingsModule.ViewsMediators
         /// <param name="sprite">The building the ghost shows.</param>
         /// <param name="area">World rect the building would cover.</param>
         /// <param name="promptCentre">World point the confirm / cancel prompt is centred on.</param>
-        /// <param name="fits">Whether the building fits there: the ghost is tinted green or red, and only a fitting one can be confirmed.</param>
+        /// <param name="fits">Whether the building fits there: only a fitting one can be confirmed.</param>
+        /// <param name="tint">The ghost's colour - CD_Buildings' fits or blocked tint.</param>
         /// <param name="cellSize">Edge of one cell in world units; the prompt is authored in cells.</param>
         /// <param name="buildingName">The building's name, as CD_Buildings gives it.</param>
         /// <param name="size">The building's footprint in cells.</param>
-        public void Show(Sprite sprite, Rect area, Vector2 promptCentre, bool fits, float cellSize, string buildingName, Vector2Int size)
+        public void Show(Sprite sprite, Rect area, Vector2 promptCentre, bool fits, Color tint, float cellSize,
+                         string buildingName, Vector2Int size)
         {
             _ghost.Show(sprite, area);
-            _ghost.Tint(fits ? _fitsTint : _blockedTint);
+            _ghost.Tint(tint);
             _confirmButton.interactable = fits;
             _label.text = $"{buildingName}  {size.x}×{size.y}";
 

@@ -45,6 +45,12 @@ namespace Modules.UnitsModule.Signals
         /// <summary>A unit of this type was asked for, but no cell of the board is free.</summary>
         public Signal<UnitType> NoRoomForUnit = new();
 
+        /// <summary>
+        /// The selected unit could not carry out an order - no free cell next to the target, no way there. The message,
+        /// authored in CD_Units, says why, for the player.
+        /// </summary>
+        public Signal<string> OrderRefused = new();
+
         /// <summary>A unit was selected: which one and its health now.</summary>
         public Signal<UnitInfoVO> UnitSelected = new();
 

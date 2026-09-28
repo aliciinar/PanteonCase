@@ -23,17 +23,9 @@ namespace Modules.BuildingsModule.Entities
         [Tooltip("The bar's fill, pivoted on its left end: its x scale is the health left.")]
         [SerializeField] private Transform _healthFill;
 
-        [Tooltip("The colour a hit flashes the sprite with.")]
-        [SerializeField] private Color _hitFlash = new(1f, 0.35f, 0.35f, 1f);
-
-        [Tooltip("Seconds a hit's flash takes, there and back.")]
-        [Min(0.02f)] [SerializeField] private float _hitFlashDuration = 0.2f;
-
         public BuildingSprite Sprite => _sprite;
         public Transform HealthBar => _healthBar;
         public Transform HealthFill => _healthFill;
-        public Color HitFlash => _hitFlash;
-        public float HitFlashDuration => _hitFlashDuration;
 
         /// <summary>The hit flash under way.</summary>
         public Tween Flash { get; set; }

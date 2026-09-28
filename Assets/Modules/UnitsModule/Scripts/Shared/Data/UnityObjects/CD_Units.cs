@@ -17,5 +17,17 @@ namespace Modules.UnitsModule.Shared.Data.UnityObjects
 
         [Tooltip("The colour a selected unit's sprite is tinted with. A vertex colour, so tinted units still batch.")]
         public Color SelectedTint = new(1f, 0.85f, 0.3f, 1f);
+
+        [Tooltip("The colour a struck unit's sprite flashes with.")]
+        public Color HitFlash = new(1f, 0.35f, 0.35f, 1f);
+
+        [Tooltip("Seconds a hit's flash takes, there and back.")]
+        [Min(0.02f)] public float HitFlashDuration = 0.2f;
+
+        [Tooltip("Told the player when the selected unit is ordered to attack something with no free cell next to it to strike from.")]
+        [TextArea] public string NoRoomToAttackMessage = "There is no free cell next to the target to attack from.";
+
+        [Tooltip("Told the player when the selected unit has no way to where it was ordered - buildings wall it off.")]
+        [TextArea] public string NoWayMessage = "The soldier has no way there.";
     }
 }

@@ -233,8 +233,6 @@ MonoBehaviour:
   _sprite: {fileID: 5133776887579164334}
   _healthBar: {fileID: 2675238058304389139}
   _healthFill: {fileID: 2425850946367313152}
-  _hitFlash: {r: 1, g: 0.35, b: 0.35, a: 1}
-  _hitFlashDuration: 0.2
 --- !u!114 &5133776887579164334
 MonoBehaviour:
   m_ObjectHideFlags: 0

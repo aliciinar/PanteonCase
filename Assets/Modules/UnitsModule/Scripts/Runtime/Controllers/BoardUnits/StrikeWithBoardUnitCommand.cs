@@ -14,8 +14,8 @@ namespace Modules.UnitsModule.Controllers.BoardUnits
 {
     /// <summary>
     /// Plays an attack on the attacker object - reached through its data: it walks its planned cells to the cell it
-    /// strikes from, lunges half-way at the nearest point of its target and back, taking the strike duration CD_Units
-    /// gives. The strike lands as the lunge reaches the target; the lunge ending ends the action.
+    /// strikes from, lunges at the nearest point of its target - as far as its LungeReach - and back, taking the strike
+    /// duration CD_Units gives. The strike lands as the lunge reaches the target; the lunge ending ends the action.
     /// </summary>
     internal class StrikeWithBoardUnitCommand : Command<UnitAttackPlanVO>
     {
@@ -35,7 +35,7 @@ namespace Modules.UnitsModule.Controllers.BoardUnits
             Rect target = _gridService.AreaToWorldRect(plan.Target.Area);
             var strikePoint = new Vector3(Mathf.Clamp(standPoint.x, target.xMin, target.xMax),
                                           Mathf.Clamp(standPoint.y, target.yMin, target.yMax));
-            Vector3 lungePoint = Vector3.Lerp(standPoint, strikePoint, 0.5f);
+            Vector3 lungePoint = Vector3.Lerp(standPoint, strikePoint, config.LungeReach);
             float half = config.StrikeDuration * 0.5f;
 
             UnitsInternalSignals signals = _internalSignals;

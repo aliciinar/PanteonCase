@@ -1,0 +1,20 @@
+{
+  "name": "Modules.Main.Test",
+  "references": [
+    "FlowIoC",
+    "Modules.Main.Signals",
+    "Modules.Main",
+    "Modules.Buildings.Shared",
+    "Modules.Units.Shared",
+    "Unity.RenderPipelines.Core.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

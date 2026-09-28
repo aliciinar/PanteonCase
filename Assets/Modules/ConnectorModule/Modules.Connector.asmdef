@@ -20,7 +20,8 @@
     "Modules.Info.Screen.Signals",
     "Modules.Grid.Signals",
     "Modules.Grid.Shared",
-    "Modules.Gameplay.Signals"
+    "Modules.Gameplay.Signals",
+    "Modules.Popup.Screen.Signals"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

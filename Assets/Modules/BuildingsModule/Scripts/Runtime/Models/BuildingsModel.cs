@@ -27,6 +27,12 @@ namespace Modules.BuildingsModule.Models
 
         public IReadOnlyDictionary<BuildType, BuildingCVO> Buildings { get; private set; }
         public Color SelectedTint { get; private set; }
+        public Color HitFlash { get; private set; }
+        public float HitFlashDuration { get; private set; }
+        public float HealthBarWidth { get; private set; }
+        public float HealthBarInset { get; private set; }
+        public Color PlacementFitsTint { get; private set; }
+        public Color PlacementBlockedTint { get; private set; }
         public Transform BoardParent => _root.transform;
 
         public void PostConstruct()
@@ -34,6 +40,12 @@ namespace Modules.BuildingsModule.Models
             var config = _sharedDataModel.GetScriptable<CD_Buildings>();
             Buildings = config.Buildings;
             SelectedTint = config.SelectedTint;
+            HitFlash = config.HitFlash;
+            HitFlashDuration = config.HitFlashDuration;
+            HealthBarWidth = config.HealthBarWidth;
+            HealthBarInset = config.HealthBarInset;
+            PlacementFitsTint = config.PlacementFitsTint;
+            PlacementBlockedTint = config.PlacementBlockedTint;
         }
 
         public void Deconstruct() { }

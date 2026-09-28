@@ -1,0 +1,17 @@
+{
+  "name": "Modules.Popup.Screen.Test",
+  "references": [
+    "FlowIoC",
+    "Modules.Popup.Screen",
+    "Modules.Popup.Screen.Signals"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

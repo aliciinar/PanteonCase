@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 962d79680389c5540845a485802b40ff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3b2a3a0bacac4647af7f90723b5e23e, type: 3}
   m_Color: {r: 0.35, g: 0.9, b: 0.35, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -199,8 +199,6 @@ MonoBehaviour:
   _renderer: {fileID: 8247998449690428909}
   _healthBar: {fileID: 3540199773902487142}
   _healthFill: {fileID: 5112327616471263470}
-  _hitFlash: {r: 1, g: 0.35, b: 0.35, a: 1}
-  _hitFlashDuration: 0.2
 --- !u!1 &6458228823486129119
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +313,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 962d79680389c5540845a485802b40ff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3b2a3a0bacac4647af7f90723b5e23e, type: 3}
   m_Color: {r: 0.1, g: 0.1, b: 0.1, a: 0.85}
   m_FlipX: 0
   m_FlipY: 0

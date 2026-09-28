@@ -3,6 +3,7 @@ using FlowIoC.BaseModule.Contexts;
 using Modules.GameplayModule.InfoScreenModule.Signals;
 using Modules.GridModule.Signals;
 using Modules.InputModule.Signals;
+using Modules.ScreenModule.PopupScreenModule.Signals;
 using Modules.UnitsModule.Signals;
 
 namespace Modules.ConnectorModule.RootsContexts
@@ -12,12 +13,13 @@ namespace Modules.ConnectorModule.RootsContexts
     /// a press landed on - a unit selects it, anything else clears the selection - and which free cell a secondary
     /// press ordered - a free cell to walk to, or something to attack - and what became of a struck unit; and, from
     /// input, that a press landed on UI, which clears the selection too. What it announces: a selected unit is shown
-    /// in the info screen, and a cleared selection hides it.
+    /// in the info screen, a cleared selection hides it, and a refused order's message is shown in the popup.
     /// </summary>
     public class UnitsConnectorSubContext : Context
     {
         private UnitsSignals _unitsSignals;
         private InfoScreenSignals _infoScreenSignals;
+        private PopupScreenSignals _popupScreenSignals;
         private GridSignals _gridSignals;
         private InputSignals _inputSignals;
 
@@ -27,6 +29,7 @@ namespace Modules.ConnectorModule.RootsContexts
 
             _unitsSignals = InjectionBinderCrossContext.GetInstance<UnitsSignals>();
             _infoScreenSignals = InjectionBinderCrossContext.GetInstance<InfoScreenSignals>();
+            _popupScreenSignals = InjectionBinderCrossContext.GetInstance<PopupScreenSignals>();
             _gridSignals = InjectionBinderCrossContext.GetInstance<GridSignals>();
             _inputSignals = InjectionBinderCrossContext.GetInstance<InputSignals>();
 
@@ -57,6 +60,7 @@ namespace Modules.ConnectorModule.RootsContexts
         {
             _unitsSignals.Outgoing.UnitSelected.Connect(_infoScreenSignals.Incoming.ShowUnitInfo);
             _unitsSignals.Outgoing.SelectionCleared.Connect(_infoScreenSignals.Incoming.HideUnitInfo);
+            _unitsSignals.Outgoing.OrderRefused.Connect(_popupScreenSignals.Incoming.ShowPopup);
         }
 
         public override void DestroyContext()
@@ -84,6 +88,7 @@ namespace Modules.ConnectorModule.RootsContexts
         {
             _unitsSignals.Outgoing.UnitSelected.Disconnect();
             _unitsSignals.Outgoing.SelectionCleared.Disconnect();
+            _unitsSignals.Outgoing.OrderRefused.Disconnect();
         }
     }
 }
