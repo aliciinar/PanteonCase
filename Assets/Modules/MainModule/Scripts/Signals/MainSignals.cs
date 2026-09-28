@@ -21,13 +21,6 @@ namespace Modules.MainModule.Signals
         public class MainSignalsOutgoing
         {
             /// <summary>
-            /// The boot has begun and its screen is up. The fan-out for what may run beside the boot
-            /// without slowing it - an SDK initialising, a profile fetch - reporting its own steps
-            /// into whatever set CD_LoadingSets puts them in.
-            /// </summary>
-            public Signal BootStarted = new();
-
-            /// <summary>
             /// The application has come up. An announcement rather than an order - what should
             /// follow it is the Connector's to join to somebody's Incoming, and MainModule does not
             /// decide that opening the main screen is what starting means.

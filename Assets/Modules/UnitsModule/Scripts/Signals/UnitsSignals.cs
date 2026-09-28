@@ -1,7 +1,6 @@
 using FlowIoC.BaseModule.Signals;
 using Modules.GridModule.Shared.Data.ValueObjects;
 using Modules.UnitsModule.Shared.Data.ValueObjects;
-using Modules.UnitsModule.Shared.Enums;
 using UnityEngine;
 
 namespace Modules.UnitsModule.Signals
@@ -17,7 +16,7 @@ namespace Modules.UnitsModule.Signals
         /// <summary>
         /// Put a unit on the board for a building: it comes out of the building's exit cell - its door -
         /// and walks by A* to the spawn cell, or, when that is taken or off the grid, the free cell nearest
-        /// it. Answered with NoRoomForUnit when no cell is free.
+        /// it. When no cell is free, no unit is made.
         /// </summary>
         public Signal<UnitSpawnRequestVO> SpawnUnit = new();
 
@@ -42,9 +41,6 @@ namespace Modules.UnitsModule.Signals
 
     public class UnitsSignalsOutgoing
     {
-        /// <summary>A unit of this type was asked for, but no cell of the board is free.</summary>
-        public Signal<UnitType> NoRoomForUnit = new();
-
         /// <summary>
         /// The selected unit could not carry out an order - no free cell next to the target, no way there. The message,
         /// authored in CD_Units, says why, for the player.

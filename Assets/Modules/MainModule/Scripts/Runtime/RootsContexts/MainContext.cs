@@ -39,13 +39,11 @@ namespace Modules.MainModule.RootsContexts
 
             // The boot, read top to bottom. The loading screens go into the pool first - nothing is
             // on stage to show that load on - so that Begin opens the loading screen from the pool,
-            // on stage the same frame, and every load after it is drawn on the bar. BootStarted is
-            // the fan-out for what may run beside the boot without slowing it; Started is the
+            // on stage the same frame, and every load after it is drawn on the bar. Started is the
             // fan-out for what waits until the player is in.
             CommandBinder.Bind(_internalSignals.Launch)
                 .ToSequence<IScreenService.Commands.LoadByTag>(LoadingConstants.SCREEN_TAG)
                 .ToSequence<ILoadingService.Commands.Begin>(MainConstants.BOOT_SET)
-                .ToSequence<SignalDispatchCommand>(_mainSignals.Outgoing.BootStarted)
                 .ToParallel<PreloadScreensCommand>()
                 .ToSequence<FillPoolsCommand>()
                 .ToSequence<ILoadingService.Commands.Await>(MainConstants.BOOT_SET)

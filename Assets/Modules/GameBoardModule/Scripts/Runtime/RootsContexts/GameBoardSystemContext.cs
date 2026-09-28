@@ -36,7 +36,6 @@ namespace Modules.GameBoardModule.RootsContexts
         {
             base.CommandBindings();
             CommandBinder.Bind(_signals.Incoming.BuildBoard).ToSequence<BuildGameBoardCommand>();
-            CommandBinder.Bind(_signals.Incoming.FindFreeArea).ToSequence<FindFreeAreaCommand>();
         }
 
         public override void Setup()
