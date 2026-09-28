@@ -32,6 +32,22 @@ namespace Modules.BuildingsModule.Shared.Data.UnityObjects
         [Tooltip("How far below the footprint's top edge the health bar sits, in cells.")]
         [Min(0f)] public float HealthBarInset = 0.2f;
 
+        [Header("Destroyed")]
+        [Tooltip("A destroyed building explodes in puffs of these, each picked at random.")]
+        public Sprite[] ExplosionSprites;
+
+        [Tooltip("How many puffs a destroyed building explodes in: the first at its centre, the rest over its footprint.")]
+        [Min(1)] public int ExplosionCount = 3;
+
+        [Tooltip("Each puff's width, as a share of the footprint's longer side.")]
+        [Min(0.1f)] public float ExplosionSize = 0.9f;
+
+        [Tooltip("Seconds between one puff and the next.")]
+        [Min(0f)] public float ExplosionStagger = 0.08f;
+
+        [Tooltip("Seconds a puff takes to grow and fade.")]
+        [Min(0.05f)] public float ExplosionDuration = 0.5f;
+
         [Header("Placement")]
         [Tooltip("The ghost's colour where the building fits.")]
         public Color PlacementFitsTint = new(0.55f, 1f, 0.55f, 0.7f);

@@ -25,3 +25,15 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
+  - PoolKey: building_explosion
+    InitialCreateCount: 6
+    IsExtendable: 1
+    LazyLoad: 0
+    IsAddressable: 0
+    Prefab: {fileID: 5605906064750058592, guid: b629e9103901edc4eb251039b33fe217, type: 3}
+    AddressablePrefab:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0

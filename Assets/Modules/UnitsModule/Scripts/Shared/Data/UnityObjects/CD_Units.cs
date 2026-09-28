@@ -24,6 +24,16 @@ namespace Modules.UnitsModule.Shared.Data.UnityObjects
         [Tooltip("Seconds a hit's flash takes, there and back.")]
         [Min(0.02f)] public float HitFlashDuration = 0.2f;
 
+        [Header("Destroyed")]
+        [Tooltip("A destroyed unit leaves a puff with one of these, picked at random.")]
+        public Sprite[] ExplosionSprites;
+
+        [Tooltip("How wide the puff grows, in cells.")]
+        [Min(0.1f)] public float ExplosionSize = 1.6f;
+
+        [Tooltip("Seconds the puff takes to grow and fade.")]
+        [Min(0.05f)] public float ExplosionDuration = 0.4f;
+
         [Tooltip("Told the player when the selected unit is ordered to attack something with no free cell next to it to strike from.")]
         [TextArea] public string NoRoomToAttackMessage = "There is no free cell next to the target to attack from.";
 

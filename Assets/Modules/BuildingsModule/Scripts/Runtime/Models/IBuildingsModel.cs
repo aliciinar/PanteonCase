@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Modules.BuildingsModule.Data.ValueObjects;
 using Modules.BuildingsModule.Shared.Data.ValueObjects;
 using Modules.BuildingsModule.Shared.Enums;
 using UnityEngine;
@@ -16,6 +17,9 @@ namespace Modules.BuildingsModule.Models
         /// <summary>The colour a struck building flashes with, and how long the flash takes there and back.</summary>
         Color HitFlash { get; }
         float HitFlashDuration { get; }
+
+        /// <summary>How a destroyed building explodes.</summary>
+        BuildingExplosionVO Explosion { get; }
 
         /// <summary>The share of the footprint's width the health bar spans, and how far below its top edge it sits, in cells.</summary>
         float HealthBarWidth { get; }
