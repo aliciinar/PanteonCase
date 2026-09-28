@@ -20,12 +20,12 @@ namespace Modules.ScreenModule.PopupScreenModule.Models
         public bool IsPostConstructed { get; set; }
         public bool IsDeconstructed { get; set; }
 
-        public PopupAnimationVO Animation { get; private set; }
+        public PopupStyleVO Style { get; private set; }
 
         public void PostConstruct()
         {
             var config = _root.GetComponent<RootAdapter>().GetScriptable<CD_PopupScreen>();
-            Animation = new PopupAnimationVO(config.PopDuration, config.PopFromScale);
+            Style = new PopupStyleVO(config.Icon, config.PopDuration, config.PopFromScale);
         }
 
         public void Deconstruct() { }

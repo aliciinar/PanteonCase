@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75d047cd6e828943ab108c9afdb629b, type: 3}
   m_Name: CD_PopupScreen
   m_EditorClassIdentifier: Modules.Popup.Screen::Modules.ScreenModule.PopupScreenModule.Data.UnityObjects.CD_PopupScreen
+  Icon: {fileID: 21300000, guid: 91771f997cf87d84bb6daa5a084bb2ef, type: 3}
   PopDuration: 0.18
   PopFromScale: 0.85

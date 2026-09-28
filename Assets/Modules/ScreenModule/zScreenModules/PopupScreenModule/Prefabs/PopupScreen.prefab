@@ -423,6 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Modules.Popup.Screen::Modules.ScreenModule.PopupScreenModule.ViewsMediators.PopupScreenView
   _backdrop: {fileID: 8123384015506274728}
   _panel: {fileID: 1716182690115599227}
+  _icon: {fileID: 272054904658497333}
   _message: {fileID: 8354820331402225823}
 --- !u!1 &8372600025252584154
 GameObject:
@@ -489,7 +490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 91771f997cf87d84bb6daa5a084bb2ef, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

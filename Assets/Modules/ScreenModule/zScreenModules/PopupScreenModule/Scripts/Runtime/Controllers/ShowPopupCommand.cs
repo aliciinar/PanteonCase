@@ -35,9 +35,9 @@ namespace Modules.ScreenModule.PopupScreenModule.Controllers
 
             try
             {
-                // The animation is read as the screen activates, before it plays - so it goes in as a parameter.
+                // The icon and the animation are read as the screen activates, before it plays - so they go in as a parameter.
                 PopupScreenView screen = await _screenService.Open<PopupScreenView>()
-                                                             .SetParameters(_popupModel.Animation)
+                                                             .SetParameters(_popupModel.Style)
                                                              .Show<PopupScreenView>();
 
                 if (screen == null)

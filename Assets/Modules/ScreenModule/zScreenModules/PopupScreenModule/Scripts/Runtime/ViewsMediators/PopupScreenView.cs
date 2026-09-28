@@ -20,11 +20,12 @@ namespace Modules.ScreenModule.PopupScreenModule.ViewsMediators
     {
         [SerializeField] private Button _backdrop;
         [SerializeField] private RectTransform _panel;
+        [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _message;
 
         public Action Dismissed;
 
-        private PopupAnimationVO _animation;
+        private PopupStyleVO _style;
         private Tween _pop;
 
         private void OnEnable() => _backdrop.onClick.AddListener(DismissClicked);
@@ -39,19 +40,20 @@ namespace Modules.ScreenModule.PopupScreenModule.ViewsMediators
 
         internal void ShowMessage(string message) => _message.text = message;
 
-        /// <summary>The opening command hands over how the panel pops in (CD_PopupScreen).</summary>
+        /// <summary>The opening command hands over the icon and how the panel pops in (CD_PopupScreen).</summary>
         public override void BeforeScreenActivation()
         {
             base.BeforeScreenActivation();
-            _animation = (PopupAnimationVO)Data.Parameters[0];
+            _style = (PopupStyleVO)Data.Parameters[0];
+            _icon.sprite = _style.Icon;
         }
 
         /// <summary>The panel pops in; the screen takes clicks only once it has.</summary>
         protected override void PlayShowAnimation()
         {
             _pop?.Kill();
-            _panel.localScale = Vector3.one * _animation.FromScale;
-            _pop = _panel.DOScale(1f, _animation.Duration)
+            _panel.localScale = Vector3.one * _style.PopFromScale;
+            _pop = _panel.DOScale(1f, _style.PopDuration)
                          .SetEase(Ease.OutBack)
                          .SetUpdate(true)
                          .OnComplete(() => ShowCompleted?.Invoke(this));
