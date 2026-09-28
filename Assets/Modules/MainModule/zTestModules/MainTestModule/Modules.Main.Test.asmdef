@@ -4,8 +4,13 @@
     "FlowIoC",
     "Modules.Main.Signals",
     "Modules.Main",
+    "Modules.Buildings",
     "Modules.Buildings.Shared",
+    "Modules.Units",
     "Modules.Units.Shared",
+    "Modules.Grid",
+    "Modules.Grid.Shared",
+    "Modules.GameBoard.Signals",
     "Unity.RenderPipelines.Core.Runtime"
   ],
   "includePlatforms": [],

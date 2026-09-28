@@ -6,15 +6,17 @@ The project's frame: it starts the game and asks for the first screen.
 ## Design test scene
 `zTestModules/MainTestModule/Scenes/MainTestScene` is the whole game - a copy of MainScene, every Root still a prefab instance - running on test copies of the design configs, for a designer to change freely without touching what ships: `MainTestModule/Scriptables/` holds `CD_Buildings_Test`, `CD_Units_Test`, `CD_GameBoard_Test`, `CD_ProductionMenu_Test`, `CD_PopupScreen_Test`. Open the scene, edit those assets, press Play.
 - **Where the copies are assigned:** in this scene, on the RootAdapters of the Roots that read them - prefab-instance overrides, so the prefabs and MainScene keep the shipped configs: GameBoardSystemRoot (Scriptables: `CD_GameBoard_Test`), BuildingsSystemRoot (Scriptables: `CD_ProductionMenu_Test`; Shared Scriptables: `CD_Buildings_Test`), UnitsSystemRoot (Shared Scriptables: `CD_Units_Test`), ScreenRoot (Scriptables: `CD_PopupScreen_Test`). `MainTestRoot` (last in the Hierarchy) runs `MainTestContext`, which checks in `Setup` that CD_Buildings / CD_Units read through `ISharedDataModel` are `_Test` copies and logs an error otherwise (someone reverted an override).
+- **The start board:** `Scriptables/RD_Grid_Test` (class `RD_GridTest`, filed in the Shared Scriptables of MainTestRoot's adapter) lists the buildings (`Type`, `Origin` = bottom-left cell) and soldiers (`Type`, `Cell`) the scene starts with; cells count from (0, 0) at the bottom-left. When `GameBoard.Outgoing.BoardBuilt` fires, `MainTestContext.PlaceStartBoard` puts each on the grid at full health - pooled object, `IGridService.Occupy` with a new `BoardBuildingVO` / `BoardUnitVO`, sprite and health bar fitted - mirroring `PlaceBoardBuildingCommand` / `PlaceBoardUnitCommand` without the walk and the lock (user decision: test code only, no production signal). An entry off the grid or on a taken cell is skipped with a `[Design test]` warning. Nothing is saved back. The starter board: Barracks (1, 5), Power Plant (7, 6), Soldier 1-3 at (2-4, 3).
 - **To test another config:** duplicate it into `MainTestModule/Scriptables/` as `<Name>_Test` and drag it onto the entry of the same name on the RootAdapter that files it, in this scene. Never apply these overrides to the prefab.
 - Pool groups, loading sets and the `RD_` runtime assets are shared with production on purpose (user decision).
 
 ## Known gaps
 - A field added to a CD later appears in its `_Test` copy with the code default: the copies are not kept in sync.
 - A Root added to MainScene later is not in the test scene (a scene copy); add it there too.
+- `PlaceStartBoard` copies the production placing steps; if `PlaceBoardBuildingCommand` / `PlaceBoardUnitCommand` change, change it too.
 
 ## Concepts
-startup, entry point, boot, launch, main scene, Core, design test scene, MainTestScene, test configs, _Test, RootAdapter override
+startup, entry point, boot, launch, main scene, Core, design test scene, MainTestScene, test configs, _Test, RootAdapter override, RD_Grid_Test, RD_GridTest, start board, PlaceStartBoard
 
 Update: never
 

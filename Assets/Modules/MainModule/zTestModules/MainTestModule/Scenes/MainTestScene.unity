@@ -940,6 +940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2088729061}
   - component: {fileID: 2088729060}
+  - component: {fileID: 2088729062}
   m_Layer: 0
   m_Name: MainTestRoot
   m_TagString: Untagged
@@ -982,6 +983,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2088729062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088729058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f39bbf08b2e417abc79bcaf1de79c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FlowIoC::FlowIoC.BaseModule.Adapters.RootAdapter
+  _scriptableMap:
+    m_Keys: []
+    m_Values: []
+  _sharedScriptableMap:
+    m_Keys:
+    - RD_GridTest
+    m_Values:
+    - {fileID: 11400000, guid: 333c6feb7276c9b42924e6caa82b38a2, type: 2}
+  _monoMap:
+    m_Keys: []
+    m_Values: []
+  _sharedMonoMap:
+    m_Keys: []
+    m_Values: []
 --- !u!1001 &4110000000000000001
 PrefabInstance:
   m_ObjectHideFlags: 0
