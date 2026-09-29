@@ -65,10 +65,3 @@ crashlytics-build.properties
 Thumbs.db
 Thumbs.db.meta
 Desktop.ini
-
-# ---------------------------------------------------------------------------
-# AI assistant files — kept local, not part of the submission
-# ---------------------------------------------------------------------------
-/.claude/
-/CLAUDE.md
-/AGENTS.md
