@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8481747289063133209}
   - component: {fileID: 522931108737083669}
   m_Layer: 5
-  m_Name: ScreenResizeNotifier
+  m_Name: ScreenResizeView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f7a50d8982d8d9428fabc922944dd58, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Modules.Main::Modules.MainModule.Entities.ScreenResizeNotifier
+  m_EditorClassIdentifier: Modules.Main::Modules.MainModule.Entities.ScreenResizeView
 --- !u!1 &3110000000000000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
     m_Values: []
   _monoMap:
     m_Keys:
-    - ScreenResizeNotifier
+    - ScreenResizeView
     m_Values:
     - {fileID: 522931108737083669}
   _sharedMonoMap:

@@ -25,7 +25,7 @@ namespace Modules.MainModule.RootsContexts
         public override void InjectionBindings()
         {
             base.InjectionBindings();
-            InjectionBinder.Bind<IScreenModel, ScreenModel>();
+            InjectionBinder.Bind<IScreenResizeModel, ScreenResizeModel>();
         }
 
         public override void CommandBindings()
@@ -46,6 +46,8 @@ namespace Modules.MainModule.RootsContexts
 
             // A retry from the loading screen runs the boot again.
             CommandBinder.Bind(_mainSignals.Incoming.RetryBoot).ToSequence<SignalDispatchCommand>(_internalSignals.Launch);
+
+            CommandBinder.Bind(_internalSignals.ScreenSizeChanged).ToSequence<ApplyScreenSizeCommand>();
         }
 
         public override void Launch()
