@@ -36,15 +36,18 @@ MonoBehaviour:
       MoveSpeed: 4
       StrikeDuration: 0.3
       LungeReach: 0.5
-  SelectedTint: {r: 1, g: 0.85, b: 0.3, a: 1}
-  HitFlash: {r: 1, g: 0.35, b: 0.35, a: 1}
-  HitFlashDuration: 0.2
-  ExplosionSprites:
-  - {fileID: 21300000, guid: 73c54aec3e6b4f542906803dbf8dfa8b, type: 3}
-  - {fileID: 21300000, guid: 94a5ddd5d671eae4caa35c13dae37dd9, type: 3}
-  - {fileID: 21300000, guid: 7fb88c91d2cec7c419b5983d845ca29c, type: 3}
-  - {fileID: 21300000, guid: f7e2bc34c8205f4489e965f4b75dc209, type: 3}
-  ExplosionSize: 1.6
-  ExplosionDuration: 0.4
+  SelectedColor: {r: 1, g: 0.85, b: 0.3, a: 1}
+  HitFlash:
+    Color: {r: 1, g: 0.35, b: 0.35, a: 1}
+    Duration: 0.2
+  Explosion:
+    Sprites:
+    - {fileID: 21300000, guid: 73c54aec3e6b4f542906803dbf8dfa8b, type: 3}
+    - {fileID: 21300000, guid: 94a5ddd5d671eae4caa35c13dae37dd9, type: 3}
+    - {fileID: 21300000, guid: 7fb88c91d2cec7c419b5983d845ca29c, type: 3}
+    - {fileID: 21300000, guid: f7e2bc34c8205f4489e965f4b75dc209, type: 3}
+    Size: 1.6
+    StartScale: 0.4
+    Duration: 0.4
   NoRoomToAttackMessage: There is no free cell next to the target to attack from.
   NoWayMessage: The soldier has no way there.

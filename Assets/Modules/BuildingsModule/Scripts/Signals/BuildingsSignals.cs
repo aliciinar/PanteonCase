@@ -57,7 +57,7 @@ namespace Modules.BuildingsModule.Signals
         /// </summary>
         public Signal<BuildingInfoVO> BuildingSelected = new();
 
-        /// <summary>The player pressed away from the selected building; nothing is selected any more.</summary>
+        /// <summary>The selected building is no longer selected - another press cleared it, or it was destroyed.</summary>
         public Signal SelectionCleared = new();
 
         /// <summary>

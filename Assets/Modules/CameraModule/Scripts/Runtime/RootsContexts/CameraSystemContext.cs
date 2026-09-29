@@ -50,15 +50,5 @@ namespace Modules.CameraModule.RootsContexts
 
             CommandBinder.Bind(_signals.Incoming.ScreenResized).ToSequence<FitCameraCommand>();
         }
-
-        public override void Setup()
-        {
-            base.Setup();
-        }
-
-        public override void Launch()
-        {
-            base.Launch();
-        }
     }
 }

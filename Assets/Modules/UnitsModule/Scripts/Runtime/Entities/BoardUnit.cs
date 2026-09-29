@@ -9,7 +9,7 @@ namespace Modules.UnitsModule.Entities
     /// A unit on the board: one sprite renderer that walks and strikes, and a health bar above it. Pooled (group
     /// "units"), so the same objects are reused as units come and go. The unit's data - the grid's BoardUnitVO - keeps
     /// this object as its View, so a command reaches it through the cell the unit stands on and does the work on it:
-    /// the walk, the strike, the tint, the hit. This object only holds what those commands work on, and puts itself
+    /// the walk, the strike, the colour, the hit. This object only holds what those commands work on, and puts itself
     /// back the way it came when it returns to the pool.
     /// </summary>
     public class BoardUnit : PoolableItem, IOccupantView
@@ -32,8 +32,8 @@ namespace Modules.UnitsModule.Entities
         /// <summary>The hit flash under way.</summary>
         public Tween Flash { get; set; }
 
-        /// <summary>The colour the unit wears when not flashing: white, or the selection tint.</summary>
-        public Color Tint { get; set; } = Color.white;
+        /// <summary>The colour the unit wears when not flashing: white, or the selection colour.</summary>
+        public Color BaseColor { get; set; } = Color.white;
 
         public override void OnReturnToPool()
         {
@@ -41,7 +41,7 @@ namespace Modules.UnitsModule.Entities
             Action = null;
             Flash?.Kill();
             Flash = null;
-            Tint = Color.white;
+            BaseColor = Color.white;
             _renderer.color = Color.white;
             _renderer.sprite = null;
             _healthBar.gameObject.SetActive(false);

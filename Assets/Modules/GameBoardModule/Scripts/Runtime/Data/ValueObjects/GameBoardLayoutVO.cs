@@ -1,4 +1,3 @@
-using Modules.GameBoardModule.Entities;
 using Modules.GridModule.Data.ValueObjects;
 using UnityEngine;
 
@@ -19,16 +18,16 @@ namespace Modules.GameBoardModule.Data.ValueObjects
         /// <summary>Every cell, indexed [column, row].</summary>
         public readonly CellVO[,] Cells;
 
-        /// <summary>A pooled cell sprite for every cell, indexed like Cells.</summary>
-        public readonly BoardCell[,] Tiles;
+        /// <summary>The square every cell is drawn with.</summary>
+        public readonly Sprite CellSprite;
 
-        public GameBoardLayoutVO(Rect gridBounds, Rect frameBounds, float cellSize, CellVO[,] cells, BoardCell[,] tiles)
+        public GameBoardLayoutVO(Rect gridBounds, Rect frameBounds, float cellSize, CellVO[,] cells, Sprite cellSprite)
         {
             GridBounds = gridBounds;
             FrameBounds = frameBounds;
             CellSize = cellSize;
             Cells = cells;
-            Tiles = tiles;
+            CellSprite = cellSprite;
         }
     }
 }

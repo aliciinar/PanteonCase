@@ -28,11 +28,6 @@ namespace Modules.MainModule.RootsContexts
             InjectionBinder.Bind<IScreenModel, ScreenModel>();
         }
 
-        public override void MediationBindings()
-        {
-            base.MediationBindings();
-        }
-
         public override void CommandBindings()
         {
             base.CommandBindings();
@@ -51,11 +46,6 @@ namespace Modules.MainModule.RootsContexts
 
             // A retry from the loading screen runs the boot again.
             CommandBinder.Bind(_mainSignals.Incoming.RetryBoot).ToSequence<SignalDispatchCommand>(_internalSignals.Launch);
-        }
-
-        public override void Setup()
-        {
-            base.Setup();
         }
 
         public override void Launch()

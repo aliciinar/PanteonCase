@@ -135,23 +135,5 @@ namespace Modules.BuildingsModule.ProductionMenuScreenModule.ViewsMediators
         private void OnScrollValueChanged(Vector2 normalizedPosition) => Scrolled?.Invoke();
 
         private void OnItemClicked(BuildType buildType) => ItemClicked?.Invoke(buildType);
-
-        /// <summary>
-        /// This method runs if screenData.HasShowAnimation bool is true.
-        /// If you don't use custom animations delete this method.
-        /// </summary>
-        protected override void PlayShowAnimation()
-        {
-            ShowCompleted?.Invoke(this);
-        }
-
-        /// <summary>
-        /// This method runs if screenData.HasHideAnimation bool is true.
-        /// If you don't use custom animations delete this method.
-        /// </summary>
-        protected override void PlayHideAnimation()
-        {
-            HideCompleted?.Invoke(this);
-        }
     }
 }

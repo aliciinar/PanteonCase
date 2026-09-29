@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Modules.CameraModule.Models
 {
-    public class CameraModel : ICameraModel
+    internal class CameraModel : ICameraModel
     {
         private float _left;
         private float _right = 1f;

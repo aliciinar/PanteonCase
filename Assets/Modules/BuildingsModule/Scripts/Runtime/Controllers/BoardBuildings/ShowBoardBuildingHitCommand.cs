@@ -3,6 +3,7 @@ using FlowIoC.BaseModule.Controller;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.BuildingsModule.Entities;
 using Modules.BuildingsModule.Models;
+using Modules.BuildingsModule.Shared.Data.ValueObjects;
 using Modules.GridModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
@@ -24,8 +25,8 @@ namespace Modules.BuildingsModule.Controllers.BoardBuildings
             SpriteRenderer renderer = view.Sprite.Renderer;
 
             view.Flash?.Complete();
-            view.Flash = DOTween.To(() => renderer.color, color => renderer.color = color, _buildingsModel.HitFlash,
-                                    _buildingsModel.HitFlashDuration * 0.5f)
+            HitFlashCVO flash = _buildingsModel.HitFlash;
+            view.Flash = DOTween.To(() => renderer.color, color => renderer.color = color, flash.Color, flash.Duration * 0.5f)
                                 .SetLoops(2, LoopType.Yoyo);
 
             float health = (float)_building.Hp / _building.MaxHp;

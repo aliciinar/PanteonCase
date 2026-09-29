@@ -10,7 +10,7 @@ using UnityEditor;
 namespace Modules.GridModule.Data.UnityObjects
 {
     /// <summary>
-    /// The grid as it stands during play: every cell and what occupies it. Filed on GridServiceRoot's
+    /// The grid as it stands during play: every cell and what occupies it. Filed on GridSystemRoot's
     /// RootAdapter; GridModel keeps this asset, not a copy of its cells, so whoever reads the model
     /// always sees what the asset holds.
     ///

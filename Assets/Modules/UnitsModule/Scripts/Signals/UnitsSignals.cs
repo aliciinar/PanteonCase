@@ -47,7 +47,7 @@ namespace Modules.UnitsModule.Signals
         /// </summary>
         public Signal<string> OrderRefused = new();
 
-        /// <summary>A unit was selected: which one and its health now.</summary>
+        /// <summary>A unit was selected (or the selected one pressed again): which one and its health now.</summary>
         public Signal<UnitInfoVO> UnitSelected = new();
 
         /// <summary>The selected unit is no longer selected - another press cleared it, or it was destroyed.</summary>

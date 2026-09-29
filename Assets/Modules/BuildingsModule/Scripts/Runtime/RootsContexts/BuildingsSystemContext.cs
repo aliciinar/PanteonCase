@@ -61,7 +61,7 @@ namespace Modules.BuildingsModule.RootsContexts
             CommandBinder.Bind(_signals.Incoming.PointerReleased).ToSequence<ReleasePlacementCommand>();
 
             // The grid says what a press landed on - and says nothing while a building waits to be placed. A
-            // building is selected - tinted on the board and announced, with its door and spawn point, so its
+            // building is selected - coloured on the board and announced, with its door and spawn point, so its
             // information shows; anything else clears the selection.
             CommandBinder.Bind(_signals.Incoming.SelectBuilding).ToSequence<SelectBuildingCommand>();
             CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<ClearBuildingSelectionCommand>();
@@ -78,7 +78,7 @@ namespace Modules.BuildingsModule.RootsContexts
             // A struck building shows the hit; a destroyed one - already off the board - has its object put back
             // in the pool.
             CommandBinder.Bind(_signals.Incoming.BuildingDamaged).ToSequence<ShowBoardBuildingHitCommand>();
-            CommandBinder.Bind(_signals.Incoming.RemoveBuilding).ToSequence<ReturnBoardBuildingCommand>();
+            CommandBinder.Bind(_signals.Incoming.RemoveBuilding).ToSequence<RemoveBoardBuildingCommand>();
 
             // Red cross: nothing is placed, the preview goes away and the placement is over.
             CommandBinder.Bind(_internalSignals.PlacementCancelled)

@@ -12,7 +12,7 @@ namespace Modules.MainModule.Models
     /// Takes the ScreenResizeNotifier off MainRoot's adapter and, whenever it reports a new size,
     /// stores it and announces it on MainSignals.Outgoing.ScreenResized.
     /// </summary>
-    public class ScreenModel : IScreenModel, IConstructable
+    internal class ScreenModel : IScreenModel, IConstructable
     {
         [Inject(nameof(MainContext))]
         private GameObject _root { get; set; }

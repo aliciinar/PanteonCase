@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Modules.CameraModule.Models
 {
     /// <summary>What the camera has been told to do: where on screen it draws, and what it keeps in view.</summary>
-    public interface ICameraModel
+    internal interface ICameraModel
     {
         /// <summary>
         /// Normalised screen rect (0-1) the camera draws into: full height, between the left and the

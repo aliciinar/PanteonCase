@@ -4,6 +4,7 @@ using FlowIoC.BaseModule.Injectable.Attributes;
 using Modules.GridModule.Shared.Data.ValueObjects;
 using Modules.UnitsModule.Entities;
 using Modules.UnitsModule.Models;
+using Modules.UnitsModule.Shared.Data.ValueObjects;
 using UnityEngine;
 
 namespace Modules.UnitsModule.Controllers.BoardUnits
@@ -24,9 +25,9 @@ namespace Modules.UnitsModule.Controllers.BoardUnits
             SpriteRenderer renderer = view.Renderer;
 
             view.Flash?.Kill();
-            renderer.color = view.Tint;
-            view.Flash = DOTween.To(() => renderer.color, color => renderer.color = color, _unitsModel.HitFlash,
-                                    _unitsModel.HitFlashDuration * 0.5f)
+            renderer.color = view.BaseColor;
+            HitFlashCVO flash = _unitsModel.HitFlash;
+            view.Flash = DOTween.To(() => renderer.color, color => renderer.color = color, flash.Color, flash.Duration * 0.5f)
                                 .SetLoops(2, LoopType.Yoyo);
 
             float health = (float)_unit.Hp / _unit.MaxHp;

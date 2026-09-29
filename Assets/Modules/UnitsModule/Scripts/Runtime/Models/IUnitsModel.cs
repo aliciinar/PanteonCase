@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Modules.UnitsModule.Data.ValueObjects;
 using Modules.UnitsModule.Shared.Data.ValueObjects;
 using Modules.UnitsModule.Shared.Enums;
 using UnityEngine;
@@ -11,15 +10,14 @@ namespace Modules.UnitsModule.Models
     {
         IReadOnlyDictionary<UnitType, UnitCVO> Units { get; }
 
-        /// <summary>The colour a selected unit is tinted with.</summary>
-        Color SelectedTint { get; }
+        /// <summary>The colour a selected unit wears.</summary>
+        Color SelectedColor { get; }
 
-        /// <summary>The colour a struck unit flashes with, and how long the flash takes there and back.</summary>
-        Color HitFlash { get; }
-        float HitFlashDuration { get; }
+        /// <summary>How a struck unit flashes.</summary>
+        HitFlashCVO HitFlash { get; }
 
         /// <summary>The puff a destroyed unit leaves.</summary>
-        UnitExplosionVO Explosion { get; }
+        UnitExplosionCVO Explosion { get; }
 
         /// <summary>What the player is told when an attack has no free cell next to its target to strike from.</summary>
         string NoRoomToAttackMessage { get; }

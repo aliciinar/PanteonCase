@@ -8,7 +8,7 @@ namespace Modules.UnitsModule.Data.ValueObjects
     /// An attack as planned: the attacking unit, what it strikes - as the grid holds it - and the cells it walks
     /// through to the cell it strikes from; the first is where it stands, a single cell means it strikes from there.
     /// </summary>
-    public class UnitAttackPlanVO
+    internal class UnitAttackPlanVO
     {
         public BoardUnitVO Attacker { get; }
         public CellOccupantVO Target { get; }

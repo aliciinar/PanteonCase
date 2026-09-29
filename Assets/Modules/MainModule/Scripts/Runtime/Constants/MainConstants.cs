@@ -7,9 +7,9 @@ namespace Modules.MainModule.Constants
         public const string POOLS_STEP = "Pools";
 
         /// <summary>
-        /// The pool groups the boot fills before the main screen opens. Empty in the shipped set, so
-        /// the Pools step skips; a game lists its group keys here.
+        /// The pool groups the boot fills before the main screen opens; an empty list makes the Pools
+        /// step skip.
         /// </summary>
-        public static readonly string[] BootPoolGroups = { "board", "buildings", "board_buildings", "units", "building_info" };
+        public static readonly string[] BootPoolGroups = { "buildings", "board_buildings", "units", "building_info" };
     }
 }

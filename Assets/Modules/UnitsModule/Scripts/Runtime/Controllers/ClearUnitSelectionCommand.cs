@@ -27,7 +27,7 @@ namespace Modules.UnitsModule.Controllers
             if (previous == null) return;
 
             _selectionModel.ClearSelection();
-            _functionProvider.Call<TintBoardUnitFunction>().AddParams((BoardUnit)previous.View, Color.white).Execute();
+            _functionProvider.Call<ColorBoardUnitFunction>().AddParams((BoardUnit)previous.View, Color.white).Execute();
 
             _signals.Outgoing.SelectionCleared.Dispatch();
         }

@@ -15,24 +15,14 @@ namespace Modules.UnitsModule.Shared.Data.UnityObjects
     {
         public SerializedDictionary<UnitType, UnitCVO> Units = new();
 
-        [Tooltip("The colour a selected unit's sprite is tinted with. A vertex colour, so tinted units still batch.")]
-        public Color SelectedTint = new(1f, 0.85f, 0.3f, 1f);
+        [Tooltip("The colour a selected unit's sprite wears. A vertex colour, so coloured units still batch.")]
+        public Color SelectedColor = new(1f, 0.85f, 0.3f, 1f);
 
-        [Tooltip("The colour a struck unit's sprite flashes with.")]
-        public Color HitFlash = new(1f, 0.35f, 0.35f, 1f);
+        [Tooltip("How a struck unit flashes.")]
+        public HitFlashCVO HitFlash = new();
 
-        [Tooltip("Seconds a hit's flash takes, there and back.")]
-        [Min(0.02f)] public float HitFlashDuration = 0.2f;
-
-        [Header("Destroyed")]
-        [Tooltip("A destroyed unit leaves a puff with one of these, picked at random.")]
-        public Sprite[] ExplosionSprites;
-
-        [Tooltip("How wide the puff grows, in cells.")]
-        [Min(0.1f)] public float ExplosionSize = 1.6f;
-
-        [Tooltip("Seconds the puff takes to grow and fade.")]
-        [Min(0.05f)] public float ExplosionDuration = 0.4f;
+        [Tooltip("The puff a destroyed unit leaves.")]
+        public UnitExplosionCVO Explosion = new();
 
         [Tooltip("Told the player when the selected unit is ordered to attack something with no free cell next to it to strike from.")]
         [TextArea] public string NoRoomToAttackMessage = "There is no free cell next to the target to attack from.";

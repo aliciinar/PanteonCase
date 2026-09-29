@@ -4,7 +4,7 @@ namespace Modules.BuildingsModule.Models
 {
     /// <summary>
     /// The building the player selected, kept so that the next press - another building, or anything else - can take
-    /// the selection tint off it: two presses apart, so it has to be kept. It holds the grid's own instance, never a
+    /// the selection colour off it: two presses apart, so it has to be kept. It holds the grid's own instance, never a
     /// copy.
     /// </summary>
     internal interface IBuildingSelectionModel

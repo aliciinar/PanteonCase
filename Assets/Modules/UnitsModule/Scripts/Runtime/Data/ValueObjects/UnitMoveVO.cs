@@ -8,7 +8,7 @@ namespace Modules.UnitsModule.Data.ValueObjects
     /// A unit - as the grid holds it - and the cells it walks through: the first is where it starts, the last where it
     /// stops. A single cell means it stays where it is. Handed from step to step of a spawn or of a move order.
     /// </summary>
-    public class UnitMoveVO
+    internal class UnitMoveVO
     {
         public BoardUnitVO Unit { get; }
         public IReadOnlyList<Vector2Int> Path { get; }

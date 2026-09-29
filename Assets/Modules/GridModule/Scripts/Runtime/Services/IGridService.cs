@@ -35,6 +35,12 @@ namespace Modules.GridModule.Services
 
         bool IsInside(Vector2Int cell);
 
+        /// <summary>How many four-neighbour steps lie between two cells - their Manhattan distance, obstacles ignored.</summary>
+        int Steps(Vector2Int from, Vector2Int to);
+
+        /// <summary>Whether the cell is outside the area and one neighbour step from one of its cells.</summary>
+        bool IsNextTo(Vector2Int cell, RectInt area);
+
         /// <summary>The world rect an area of cells covers.</summary>
         Rect AreaToWorldRect(RectInt area);
 

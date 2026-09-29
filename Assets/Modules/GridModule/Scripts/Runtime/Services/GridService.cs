@@ -52,6 +52,16 @@ namespace Modules.GridModule.Services
             return cell.x >= 0 && cell.y >= 0 && cell.x < gridSize.x && cell.y < gridSize.y;
         }
 
+        public int Steps(Vector2Int from, Vector2Int to) => Mathf.Abs(from.x - to.x) + Mathf.Abs(from.y - to.y);
+
+        public bool IsNextTo(Vector2Int cell, RectInt area)
+        {
+            if (area.Contains(cell)) return false;
+
+            var nearest = new Vector2Int(Mathf.Clamp(cell.x, area.xMin, area.xMax - 1), Mathf.Clamp(cell.y, area.yMin, area.yMax - 1));
+            return Steps(cell, nearest) == 1;
+        }
+
         public Rect AreaToWorldRect(RectInt area)
         {
             float cellSize = _gridModel.CellSize;

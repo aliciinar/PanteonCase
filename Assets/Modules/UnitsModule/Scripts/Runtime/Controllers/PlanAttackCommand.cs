@@ -40,7 +40,7 @@ namespace Modules.UnitsModule.Controllers
             }
 
             RectInt area = _target.Area;
-            Vector2Int? strikeCell = IsNextTo(attacker.Cell, area)
+            Vector2Int? strikeCell = _gridService.IsNextTo(attacker.Cell, area)
                 ? attacker.Cell
                 : _gridService.FindFreeCellAroundBfs(area, attacker.Cell);
 
@@ -63,16 +63,6 @@ namespace Modules.UnitsModule.Controllers
 
             if (strikeCell.Value != attacker.Cell) _gridService.MoveOccupant(attacker, strikeCell.Value);
             Release(new UnitAttackPlanVO(attacker, _target, path));
-        }
-
-        /// <summary>Whether the cell is outside the area and one neighbour step from one of its cells.</summary>
-        private static bool IsNextTo(Vector2Int cell, RectInt area)
-        {
-            if (area.Contains(cell)) return false;
-
-            int nearestX = Mathf.Clamp(cell.x, area.xMin, area.xMax - 1);
-            int nearestY = Mathf.Clamp(cell.y, area.yMin, area.yMax - 1);
-            return Mathf.Abs(cell.x - nearestX) + Mathf.Abs(cell.y - nearestY) == 1;
         }
     }
 }

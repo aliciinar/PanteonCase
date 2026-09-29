@@ -29,23 +29,5 @@ namespace Modules.GameplayModule.InformationScreenModule.ViewsMediators
             return Rect.MinMaxRect(Mathf.Ceil(bottomLeft.x) / Screen.width, Mathf.Ceil(bottomLeft.y) / Screen.height,
                                    Mathf.Floor(topRight.x) / Screen.width, Mathf.Floor(topRight.y) / Screen.height);
         }
-
-        /// <summary>
-        /// This method runs if screenData.HasShowAnimation bool is true.
-        /// If you don't use custom animations delete this method.
-        /// </summary>
-        protected override void PlayShowAnimation()
-        {
-            ShowCompleted?.Invoke(this);
-        }
-
-        /// <summary>
-        /// This method runs if screenData.HasHideAnimation bool is true.
-        /// If you don't use custom animations delete this method.
-        /// </summary>
-        protected override void PlayHideAnimation()
-        {
-            HideCompleted?.Invoke(this);
-        }
     }
 }

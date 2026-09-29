@@ -8,7 +8,7 @@ namespace Modules.UnitsModule.Data.ValueObjects
     /// A unit to put on the board and the cells it walks through: the first is its building's door, where it appears,
     /// the last its goal, where it stops and which it holds. A single cell means it appears on the goal itself.
     /// </summary>
-    public class UnitSpawnPlanVO
+    internal class UnitSpawnPlanVO
     {
         public UnitType Type { get; }
         public IReadOnlyList<Vector2Int> Path { get; }

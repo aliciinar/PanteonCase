@@ -21,5 +21,8 @@ namespace Modules.GameBoardModule.Data.ValueObjects
 
         [Tooltip("Gap between the grid and the frame drawn around it, in cells.")]
         [Min(0)] public float FramePaddingInCells = 1f;
+
+        [Tooltip("The square every cell is drawn with. Scaled to the cell, whatever its own size; its darker edge, next to its neighbours', draws the grid.")]
+        public Sprite CellSprite;
     }
 }

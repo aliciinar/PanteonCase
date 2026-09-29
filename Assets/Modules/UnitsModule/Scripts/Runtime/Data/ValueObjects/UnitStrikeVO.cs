@@ -6,7 +6,7 @@ namespace Modules.UnitsModule.Data.ValueObjects
     /// Who strikes what, as the grid holds them. One value rather than two signal parameters: a unit is also a cell
     /// occupant, so two parameters could not be told apart by type.
     /// </summary>
-    public class UnitStrikeVO
+    internal class UnitStrikeVO
     {
         public BoardUnitVO Attacker { get; }
         public CellOccupantVO Target { get; }

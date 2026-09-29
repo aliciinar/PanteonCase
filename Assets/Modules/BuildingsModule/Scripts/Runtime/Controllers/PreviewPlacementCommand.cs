@@ -11,7 +11,7 @@ namespace Modules.BuildingsModule.Controllers
 {
     /// <summary>
     /// Shows a placement as a preview and keeps it waiting for the player's answer. The preview is the
-    /// building's ghost over its area - in CD_Buildings' fits / blocked tint, and only a fitting
+    /// building's ghost over its area - in CD_Buildings' fits / blocked colour, and only a fitting
     /// one can be confirmed - with the confirm / cancel prompt beside it: centred one row above the
     /// area, or one row below when the area already reaches the board's top row and the prompt would
     /// leave the board - and the building's name and footprint written under the prompt. A new placement
@@ -37,9 +37,9 @@ namespace Modules.BuildingsModule.Controllers
             var promptCentre = new Vector2(area.center.x, fitsAbove ? area.yMax + halfCell : area.yMin - halfCell);
 
             BuildingCVO building = _buildingsModel.Buildings[placement.Type];
-            Color tint = fits ? _buildingsModel.PlacementFitsTint : _buildingsModel.PlacementBlockedTint;
+            Color color = fits ? _buildingsModel.PlacementFitsColor : _buildingsModel.PlacementBlockedColor;
             _internalSignals.ShowPlacementPreview.Dispatch(new PlacementPreviewVO(building.BoardSprite, area, promptCentre, fits,
-                                                                                  tint, cellSize, building.Name, building.Size));
+                                                                                  color, cellSize, building.Name, building.Size));
         }
     }
 }

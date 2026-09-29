@@ -11,8 +11,9 @@ using UnityEngine;
 namespace Modules.BuildingsModule.Controllers
 {
     /// <summary>
-    /// Something other than a building was pressed: the building that was selected, if any, wears white again and no
-    /// building is selected. That nothing is selected is announced either way - the info screen hides only when open.
+    /// Something other than a building was pressed: no building is selected any more, the object of the one that was -
+    /// reached through its data - wears white again, and the cleared selection is announced. With nothing selected
+    /// nothing changes and nothing is announced.
     /// </summary>
     internal class ClearBuildingSelectionCommand : Command
     {
@@ -23,11 +24,10 @@ namespace Modules.BuildingsModule.Controllers
         public override void Execute()
         {
             BoardBuildingVO previous = _selectionModel.Selected;
-            if (previous != null)
-            {
-                _selectionModel.ClearSelection();
-                _functionProvider.Call<TintBoardBuildingFunction>().AddParams((BoardBuilding)previous.View, Color.white).Execute();
-            }
+            if (previous == null) return;
+
+            _selectionModel.ClearSelection();
+            _functionProvider.Call<ColorBoardBuildingFunction>().AddParams((BoardBuilding)previous.View, Color.white).Execute();
 
             _signals.Outgoing.SelectionCleared.Dispatch();
         }

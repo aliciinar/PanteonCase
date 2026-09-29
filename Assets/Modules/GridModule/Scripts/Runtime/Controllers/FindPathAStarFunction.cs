@@ -22,51 +22,61 @@ namespace Modules.GridModule.Controllers
     /// The open set is a SortedSet of (f, h, order) - .NET Standard 2.1 has no priority queue - and a cell reached
     /// again by a shorter walk is simply added again; the stale entry is skipped when it comes out, because the
     /// cell is closed by then.
+    ///
+    /// The function provider pools this function, so its working sets are kept and cleared on every run rather than
+    /// made anew for each order; only the walk it returns is new.
     /// </summary>
     internal class FindPathAStarFunction : FunctionReturn<List<Vector2Int>, Vector2Int, Vector2Int, CellOccupantType>
     {
         [Inject] private IGridService _gridService { get; set; }
 
+        private readonly SortedSet<(int f, int h, int order)> _open = new();
+        private readonly Dictionary<int, Vector2Int> _openCells = new();
+        private readonly Dictionary<Vector2Int, int> _walked = new();
+        private readonly Dictionary<Vector2Int, Vector2Int> _cameFrom = new();
+        private readonly HashSet<Vector2Int> _closed = new();
+
         public override List<Vector2Int> Execute(Vector2Int start, Vector2Int goal, CellOccupantType blockedBy)
         {
             CellVO[,] cells = _gridService.Cells;
 
-            var open = new SortedSet<(int f, int h, int order)>();
-            var openCells = new Dictionary<int, Vector2Int>();
-            var walked = new Dictionary<Vector2Int, int> { [start] = 0 };
-            var cameFrom = new Dictionary<Vector2Int, Vector2Int>();
-            var closed = new HashSet<Vector2Int>();
+            _open.Clear();
+            _openCells.Clear();
+            _walked.Clear();
+            _cameFrom.Clear();
+            _closed.Clear();
             int order = 0;
 
-            int startH = Distance(start, goal);
-            open.Add((startH, startH, order));
-            openCells[order++] = start;
+            _walked[start] = 0;
+            int startH = _gridService.Steps(start, goal);
+            _open.Add((startH, startH, order));
+            _openCells[order++] = start;
 
-            while (open.Count > 0)
+            while (_open.Count > 0)
             {
-                (int f, int h, int order) best = open.Min;
-                open.Remove(best);
-                Vector2Int cell = openCells[best.order];
-                openCells.Remove(best.order);
+                (int f, int h, int order) best = _open.Min;
+                _open.Remove(best);
+                Vector2Int cell = _openCells[best.order];
+                _openCells.Remove(best.order);
 
-                if (!closed.Add(cell)) continue;
-                if (cell == goal) return Walk(cameFrom, cell);
+                if (!_closed.Add(cell)) continue;
+                if (cell == goal) return Walk(cell);
 
                 foreach (Vector2Int step in GridConstants.NeighbourSteps)
                 {
                     Vector2Int next = cell + step;
-                    if (!_gridService.IsInside(next) || closed.Contains(next)) continue;
+                    if (!_gridService.IsInside(next) || _closed.Contains(next)) continue;
                     if (IsBlocked(cells[next.x, next.y], blockedBy)) continue;
 
-                    int nextWalked = walked[cell] + 1;
-                    if (walked.TryGetValue(next, out int known) && nextWalked >= known) continue;
+                    int nextWalked = _walked[cell] + 1;
+                    if (_walked.TryGetValue(next, out int known) && nextWalked >= known) continue;
 
-                    walked[next] = nextWalked;
-                    cameFrom[next] = cell;
+                    _walked[next] = nextWalked;
+                    _cameFrom[next] = cell;
 
-                    int nextH = Distance(next, goal);
-                    open.Add((nextWalked + nextH, nextH, order));
-                    openCells[order++] = next;
+                    int nextH = _gridService.Steps(next, goal);
+                    _open.Add((nextWalked + nextH, nextH, order));
+                    _openCells[order++] = next;
                 }
             }
 
@@ -75,14 +85,12 @@ namespace Modules.GridModule.Controllers
 
         private static bool IsBlocked(CellVO cell, CellOccupantType blockedBy) => !cell.IsFree && cell.Occupant.Kind == blockedBy;
 
-        private static int Distance(Vector2Int a, Vector2Int b) => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
-
-        private static List<Vector2Int> Walk(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int goal)
+        private List<Vector2Int> Walk(Vector2Int goal)
         {
             var walk = new List<Vector2Int> { goal };
             Vector2Int cell = goal;
 
-            while (cameFrom.TryGetValue(cell, out Vector2Int previous))
+            while (_cameFrom.TryGetValue(cell, out Vector2Int previous))
             {
                 walk.Add(previous);
                 cell = previous;

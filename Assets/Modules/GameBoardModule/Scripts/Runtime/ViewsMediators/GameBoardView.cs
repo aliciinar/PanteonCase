@@ -1,15 +1,16 @@
+using System;
 using FlowIoC.BaseModule.Injectable.Components;
 using FlowIoC.BaseModule.ViewsMediators.View;
-using Modules.GameBoardModule.Entities;
 using Modules.GridModule.Data.ValueObjects;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Modules.GameBoardModule.ViewsMediators
 {
     /// <summary>
-    /// The board in the scene: a 9-sliced frame and a grey sprite per cell, parented under Cells, whose
-    /// darker edges draw the grid. The cell sprites are pooled and share one sprite and one material, so
-    /// the grid batches together. Sizes and positions come from the layout BuildGameBoardCommand computes.
+    /// The board in the scene: a 9-sliced frame, and a tilemap with one tile of the cell sprite per cell, whose darker
+    /// edges draw the grid. The tilemap is one mesh, built once when the board is drawn and never again - no object
+    /// per cell. Sizes and positions come from the layout BuildGameBoardCommand computes.
     /// </summary>
     [RequireComponent(typeof(ViewInjector))]
     public class GameBoardView : MonoBehaviour, IView
@@ -18,8 +19,14 @@ namespace Modules.GameBoardModule.ViewsMediators
 
         [SerializeField] private SpriteRenderer _frame;
 
-        [Tooltip("Parent of the cell sprites.")]
-        [SerializeField] private Transform _cells;
+        [Tooltip("Lays the tiles out: moved to the grid's bottom-left corner and scaled so that one tile is one cell.")]
+        [SerializeField] private Grid _grid;
+
+        [Tooltip("Holds a tile for every cell, under the grid.")]
+        [SerializeField] private Tilemap _tilemap;
+
+        /// <summary>The one tile every cell shows; made when the board is drawn.</summary>
+        private Tile _tile;
 
         /// <summary>The cells last drawn, indexed [column, row]. Empty until the board is built. Read by the editor gizmos.</summary>
         internal CellVO[,] Cells { get; private set; } = new CellVO[0, 0];
@@ -27,11 +34,12 @@ namespace Modules.GameBoardModule.ViewsMediators
         /// <summary>Edge of one cell in world units.</summary>
         internal float CellSize { get; private set; }
 
+        /// <param name="gridBounds">World rect the cells cover.</param>
         /// <param name="frameBounds">World rect the frame fills.</param>
         /// <param name="cellSize">Edge of one cell in world units.</param>
         /// <param name="cells">Every cell, indexed [column, row].</param>
-        /// <param name="tiles">A pooled cell sprite for every cell, indexed like cells.</param>
-        public void Draw(Rect frameBounds, float cellSize, CellVO[,] cells, BoardCell[,] tiles)
+        /// <param name="cellSprite">The square every cell is drawn with, scaled to the cell.</param>
+        public void Draw(Rect gridBounds, Rect frameBounds, float cellSize, CellVO[,] cells, Sprite cellSprite)
         {
             Cells = cells;
             CellSize = cellSize;
@@ -40,16 +48,23 @@ namespace Modules.GameBoardModule.ViewsMediators
             _frame.transform.position = frameBounds.center;
             _frame.size = frameBounds.size;
 
-            for (int column = 0; column < cells.GetLength(0); column++)
-            {
-                for (int row = 0; row < cells.GetLength(1); row++)
-                {
-                    BoardCell tile = tiles[column, row];
-                    tile.name = $"Cell {column},{row}";
-                    tile.transform.SetParent(_cells, false);
-                    tile.Show(cells[column, row].Position, cellSize);
-                }
-            }
+            // A tile is drawn at its sprite's own size; the grid's cells are made that size, then the grid is scaled
+            // so that one of them is one board cell.
+            float spriteSize = cellSprite.bounds.size.x;
+            _grid.cellSize = new Vector3(spriteSize, spriteSize, 0f);
+            _grid.transform.position = gridBounds.min;
+            _grid.transform.localScale = Vector3.one * (cellSize / spriteSize);
+
+            _tile = ScriptableObject.CreateInstance<Tile>();
+            _tile.sprite = cellSprite;
+
+            int columns = cells.GetLength(0);
+            int rows = cells.GetLength(1);
+            var tiles = new TileBase[columns * rows];
+            Array.Fill(tiles, _tile);
+            _tilemap.SetTilesBlock(new BoundsInt(0, 0, 0, columns, rows, 1), tiles);
         }
+
+        private void OnDestroy() => Destroy(_tile);
     }
 }

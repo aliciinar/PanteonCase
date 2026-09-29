@@ -42,7 +42,7 @@ namespace Modules.UnitsModule.RootsContexts
                 .ToSequence<PlaceBoardUnitCommand>()
                 .ToSequence<SignalDispatchCommand>(_signals.Outgoing.ActionStarted);
 
-            // A pressed unit is selected and tinted; a press anywhere else leaves no unit selected.
+            // A pressed unit is selected and coloured; a press anywhere else leaves no unit selected.
             CommandBinder.Bind(_signals.Incoming.SelectUnit).ToSequence<SelectUnitCommand>();
             CommandBinder.Bind(_signals.Incoming.ClearSelection).ToSequence<ClearUnitSelectionCommand>();
 

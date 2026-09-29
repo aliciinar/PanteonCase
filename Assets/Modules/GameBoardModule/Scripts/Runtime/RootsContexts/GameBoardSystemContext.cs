@@ -37,15 +37,5 @@ namespace Modules.GameBoardModule.RootsContexts
             base.CommandBindings();
             CommandBinder.Bind(_signals.Incoming.BuildBoard).ToSequence<BuildGameBoardCommand>();
         }
-
-        public override void Setup()
-        {
-            base.Setup();
-        }
-
-        public override void Launch()
-        {
-            base.Launch();
-        }
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace Modules.BuildingsModule.ViewsMediators
 {
     /// <summary>
-    /// The preview of a placement waiting for the player: a ghost of the building, tinted by whether it
+    /// The preview of a placement waiting for the player: a ghost of the building, coloured by whether it
     /// fits, with a confirm / cancel prompt beside it - a world-space canvas that moves and zooms with
     /// the board - and the building's name and footprint written under the two buttons. Both are hidden
     /// while nothing waits.
@@ -43,15 +43,15 @@ namespace Modules.BuildingsModule.ViewsMediators
         /// <param name="area">World rect the building would cover.</param>
         /// <param name="promptCentre">World point the confirm / cancel prompt is centred on.</param>
         /// <param name="fits">Whether the building fits there: only a fitting one can be confirmed.</param>
-        /// <param name="tint">The ghost's colour - CD_Buildings' fits or blocked tint.</param>
+        /// <param name="color">The ghost's colour - CD_Buildings' fits or blocked colour.</param>
         /// <param name="cellSize">Edge of one cell in world units; the prompt is authored in cells.</param>
         /// <param name="buildingName">The building's name, as CD_Buildings gives it.</param>
         /// <param name="size">The building's footprint in cells.</param>
-        public void Show(Sprite sprite, Rect area, Vector2 promptCentre, bool fits, Color tint, float cellSize,
+        public void Show(Sprite sprite, Rect area, Vector2 promptCentre, bool fits, Color color, float cellSize,
                          string buildingName, Vector2Int size)
         {
             _ghost.Show(sprite, area);
-            _ghost.Tint(tint);
+            _ghost.SetColor(color);
             _confirmButton.interactable = fits;
             _label.text = $"{buildingName}  {size.x}×{size.y}";
 

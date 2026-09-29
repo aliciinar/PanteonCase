@@ -13,12 +13,5 @@ namespace Modules.ScreenModule.RootsContexts
             base.SignalBindings();
             _screenSignals = InjectionBinderCrossContext.Bind<ScreenSignals>();
         }
-
-
-        public override void CommandBindings()
-        {
-            base.CommandBindings();
-        }
-
     }
 }

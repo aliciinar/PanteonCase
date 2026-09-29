@@ -34,7 +34,7 @@ namespace Modules.BuildingsModule.Entities
         {
             Flash?.Kill();
             Flash = null;
-            _sprite.Tint(Color.white);
+            _sprite.SetColor(Color.white);
             _sprite.Clear();
             _healthBar.gameObject.SetActive(false);
             _healthFill.localScale = Vector3.one;

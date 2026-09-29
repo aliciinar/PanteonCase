@@ -20,12 +20,19 @@ namespace Modules.GridModule.Controllers
     {
         [Inject] private IGridService _gridService { get; set; }
 
+        /// <summary>Kept across runs - the function provider pools this function - and cleared on each.</summary>
+        private readonly Queue<Vector2Int> _frontier = new();
+        private readonly HashSet<Vector2Int> _visited = new();
+
         public override Vector2Int? Execute(Vector2Int source)
         {
             CellVO[,] cells = _gridService.Cells;
 
-            var frontier = new Queue<Vector2Int>();
-            var visited = new HashSet<Vector2Int> { source };
+            Queue<Vector2Int> frontier = _frontier;
+            HashSet<Vector2Int> visited = _visited;
+            frontier.Clear();
+            visited.Clear();
+            visited.Add(source);
             frontier.Enqueue(source);
 
             while (frontier.Count > 0)

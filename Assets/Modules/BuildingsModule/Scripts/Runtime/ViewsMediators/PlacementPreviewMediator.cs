@@ -29,7 +29,7 @@ namespace Modules.BuildingsModule.ViewsMediators
         }
 
         private void OnShowPlacementPreview(PlacementPreviewVO preview) =>
-            _view.Show(preview.Sprite, preview.Area, preview.PromptCentre, preview.Fits, preview.Tint, preview.CellSize, preview.Name, preview.Size);
+            _view.Show(preview.Sprite, preview.Area, preview.PromptCentre, preview.Fits, preview.GhostColor, preview.CellSize, preview.Name, preview.Size);
 
         private void OnConfirmClicked() => _internalSignals.PlacementConfirmed.Dispatch();
 

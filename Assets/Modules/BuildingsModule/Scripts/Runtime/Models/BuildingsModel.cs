@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using FlowIoC.BaseModule.Constructables;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.BaseModule.SharedData;
-using Modules.BuildingsModule.Data.ValueObjects;
 using Modules.BuildingsModule.RootsContexts;
 using Modules.BuildingsModule.Shared.Data.UnityObjects;
 using Modules.BuildingsModule.Shared.Data.ValueObjects;
@@ -27,29 +26,26 @@ namespace Modules.BuildingsModule.Models
         public bool IsDeconstructed { get; set; }
 
         public IReadOnlyDictionary<BuildType, BuildingCVO> Buildings { get; private set; }
-        public Color SelectedTint { get; private set; }
-        public Color HitFlash { get; private set; }
-        public float HitFlashDuration { get; private set; }
-        public BuildingExplosionVO Explosion { get; private set; }
+        public Color SelectedColor { get; private set; }
+        public HitFlashCVO HitFlash { get; private set; }
+        public BuildingExplosionCVO Explosion { get; private set; }
         public float HealthBarWidth { get; private set; }
         public float HealthBarInset { get; private set; }
-        public Color PlacementFitsTint { get; private set; }
-        public Color PlacementBlockedTint { get; private set; }
+        public Color PlacementFitsColor { get; private set; }
+        public Color PlacementBlockedColor { get; private set; }
         public Transform BoardParent => _root.transform;
 
         public void PostConstruct()
         {
             var config = _sharedDataModel.GetScriptable<CD_Buildings>();
             Buildings = config.Buildings;
-            SelectedTint = config.SelectedTint;
+            SelectedColor = config.SelectedColor;
             HitFlash = config.HitFlash;
-            HitFlashDuration = config.HitFlashDuration;
-            Explosion = new BuildingExplosionVO(config.ExplosionSprites, config.ExplosionCount, config.ExplosionSize,
-                                                config.ExplosionStagger, config.ExplosionDuration);
+            Explosion = config.Explosion;
             HealthBarWidth = config.HealthBarWidth;
             HealthBarInset = config.HealthBarInset;
-            PlacementFitsTint = config.PlacementFitsTint;
-            PlacementBlockedTint = config.PlacementBlockedTint;
+            PlacementFitsColor = config.PlacementFitsColor;
+            PlacementBlockedColor = config.PlacementBlockedColor;
         }
 
         public void Deconstruct() { }

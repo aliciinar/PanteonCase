@@ -22,11 +22,15 @@ namespace Modules.GridModule.Controllers
     {
         [Inject] private IGridService _gridService { get; set; }
 
+        /// <summary>Kept across runs - the function provider pools this function - and cleared on each.</summary>
+        private readonly HashSet<Vector2Int> _visited = new();
+
         public override Vector2Int? Execute(RectInt area, Vector2Int towards)
         {
             CellVO[,] cells = _gridService.Cells;
 
-            var visited = new HashSet<Vector2Int>();
+            HashSet<Vector2Int> visited = _visited;
+            visited.Clear();
             foreach (Vector2Int cell in area.allPositionsWithin)
                 visited.Add(cell);
 
@@ -40,7 +44,7 @@ namespace Modules.GridModule.Controllers
                     Vector2Int next = cell + step;
                     if (!visited.Add(next) || !_gridService.IsInside(next) || !cells[next.x, next.y].IsFree) continue;
 
-                    int distance = Mathf.Abs(next.x - towards.x) + Mathf.Abs(next.y - towards.y);
+                    int distance = _gridService.Steps(next, towards);
                     if (distance >= bestDistance) continue;
 
                     best = next;

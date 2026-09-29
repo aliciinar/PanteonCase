@@ -17,3 +17,4 @@ MonoBehaviour:
     CellPixelSize: 32
     PixelsPerUnit: 32
     FramePaddingInCells: 1
+    CellSprite: {fileID: 21300000, guid: 0d533e98abdae6845b6d2d727dd47d9f, type: 3}

@@ -15,6 +15,6 @@ namespace Modules.GameBoardModule.ViewsMediators
         public void OnRemove() => _internalSignals.Draw.RemoveListener(OnDraw);
 
         private void OnDraw(GameBoardLayoutVO layout) =>
-            _view.Draw(layout.FrameBounds, layout.CellSize, layout.Cells, layout.Tiles);
+            _view.Draw(layout.GridBounds, layout.FrameBounds, layout.CellSize, layout.Cells, layout.CellSprite);
     }
 }

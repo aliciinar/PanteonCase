@@ -77,7 +77,7 @@ size and aspect ratio; the board is always fitted between the two panels.
 
 - **Infinite production menu** - an endlessly scrolling list of buildings built on object pooling: only the cards on
   screen exist, and they are recycled as rows scroll in and out.
-- **Placement** - picking a building shows a ghost on the nearest free area, tinted green where it fits and red where it
+- **Placement** - picking a building shows a ghost on the nearest free area, coloured green where it fits and red where it
   does not, with its name and size (*Barracks 4×4*). It can be dragged and is confirmed or cancelled with the buttons
   above it.
 - **Buildings** - Barracks (4×4, 100 HP) and Power Plant (2×3, 50 HP). New building types are added purely in data.
@@ -99,8 +99,9 @@ size and aspect ratio; the board is always fitted between the two panels.
 
 ### Performance
 
-- Everything that comes and goes is pooled: production cards, board cells, buildings, soldiers, unit cards and
-  explosion effects.
+- Everything that comes and goes is pooled: production cards, buildings, soldiers, unit cards and explosion effects.
+- The board's cells are one Tilemap - a single mesh built once, not an object per cell - so a bigger grid costs
+  nothing per frame.
 - All game sprites are packed into two sprite atlases (board and UI), share one material and are dynamically batched.
   Measured in play: **10 batches / 9 SetPass calls** with the full board on screen (target: under 20).
 - Nothing polls in `Update`: input is read only while a button is held, through FlowIoC's update provider, and window
@@ -113,9 +114,9 @@ scattered over prefabs. Changing the game's balance, look or feel is an edit in 
 
 | Config | What it controls |
 |---|---|
-| `CD_Buildings` | Per building: name, menu icon, board sprite, footprint, health, the units it produces, its door and spawn point (edited on a visual cell map in the Inspector). For all buildings: selection tint, hit flash, health bar layout, placement ghost colours and the explosion (sprites, number of puffs, size, timing). |
-| `CD_Units` | Per soldier: name, sprite, health, damage, walking speed, strike duration and lunge reach. For all soldiers: selection tint, hit flash, explosion, and the messages shown when an order is refused. |
-| `CD_GameBoard` | Grid size, cell size in pixels, pixels per unit and frame padding. |
+| `CD_Buildings` | Per building: name, menu icon, board sprite, footprint, health, the units it produces, its door and spawn point (edited on a visual cell map in the Inspector). For all buildings: selection colour, hit flash, health bar layout, placement ghost colours and the explosion (sprites, number of puffs, size, timing). |
+| `CD_Units` | Per soldier: name, sprite, health, damage, walking speed, strike duration and lunge reach. For all soldiers: selection colour, hit flash, explosion, and the messages shown when an order is refused. |
+| `CD_GameBoard` | Grid size, cell size in pixels, pixels per unit, frame padding and the cell sprite. |
 | `CD_ProductionMenu` | Columns, card size and spacing of the production menu. |
 | `CD_PopupScreen` | The popup's icon and its opening animation. |
 
@@ -172,7 +173,7 @@ Module Scanner, so it always matches the code. The case brief itself is in `Asse
 | ScreenModule | Core | Hosts the screen manager; owns the generic **PopupScreen**. |
 | ConnectorModule | Core | The only place modules meet: one sub-context per counterpart wires Outgoing signals to Incoming ones. |
 | GridModule | System | Owns the grid and everything standing on it, health included; resolves what a click landed on; BFS / A\* searches behind `IGridService`. |
-| GameBoardModule | System | Draws the board from pooled cells and announces its bounds. |
+| GameBoardModule | System | Draws the framed board as one Tilemap and announces its bounds. |
 | BuildingsModule | System | Placement, board buildings, selection, destruction; hosts the **ProductionMenuScreen**. |
 | UnitsModule | System | Spawning, selection, movement, combat and destruction of soldiers. |
 | InputModule | System | The only reader of raw input; announces presses, drags and right clicks in world units. |

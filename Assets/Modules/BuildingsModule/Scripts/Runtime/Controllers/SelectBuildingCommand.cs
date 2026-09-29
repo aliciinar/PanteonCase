@@ -13,7 +13,7 @@ namespace Modules.BuildingsModule.Controllers
 {
     /// <summary>
     /// A building on the board was pressed: it becomes the selected one and its object - reached through its data -
-    /// wears the selection tint; the one selected before, if any, wears white again. It is announced as selected -
+    /// wears the selection colour; the one selected before, if any, wears white again. It is announced as selected -
     /// pressing it again announces it again - with its door and spawn point turned from the building's own cells into
     /// the grid's, so whoever shows it can ask it for a unit without coming back here.
     /// </summary>
@@ -31,11 +31,11 @@ namespace Modules.BuildingsModule.Controllers
             if (previous != _building)
             {
                 if (previous != null)
-                    _functionProvider.Call<TintBoardBuildingFunction>().AddParams((BoardBuilding)previous.View, Color.white).Execute();
+                    _functionProvider.Call<ColorBoardBuildingFunction>().AddParams((BoardBuilding)previous.View, Color.white).Execute();
 
                 _selectionModel.Select(_building);
-                _functionProvider.Call<TintBoardBuildingFunction>()
-                                 .AddParams((BoardBuilding)_building.View, _buildingsModel.SelectedTint)
+                _functionProvider.Call<ColorBoardBuildingFunction>()
+                                 .AddParams((BoardBuilding)_building.View, _buildingsModel.SelectedColor)
                                  .Execute();
             }
 

@@ -4,7 +4,7 @@ namespace Modules.BuildingsModule.Entities
 {
     /// <summary>
     /// A building's sprite on the board, fitted to the world rect it covers. Shared by the placed
-    /// buildings and by the placement preview's ghost, which also tints it. A struck building's flash is played on its
+    /// buildings and by the placement preview's ghost, which also colours it. A struck building's flash is played on its
     /// renderer by the command that shows the hit.
     /// </summary>
     public class BuildingSprite : MonoBehaviour
@@ -25,7 +25,7 @@ namespace Modules.BuildingsModule.Entities
         }
 
         /// <summary>Colours the sprite - how the placement ghost shows whether it fits.</summary>
-        public void Tint(Color color) => _renderer.color = color;
+        public void SetColor(Color color) => _renderer.color = color;
 
         public SpriteRenderer Renderer => _renderer;
 

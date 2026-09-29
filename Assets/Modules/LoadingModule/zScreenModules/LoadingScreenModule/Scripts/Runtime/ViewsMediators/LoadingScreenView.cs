@@ -39,6 +39,9 @@ namespace Modules.LoadingModule.LoadingScreenModule.ViewsMediators
         private float _childTarget;
         private float _childShown;
 
+        /// <summary>The whole percent the label shows, so the text is rebuilt only when that number changes.</summary>
+        private int _percentShown;
+
         public Action Retry;
 
         /// <summary>The set this screen is drawing, or null before the first Apply.</summary>
@@ -59,6 +62,7 @@ namespace Modules.LoadingModule.LoadingScreenModule.ViewsMediators
             _childTarget = _childShown = 0f;
             SetFill(_fill, 0f);
             SetFill(_childFill, 0f);
+            _percentShown = 0;
             _percent.text = "0%";
             _message.text = string.Empty;
             _detail.text = string.Empty;
@@ -100,7 +104,12 @@ namespace Modules.LoadingModule.LoadingScreenModule.ViewsMediators
         {
             _shown = Approach(_shown, _target);
             SetFill(_fill, _shown);
-            _percent.text = $"{Mathf.RoundToInt(_shown * 100f)}%";
+            int percent = Mathf.RoundToInt(_shown * 100f);
+            if (percent != _percentShown)
+            {
+                _percentShown = percent;
+                _percent.text = $"{percent}%";
+            }
 
             if (!_childGroup.activeSelf) return;
             _childShown = Approach(_childShown, _childTarget);

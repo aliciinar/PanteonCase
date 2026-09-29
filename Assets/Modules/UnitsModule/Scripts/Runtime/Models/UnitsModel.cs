@@ -3,7 +3,6 @@ using FlowIoC.BaseModule.Constructables;
 using FlowIoC.BaseModule.Injectable.Attributes;
 using FlowIoC.BaseModule.SharedData;
 using Modules.GameplayModule.Shared.Data.UnityObjects;
-using Modules.UnitsModule.Data.ValueObjects;
 using Modules.UnitsModule.RootsContexts;
 using Modules.UnitsModule.Shared.Data.UnityObjects;
 using Modules.UnitsModule.Shared.Data.ValueObjects;
@@ -28,10 +27,9 @@ namespace Modules.UnitsModule.Models
         public bool IsDeconstructed { get; set; }
 
         public IReadOnlyDictionary<UnitType, UnitCVO> Units { get; private set; }
-        public Color SelectedTint { get; private set; }
-        public Color HitFlash { get; private set; }
-        public float HitFlashDuration { get; private set; }
-        public UnitExplosionVO Explosion { get; private set; }
+        public Color SelectedColor { get; private set; }
+        public HitFlashCVO HitFlash { get; private set; }
+        public UnitExplosionCVO Explosion { get; private set; }
         public string NoRoomToAttackMessage { get; private set; }
         public string NoWayMessage { get; private set; }
         public bool IsGameLocked => _gameStatus.IsLocked;
@@ -43,10 +41,9 @@ namespace Modules.UnitsModule.Models
         {
             var config = _sharedDataModel.GetScriptable<CD_Units>();
             Units = config.Units;
-            SelectedTint = config.SelectedTint;
+            SelectedColor = config.SelectedColor;
             HitFlash = config.HitFlash;
-            HitFlashDuration = config.HitFlashDuration;
-            Explosion = new UnitExplosionVO(config.ExplosionSprites, config.ExplosionSize, config.ExplosionDuration);
+            Explosion = config.Explosion;
             NoRoomToAttackMessage = config.NoRoomToAttackMessage;
             NoWayMessage = config.NoWayMessage;
 
