@@ -4,6 +4,7 @@ Project overview - architecture, design workflow and how to run it.
 
 | | |
 |---|---|
+| **Windows build** | [Download PanteonCase-Windows.zip](https://github.com/aliciinar/PanteonCase/releases/latest/download/PanteonCase-Windows.zip) ([all releases](https://github.com/aliciinar/PanteonCase/releases)) |
 | **Engine** | Unity 6.3 LTS (6000.3.24f1), URP 2D |
 | **Architecture** | [FlowIoC](https://github.com/FlowArc/FlowIoC) 1.22.4 |
 | **Entry scene** | `Assets/Modules/MainModule/Scenes/MainScene.unity` |
@@ -17,6 +18,16 @@ the details of how FlowIoC is used in the project, for reviewers who want to fol
 ![The board with a Barracks, a Power Plant and the three soldier types](Docs/Images/board.jpg)
 
 ## Getting started
+
+### Play the Windows build
+
+1. Download **PanteonCase-Windows.zip** from the [latest release](https://github.com/aliciinar/PanteonCase/releases/latest).
+2. Extract it and run `PanteonCase/PanteonCase.exe` - keep the files next to it; the game needs them. The build is not
+   code-signed, so Windows SmartScreen may warn on first launch: **More info → Run anyway**.
+3. The game opens in a resizable window; drag its edges to try other sizes and aspect ratios, or press
+   **Alt+Enter** for full screen.
+
+### Open the project
 
 1. Open the project with **Unity 6000.3.24f1** (Unity 6.3 LTS).
 2. Packages resolve on their own: FlowIoC comes from the OpenUPM scoped registry listed in `Packages/manifest.json`.
