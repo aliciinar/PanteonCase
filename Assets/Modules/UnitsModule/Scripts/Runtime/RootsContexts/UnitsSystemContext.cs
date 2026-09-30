@@ -34,11 +34,11 @@ namespace Modules.UnitsModule.RootsContexts
             // once it is set playing on the unit object, and as ended when that object's tweens are over; the game
             // waits for it. SignalDispatchCommand releases no data, so it goes last.
 
-            // A unit asked of a building comes out of the building's exit point - its door - and walks by A*
-            // to the building's spawn point, or, when that is taken or off the grid, the free cell nearest it.
+            // A unit asked of a building comes out of the building's exit point - its door - and walks to the
+            // building's spawn point, or, when that is taken, off the grid or walled off, the free cell nearest it
+            // that can be walked to; with none, the player is told and no unit is made.
             CommandBinder.Bind(_signals.Incoming.SpawnUnit)
-                .ToSequence<FindUnitGoalCommand>()
-                .ToSequence<PlanUnitPathCommand>()
+                .ToSequence<PlanUnitSpawnCommand>()
                 .ToSequence<PlaceBoardUnitCommand>()
                 .ToSequence<SignalDispatchCommand>(_signals.Outgoing.ActionStarted);
 

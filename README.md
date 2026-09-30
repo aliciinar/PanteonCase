@@ -82,16 +82,18 @@ size and aspect ratio; the board is always fitted between the two panels.
   above it.
 - **Buildings** - Barracks (4×4, 100 HP) and Power Plant (2×3, 50 HP). New building types are added purely in data.
 - **Production** - selecting a Barracks shows its image, health and the soldiers it produces. Clicking a card spawns
-  that soldier, which walks out of the building's door to its spawn point.
+  that soldier, which walks out of the building's door to its spawn point - or, when that is taken or walled off, to
+  the nearest free cell it can walk to (one **BFS** out of the door finds both the cell and the walk).
 - **Soldiers** - three types, 10 HP each, dealing 10 / 5 / 2 damage. Left click selects, right click on an empty cell
   moves along the shortest path (**A\***, routing around buildings).
-- **Combat** - right click on a unit or building attacks it: the soldier walks by A\* to the nearest free cell next to
-  the target (found by **BFS**) and strikes. Hits flash the target and show a health bar; at 0 HP it is destroyed with a
+- **Combat** - right click on a unit or building attacks it: one **A\*** whose goal is any free cell next to the target
+  walks the soldier to the side it can reach soonest, and it strikes. Hits flash the target and show a health bar; at 0 HP it is destroyed with a
   pooled explosion effect.
 - **One action at a time** - while a unit is acting, the game is locked through a single runtime asset, so orders never
   overlap.
 - **Feedback** - a selected building or soldier is highlighted on the board and shown in the information panel; an
-  order that cannot be carried out (no free cell next to the target, no path) opens a message popup.
+  order that cannot be carried out (no way to the target or to any side of it, no free cell a new soldier can walk to)
+  opens a message popup.
 
 | A selected Barracks and the soldiers it produces | A destroyed Power Plant explodes in pooled puffs |
 |---|---|
@@ -151,7 +153,6 @@ Module Scanner, so it always matches the code. The case brief itself is in `Asse
 
 - Soldiers walk through one another on the way; each still stops on a cell of its own.
 - The click that closes a message popup counts as a press on UI, so it also clears the selected soldier.
-- A soldier asked for when no cell of the board is free is simply not produced - the player is not told.
 - Pool keys are strings, as FlowIoC's pool expects; a typo in a key only shows at run time.
 - The `_Test` configs are copies: a field added to a config later appears in its test copy with the default value.
 
@@ -202,7 +203,7 @@ the next step; a command that can fail stops the sequence.
 ```csharp
 // UnitsSystemContext - an attack order, top to bottom
 CommandBinder.Bind(_signals.Incoming.AttackWithSelectedUnit)
-    .ToSequence<PlanAttackCommand>()            // strike cell by BFS, path by A*, or refuse
+    .ToSequence<PlanAttackCommand>()            // one A* to any free cell next to the target, or refuse
     .ToSequence<StrikeWithBoardUnitCommand>()   // walk, lunge, strike (DOTween sequence)
     .ToSequence<SignalDispatchCommand>(_signals.Outgoing.ActionStarted);  // locks the game
 ```

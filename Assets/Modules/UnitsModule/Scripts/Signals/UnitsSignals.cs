@@ -42,8 +42,9 @@ namespace Modules.UnitsModule.Signals
     public class UnitsSignalsOutgoing
     {
         /// <summary>
-        /// The selected unit could not carry out an order - no free cell next to the target, no way there. The message,
-        /// authored in CD_Units, says why, for the player.
+        /// An order could not be carried out - the selected unit has no way to where it was sent or to any side of what
+        /// it was sent to attack, or a requested unit can walk out of its door to no free cell. The message, authored in
+        /// CD_Units, says why, for the player.
         /// </summary>
         public Signal<string> OrderRefused = new();
 

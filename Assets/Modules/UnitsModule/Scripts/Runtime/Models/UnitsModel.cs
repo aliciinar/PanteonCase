@@ -30,8 +30,8 @@ namespace Modules.UnitsModule.Models
         public Color SelectedColor { get; private set; }
         public HitFlashCVO HitFlash { get; private set; }
         public UnitExplosionCVO Explosion { get; private set; }
-        public string NoRoomToAttackMessage { get; private set; }
         public string NoWayMessage { get; private set; }
+        public string NoRoomToSpawnMessage { get; private set; }
         public bool IsGameLocked => _gameStatus.IsLocked;
         public Transform BoardParent => _root.transform;
 
@@ -44,8 +44,8 @@ namespace Modules.UnitsModule.Models
             SelectedColor = config.SelectedColor;
             HitFlash = config.HitFlash;
             Explosion = config.Explosion;
-            NoRoomToAttackMessage = config.NoRoomToAttackMessage;
             NoWayMessage = config.NoWayMessage;
+            NoRoomToSpawnMessage = config.NoRoomToSpawnMessage;
 
             // Filed by GameplaySystemRoot for every module that takes an order.
             _gameStatus = _sharedDataModel.GetScriptable<RD_GameStatus>();

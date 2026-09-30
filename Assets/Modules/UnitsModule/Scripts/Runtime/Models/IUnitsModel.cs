@@ -19,11 +19,11 @@ namespace Modules.UnitsModule.Models
         /// <summary>The puff a destroyed unit leaves.</summary>
         UnitExplosionCVO Explosion { get; }
 
-        /// <summary>What the player is told when an attack has no free cell next to its target to strike from.</summary>
-        string NoRoomToAttackMessage { get; }
-
-        /// <summary>What the player is told when the selected unit has no way to where it was ordered.</summary>
+        /// <summary>What the player is told when the selected unit has no way to where it was ordered, or to any side of what it was ordered to attack.</summary>
         string NoWayMessage { get; }
+
+        /// <summary>What the player is told when a requested unit can walk from its building's door to no free cell.</summary>
+        string NoRoomToSpawnMessage { get; }
 
         /// <summary>Whether an action is running (RD_GameStatus): then no unit is made.</summary>
         bool IsGameLocked { get; }

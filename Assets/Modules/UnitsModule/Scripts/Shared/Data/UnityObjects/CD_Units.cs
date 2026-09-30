@@ -24,10 +24,10 @@ namespace Modules.UnitsModule.Shared.Data.UnityObjects
         [Tooltip("The puff a destroyed unit leaves.")]
         public UnitExplosionCVO Explosion = new();
 
-        [Tooltip("Told the player when the selected unit is ordered to attack something with no free cell next to it to strike from.")]
-        [TextArea] public string NoRoomToAttackMessage = "There is no free cell next to the target to attack from.";
-
-        [Tooltip("Told the player when the selected unit has no way to where it was ordered - buildings wall it off.")]
+        [Tooltip("Told the player when the selected unit has no way to where it was ordered, or to any free cell next to what it was ordered to attack - buildings wall it off.")]
         [TextArea] public string NoWayMessage = "The soldier has no way there.";
+
+        [Tooltip("Told the player when a requested unit can walk out of its building's door to no free cell.")]
+        [TextArea] public string NoRoomToSpawnMessage = "There is no free cell the soldier can walk to from the door.";
     }
 }

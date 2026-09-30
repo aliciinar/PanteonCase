@@ -38,8 +38,8 @@ namespace Modules.GridModule.Services
         /// <summary>How many four-neighbour steps lie between two cells - their Manhattan distance, obstacles ignored.</summary>
         int Steps(Vector2Int from, Vector2Int to);
 
-        /// <summary>Whether the cell is outside the area and one neighbour step from one of its cells.</summary>
-        bool IsNextTo(Vector2Int cell, RectInt area);
+        /// <summary>How many four-neighbour steps lie between a cell and the nearest cell of an area - 0 inside it, 1 right next to it; obstacles ignored.</summary>
+        int Steps(Vector2Int from, RectInt area);
 
         /// <summary>The world rect an area of cells covers.</summary>
         Rect AreaToWorldRect(RectInt area);
@@ -62,17 +62,16 @@ namespace Modules.GridModule.Services
         /// <summary>Takes the occupant off the board: every cell it covered is free again.</summary>
         void Remove(CellOccupantVO occupant);
 
-        /// <summary>
-        /// The free cell next to the area - one of the four steps off one of its cells - nearest <paramref name="towards"/>,
-        /// by breadth-first search out of the area; null when every cell next to it is taken or off the grid.
-        /// </summary>
-        Vector2Int? FindFreeCellAroundBfs(RectInt area, Vector2Int towards);
-
         /// <summary>The bottom-left cell of the free area of this size nearest the grid's centre, by breadth-first search; null when it fits nowhere.</summary>
         Vector2Int? FindNearestFreeAreaBfs(Vector2Int size);
 
-        /// <summary>The free cell nearest this one, by breadth-first search - the cell itself when it is free; null when no cell is free.</summary>
-        Vector2Int? FindNearestFreeCellBfs(Vector2Int source);
+        /// <summary>
+        /// The shortest four-neighbour walk from <paramref name="start"/> to the free cell nearest <paramref name="target"/>
+        /// that can be walked to - <paramref name="target"/> itself when it is free and reachable - by breadth-first
+        /// search out of <paramref name="start"/>, both ends included, never stepping on a cell whose occupant is
+        /// <paramref name="blockedBy"/>; null when no free cell can be walked to.
+        /// </summary>
+        List<Vector2Int> FindPathToNearestFreeCellBfs(Vector2Int start, Vector2Int target, CellOccupantType blockedBy);
 
         /// <summary>
         /// The shortest four-neighbour walk from <paramref name="start"/> to <paramref name="goal"/> by A*, both
@@ -80,5 +79,12 @@ namespace Modules.GridModule.Services
         /// cannot be reached.
         /// </summary>
         List<Vector2Int> FindPathAStar(Vector2Int start, Vector2Int goal, CellOccupantType blockedBy);
+
+        /// <summary>
+        /// The shortest four-neighbour walk from <paramref name="start"/> to any free cell right next to the area - or
+        /// just <paramref name="start"/> when it already is next to it - by A*, both ends included, never stepping on a
+        /// cell whose occupant is <paramref name="blockedBy"/>; null when no cell next to the area can be walked to.
+        /// </summary>
+        List<Vector2Int> FindPathNextToAStar(Vector2Int start, RectInt area, CellOccupantType blockedBy);
     }
 }

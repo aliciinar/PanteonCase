@@ -49,5 +49,5 @@ MonoBehaviour:
     Size: 1.6
     StartScale: 0.4
     Duration: 0.4
-  NoRoomToAttackMessage: There is no free cell next to the target to attack from.
   NoWayMessage: The soldier has no way there.
+  NoRoomToSpawnMessage: There is no free cell the soldier can walk to from the door.

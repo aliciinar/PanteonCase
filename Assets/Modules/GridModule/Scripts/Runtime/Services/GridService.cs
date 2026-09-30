@@ -54,12 +54,10 @@ namespace Modules.GridModule.Services
 
         public int Steps(Vector2Int from, Vector2Int to) => Mathf.Abs(from.x - to.x) + Mathf.Abs(from.y - to.y);
 
-        public bool IsNextTo(Vector2Int cell, RectInt area)
+        public int Steps(Vector2Int from, RectInt area)
         {
-            if (area.Contains(cell)) return false;
-
-            var nearest = new Vector2Int(Mathf.Clamp(cell.x, area.xMin, area.xMax - 1), Mathf.Clamp(cell.y, area.yMin, area.yMax - 1));
-            return Steps(cell, nearest) == 1;
+            var nearest = new Vector2Int(Mathf.Clamp(from.x, area.xMin, area.xMax - 1), Mathf.Clamp(from.y, area.yMin, area.yMax - 1));
+            return Steps(from, nearest);
         }
 
         public Rect AreaToWorldRect(RectInt area)
@@ -120,20 +118,21 @@ namespace Modules.GridModule.Services
                 cells[cell.x, cell.y].Occupant = null;
         }
 
-        public Vector2Int? FindFreeCellAroundBfs(RectInt area, Vector2Int towards) =>
-            _functionProvider.Call<FindFreeCellAroundBfsFunction>().AddParams(area, towards)
-                             .ExecuteAndGetResult<Vector2Int?>();
-
         public Vector2Int? FindNearestFreeAreaBfs(Vector2Int size) =>
             _functionProvider.Call<FindNearestFreeAreaBfsFunction>().AddParams(size)
                              .ExecuteAndGetResult<Vector2Int?>();
 
-        public Vector2Int? FindNearestFreeCellBfs(Vector2Int source) =>
-            _functionProvider.Call<FindNearestFreeCellBfsFunction>().AddParams(source)
-                             .ExecuteAndGetResult<Vector2Int?>();
+        public List<Vector2Int> FindPathToNearestFreeCellBfs(Vector2Int start, Vector2Int target, CellOccupantType blockedBy) =>
+            _functionProvider.Call<FindPathToNearestFreeCellBfsFunction>().AddParams(start, target, blockedBy)
+                             .ExecuteAndGetResult<List<Vector2Int>>();
 
+        // A walk to a cell is a walk that ends on the one cell of a 1×1 area; a walk next to an area ends one step off it.
         public List<Vector2Int> FindPathAStar(Vector2Int start, Vector2Int goal, CellOccupantType blockedBy) =>
-            _functionProvider.Call<FindPathAStarFunction>().AddParams(start, goal, blockedBy)
+            _functionProvider.Call<FindPathAStarFunction>().AddParams(start, new RectInt(goal, Vector2Int.one), 0, blockedBy)
+                             .ExecuteAndGetResult<List<Vector2Int>>();
+
+        public List<Vector2Int> FindPathNextToAStar(Vector2Int start, RectInt area, CellOccupantType blockedBy) =>
+            _functionProvider.Call<FindPathAStarFunction>().AddParams(start, area, 1, blockedBy)
                              .ExecuteAndGetResult<List<Vector2Int>>();
 
         private CellVO[,] CreateCells()
